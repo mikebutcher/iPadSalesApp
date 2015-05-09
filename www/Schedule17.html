@@ -1,0 +1,751 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Schedule 17</title>
+     <link rel="stylesheet" href="jq/jquery.mobile-1.0.min.css" />
+    <link rel="stylesheet" href="assets/css/main-sched17.css" />
+	
+	
+	
+    <script src="jq/jquery-1.7.js"></script>
+    <script src="jq/jquery.mobile-1.1.js"></script>
+			<!--De-Serialize the data -->
+	<script src="js/jquery.deserialize.js"></script>
+	
+	<!-- <script src="js/modernizr.custom.34982.js123"></script> -->
+	<script src="js/signatureCapture.js"></script>
+	
+	<script>
+
+	
+	
+			 
+		 function saveValues() {
+		// ALERT !! -- Put the form name in for the Variable name below
+			var str = $('#form17').serialize();
+			//save to localStorage
+			
+		// ALERT !! -- Put the form name in for the Variable name below
+			var unid = localStorage.getItem("unid");
+			localStorage.setItem(unid+'form17', str);
+			
+			//alert(localStorage.getItem(unid+'ContractCalc'));
+			
+	  		//alert(str);
+		}
+		
+		
+	
+	// JavaScript Document
+		var sigCapture = null;
+		
+		
+		
+			
+			$(document).ready(function (e) {
+						
+					//alert('ready');
+					var unid = localStorage.getItem("unid");
+					//alert(unid);
+					
+						$('#Salesman').val(localStorage.getItem("Salesman"));	
+	
+		
+					//Save the unid to a field
+					$('#unid').val(unid);
+						
+						var lastRowCount = 5;
+						var tableOneRowCount =0;
+						var tableTwoRowCount =0;
+						var tableThreeRowCount =0;
+						var tableFourRowCount =0;
+						var tableFiveRowCount =0;
+
+						$('tr.parent').css("cursor", "pointer").attr("title", "Click to expand/collapse").click(function () {
+							$(this).siblings('.child-' + this.id).toggle();
+						});
+
+						$('tr[class^=child-]').hide();
+
+						//var orderTable = $("#example");
+
+						
+						//Add Buttons
+						//First Table
+						$("#btnAdd").live('click', function (e) {
+							//Take the text, and also the ddl value and insert as table row.
+							//var newRow = '<tr class="child-row123"><td class="brdr">&nbsp;&nbsp;</td><td class="brdr"></td><td class="brdr">&nbsp;&nbsp;</td><td class="brdr">&nbsp;&nbsp;</td><td><input name="checkboxNNNN" type="checkbox" id="checkboxNNNN" class="SelectCheckBox" /></td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td></tr>';
+							
+							//var newRow = '<tr id="row123" class="parent" style="cursor: pointer;" title="Click to expand/collapse"><td><input type="checkbox" class="SelectCheckBox" id="checkbox" /><input type="text" name="EquipmentType-Serviced" id="EquipmentType" width="30"></td><td><input type="text" name="Quantity-Serviced" id="Quantity" width="10"></td><td><input type="text" name="Manufacturer-Serviced" id="Manufacturer" width="30"></td><td><input type="text" name="Model-Serviced" id="Model" width="30"></td><td><input type="text" name="Size-Serviced" id="Size" width="30"></td><td><input type="text" id="Location-Serviced" name="Location"width="30"></td></tr>';							
+							var newRow = '<tr id="row123'+tableOneRowCount +'" class="parent" style="cursor: pointer;" title="Click to expand/collapse"><td><input type="text" name="EquipTypeServiced'+tableOneRowCount +'" id="EquipTypeServiced'+tableOneRowCount +'" width="30" onblur="saveValues();"></td><td><input onblur="saveValues();"type="text" name="QuantityServiced'+tableOneRowCount +'" id="QuantityServiced'+tableOneRowCount +'" width="10" onblur="saveValues();"></td><td><input type="text" name="ManufacturerServiced'+tableOneRowCount +'" id="ManufacturerServiced'+tableOneRowCount +'" width="30" onblur="saveValues();"></td><td><input type="text" name="ModelServiced'+tableOneRowCount +'" id="ModelServiced'+tableOneRowCount +'" width="30" onblur="saveValues();"></td><td><input type="text" name="SizeServiced'+tableOneRowCount +'" id="SizeServiced'+tableOneRowCount +'" width="30" onblur="saveValues();"></td><td><input type="text" id="Location-Serviced'+tableOneRowCount +'" name="LocationServiced'+tableOneRowCount +'" width="30" onblur="saveValues();"></td></tr>';							
+							//alert(newRow);
+							
+							
+							
+							
+							$("#example tbody").append(newRow.replace(/NNNN/g, ++tableOneRowCount));
+							//$('#example').trigger('create'); 
+							var unid = localStorage.getItem("unid");
+							localStorage.setItem("tableOneRowCount"+unid, tableOneRowCount);
+						
+						});
+						
+						//second Table
+							$("#btnAdd2").live('click', function (e) {
+							//Take the text, and also the ddl value and insert as table row.
+							//var newRow = '<tr class="child-row123"><td class="brdr">&nbsp;&nbsp;</td><td class="brdr"></td><td class="brdr">&nbsp;&nbsp;</td><td class="brdr">&nbsp;&nbsp;</td><td><input name="checkboxNNNN" type="checkbox" id="checkboxNNNN" class="SelectCheckBox" /></td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td></tr>';
+							
+							var newRow = '<tr id="row1234" class="parent2" style="cursor: pointer;" title="Click to expand/collapse"><td><input onblur="saveValues();" type="text" id="EquipTypeServiced2'+tableTwoRowCount +'" name="EquipTypeServiced2'+tableTwoRowCount +'" width="30"></td><td><input onblur="saveValues();" type="text" id="QuantityServiced2'+tableTwoRowCount +'" name="QuantityServiced2'+tableTwoRowCount +'" width="10"></td><td><input onblur="saveValues();" type="text" id="ManufacturerServiced2'+tableTwoRowCount +'" name="ManufacturerServiced2'+tableTwoRowCount +'" width="30"></td><td><input onblur="saveValues();" type="text" id="ModelServiced2'+tableTwoRowCount +'" name="ModelServiced2'+tableTwoRowCount +'" width="30"></td><td><input onblur="saveValues();"  type="text" id="SizeServiced2'+tableTwoRowCount +'"  name="SizeServiced2'+tableTwoRowCount +'" width="30"></td><td><input onblur="saveValues();" type="text" id="LocationServiced2'+tableTwoRowCount +'" name="LocationServiced2'+tableTwoRowCount +'" width="30"></td></tr>';							
+							
+						$("#example2 tbody").append(newRow.replace(/NNNN/g, ++tableTwoRowCount));
+							//$('#example').trigger('create'); 
+							var unid = localStorage.getItem("unid");
+							localStorage.setItem("tableTwoRowCount"+unid, tableTwoRowCount);
+						});
+						
+							//Third Table
+							$("#btnAdd3").live('click', function (e) {
+							//Take the text, and also the ddl value and insert as table row.
+							//var newRow = '<tr class="child-row123"><td class="brdr">&nbsp;&nbsp;</td><td class="brdr"></td><td class="brdr">&nbsp;&nbsp;</td><td class="brdr">&nbsp;&nbsp;</td><td><input name="checkboxNNNN" type="checkbox" id="checkboxNNNN" class="SelectCheckBox" /></td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td></tr>';
+							
+							//var newRow = '<tr id="row12345" class="parent3" style="cursor: pointer;" title="Click to expand/collapse"><td><input type="checkbox" name="checkbox" class="SelectCheckBox3" id="checkbox3" /><input type="text" id="EquipmentType3" width="30"></td><td><input type="text" id="Quantity3" width="10"></td><td><input type="text" id="Manufacturer3" width="30"></td><td><input type="text" id="Model3" width="30"></td><td><input type="text" id="Size3" width="30"></td><td><input type="text" id="Location3" width="30"></td></tr>';							
+							
+								var newRow = '<tr id="row12345" class="parent2" style="cursor: pointer;" title="Click to expand/collapse"><td><input onblur="saveValues();" type="text" id="EquipTypeServiced3'+tableThreeRowCount +'" name="EquipTypeServiced3'+tableThreeRowCount +'" width="30"></td><td><input onblur="saveValues();" type="text" id="QuantityServiced3'+tableThreeRowCount +'" name="QuantityServiced3'+tableThreeRowCount +'" width="10"></td><td><input onblur="saveValues();" type="text" id="ManufacturerServiced3'+tableThreeRowCount +'" name="ManufacturerServiced3'+tableThreeRowCount +'" width="30"></td><td><input onblur="saveValues();" type="text" id="ModelServiced3'+tableThreeRowCount +'" name="ModelServiced3'+tableThreeRowCount +'" width="30"></td><td><input onblur="saveValues();"  type="text" id="SizeServiced3'+tableThreeRowCount +'"  name="SizeServiced3'+tableThreeRowCount +'" width="30"></td><td><input onblur="saveValues();" type="text" id="LocationServiced3'+tableThreeRowCount +'" name="LocationServiced3'+tableThreeRowCount +'" width="30"></td></tr>';							
+						
+							
+							
+							$("#example3 tbody").append(newRow.replace(/NNNN/g, ++tableThreeRowCount));
+							//$('#example').trigger('create'); 
+							var unid = localStorage.getItem("unid");
+							localStorage.setItem("tableThreeRowCount"+unid, tableThreeRowCount);
+						});
+						
+						//Fourth Table - 7 columns
+							$("#btnAdd4").live('click', function (e) {
+							//Take the text, and also the ddl value and insert as table row.
+							
+							var newRow = '<tr id="row12345" class="parent4" style="cursor: pointer;" title="Click to expand/collapse"><td><input onblur="saveValues();"type="text" name="EquipTypeServiced4'+tableFourRowCount +'" id="EquipTypeServiced4'+tableFourRowCount +'" width="30"></td><td><input onblur="saveValues();" type="text" name="QuantityServiced4'+tableFourRowCount +'" id="QuantityServiced4'+tableFourRowCount +'" width="10"></td><td><input onblur="saveValues();" type="text" name="ManufacturerServiced4'+tableFourRowCount +'" id="ManufacturerServiced4'+tableFourRowCount +'" width="30"></td><td><input onblur="saveValues();" type="text"  name="ModelServiced4'+tableFourRowCount +'" id="ModelServiced4'+tableFourRowCount +'" width="30"></td><td><input onblur="saveValues();" type="text" id="PurchasedSeperately4'+tableFourRowCount +'" name="PurchasedSeperately4'+tableFourRowCount +'" width="30"></td><td><input onblur="saveValues();" type="text" id="AmortizationMonth4'+tableFourRowCount +'" name="AmortizationMonth4'+tableFourRowCount +'" width="10"></td><td><input onblur="saveValues();" type="text" id="GuaranteeForService4'+tableFourRowCount +'" name="GuaranteeForService4'+tableFourRowCount +'" width="30"></td></tr>';							
+							
+								$("#example4 tbody").append(newRow.replace(/NNNN/g, ++tableFourRowCount));
+							//$('#example').trigger('create'); 
+							var unid = localStorage.getItem("unid");
+							localStorage.setItem("tableFourRowCount"+unid, tableFourRowCount);
+						});
+							//Fifth Table - 7 columns
+							$("#btnAdd5").live('click', function (e) {
+							//Take the text, and also the ddl value and insert as table row.
+							
+						//	var newRow = '<tr id="row123456" class="parent5" style="cursor: pointer;" title="Click to expand/collapse"><td><input type="checkbox" name="checkbox" class="SelectCheckBox5" id="checkbox5" /><input type="text" id="EquipmentType5" width="30"></td><td><input type="text" id="Quantity5" width="10"></td><td><input type="text" id="Manufacturer5" width="30"></td><td><input type="text" id="Model5" width="30"></td><td><input type="text" id="PurchasedSeperately5" width="30"></td><td><input type="text" id="AmortizationMonth5" width="10"></td><td><input type="text" id="GuaranteeForService5" width="30"></td></tr>';							
+								var newRow = '<tr id="row123456" class="parent4" style="cursor: pointer;" title="Click to expand/collapse"><td><input onblur="saveValues();" type="text" name="EquipTypeServiced5'+tableFiveRowCount +'" id="EquipTypeServiced5'+tableFiveRowCount +'" width="30"></td><td><input onblur="saveValues();" type="text" name="QuantityServiced5'+tableFiveRowCount +'" id="QuantityServiced5'+tableFiveRowCount +'" width="10"></td><td><input onblur="saveValues();" type="text" name="ManufacturerServiced5'+tableFiveRowCount +'" id="ManufacturerServiced5'+tableFiveRowCount +'" width="30"></td><td><input onblur="saveValues();" type="text"  name="ModelServiced5'+tableFiveRowCount +'" id="ModelServiced5'+tableFiveRowCount +'" width="30"></td><td><input onblur="saveValues();" type="text" id="PurchasedSeperately5'+tableFiveRowCount +'" name="PurchasedSeperately5'+tableFiveRowCount +'" width="30"></td><td><input onblur="saveValues();" type="text" id="AmortizationMonth5'+tableFiveRowCount +'" name="AmortizationMonth5'+tableFiveRowCount +'" width="10"></td><td><input onblur="saveValues();" type="text" id="GuaranteeForService5'+tableFiveRowCount +'" name="GuaranteeForService5'+tableFiveRowCount +'" width="30"></td></tr>';							
+						
+							
+							$("#example5 tbody").append(newRow.replace(/NNNN/g, ++tableFiveRowCount));
+							//$('#example').trigger('create'); 
+							var unid = localStorage.getItem("unid");
+							localStorage.setItem("tableFiveRowCount"+unid, tableFiveRowCount);
+						});
+						
+						
+						
+						$('#btnDelete').live('click', function (e) {
+						
+							$("#example tbody").children('tr:last').remove();
+								var unid = localStorage.getItem("unid");
+								localStorage.setItem("tableOneRowCount"+unid, tableOneRowCount-1);
+								
+						/*
+						 temp = $('.SelectCheckBox:visible:checked').attr('checked');
+					
+						if (temp == "checked"){
+							$('.SelectCheckBox:visible:checked').parents('tr').remove();
+							var unid = localStorage.getItem("unid");
+							localStorage.setItem("tableOneRowCount"+unid, tableOneRowCount-1);
+						}
+						else
+								{
+								//alert("Please choose a row to remove.");
+								$("#example tbody").children('tr:last').remove();
+								var unid = localStorage.getItem("unid");
+								localStorage.setItem("tableOneRowCount"+unid, tableOneRowCount-1);
+							
+								
+								}
+						*/
+						
+							
+						});
+
+						$('#btnDelete2').live('click', function (e) {
+							//$('.SelectCheckBox2:visible:checked').parents('tr').remove();
+							$("#example2 tbody").children('tr:last').remove();
+							var unid = localStorage.getItem("unid");
+							localStorage.setItem("tableTwoRowCount"+unid, tableTwoRowCount-1);
+						});
+						$('#btnDelete3').live('click', function (e) {
+							//$('.SelectCheckBox3:visible:checked').parents('tr').remove();
+							$("#example3 tbody").children('tr:last').remove();
+							var unid = localStorage.getItem("unid");
+							localStorage.setItem("tableThreeRowCount"+unid, tableThreeRowCount-1);
+						});
+						$('#btnDelete4').live('click', function (e) {
+							//$('.SelectCheckBox4:visible:checked').parents('tr').remove();
+							$("#example4 tbody").children('tr:last').remove();
+							var unid = localStorage.getItem("unid");
+							localStorage.setItem("tableFourRowCount"+unid, tableFourRowCount-1);
+						});
+						$('#btnDelete5').live('click', function (e) {
+							//$('.SelectCheckBox5:visible:checked').parents('tr').remove();
+							$("#example5 tbody").children('tr:last').remove();
+							var unid = localStorage.getItem("unid");
+								localStorage.setItem("tableFiveRowCount"+unid, tableFiveRowCount-1);
+						});
+						
+						
+						
+						
+					
+						
+						$('#btnCopy').live('click', function (e) {
+							$("#example2 tbody").append($('.SelectCheckBox:visible:checked').parents('tr').clone());
+						});
+
+						$('#btnCopy2').live('click', function (e) {
+							$("#example2 tbody").append($('.SelectCheckBox2:visible:checked').parents('tr').clone());
+						});
+
+						$('#btnCopy3').live('click', function (e) {
+							$("#example3 tbody").append($('.SelectCheckBox3:visible:checked').parents('tr').clone());
+						});
+						$('#btnCopy4').live('click', function (e) {
+							$("#example4 tbody").append($('.SelectCheckBox4:visible:checked').parents('tr').clone());
+						});
+						$('#btnCopy5').live('click', function (e) {
+							$("#example5 tbody").append($('.SelectCheckBox5:visible:checked').parents('tr').clone());
+						});
+						
+						
+						$('#btnSelectAll').live('click', function (e) {
+							$("#example").find('.SelectCheckBox:visible').attr('checked', true);
+						});
+
+						$('#cbSelectUnselectAll').live('click', function () {
+							$("#example").find('.SelectCheckBox:visible').attr('checked', $(this).prop('checked'));
+						});
+						
+						
+						//$("#btnAdd").click();  //Add the first row
+						//$("#btnAdd2").click(); //Add the first row second table
+						//$("#btnAdd3").click(); //Add the first row third table
+						//$("#btnAdd4").click(); //Add the first row fourth table
+						//$("#btnAdd5").click(); //Add the first row fifth table
+						
+						//Magically rebuild tables to their saved length
+						
+						//Table One
+						var unid = localStorage.getItem("unid");
+						 var tableOneRowCountRestore= localStorage.getItem("tableOneRowCount"+unid);
+						  //alert("counter restore to  "+tableOneRowCountRestore);
+							
+								if(tableOneRowCountRestore==null){
+									$("#btnAdd").click(); 
+								}
+							
+							
+							for (var i=0;i<tableOneRowCountRestore;i++)
+								{ 
+								
+									$("#btnAdd").click(); 
+														
+								}
+						//Table Two
+						 var tableTwoRowCountRestore= localStorage.getItem("tableTwoRowCount"+unid);
+						  //alert("counter restore to  "+tableTwoRowCountRestore);
+								
+								if(tableTwoRowCountRestore==null){
+									$("#btnAdd2").click(); 
+								}
+								
+							for (var j=0;j<tableTwoRowCountRestore;j++)
+								{ 
+									$("#btnAdd2").click(); 
+														
+								}	
+						//Table Three
+						 var tableThreeRowCountRestore= localStorage.getItem("tableThreeRowCount"+unid);
+						  //alert("counter restore to  "+tableThreeRowCountRestore);
+							
+								if(tableThreeRowCountRestore==null){
+									$("#btnAdd3").click(); 
+								}
+							
+							for (var k=0;k<tableThreeRowCountRestore;k++)
+								{ 
+									$("#btnAdd3").click(); 
+														
+								}		
+						//Table Four
+						 var tableFourRowCountRestore= localStorage.getItem("tableFourRowCount"+unid);
+						  //alert("counter restore to  "+tableFourRowCountRestore);
+								if(tableFourRowCountRestore==null){
+									$("#btnAdd4").click(); 
+								}
+								
+							for (var m=0;m<tableFourRowCountRestore;m++)
+								{ 
+									$("#btnAdd4").click(); 
+														
+								}			
+								
+						//Table Five
+						 var tableFiveRowCountRestore= localStorage.getItem("tableFiveRowCount"+unid);
+						  //alert("counter restore to  "+tableFourRowCountRestore);
+								if(tableFiveRowCountRestore==null){
+									$("#btnAdd5").click(); 
+								}
+								
+							for (var m=0;m<tableFiveRowCountRestore;m++)
+								{ 
+									$("#btnAdd5").click(); 
+														
+								}			
+								
+						  var unid = localStorage.getItem("unid");
+						  //alert(unid);
+		  	             $("#form17").deserialize(localStorage.getItem(unid+"form17"));
+								
+						
+						
+        });
+			
+			
+			
+	
+	</script>
+	
+	<script>
+					function SubmitData() {
+				
+				
+						
+					var unid = localStorage.getItem("unid");
+					var data = localStorage.getItem(unid+"form17");
+					
+					var url = "http://www.chardonlabs.com/iPadSales.nsf/Form17?createDocument&"+data;
+					//alert(url);
+					$.ajax({
+					  type: 'POST',
+					  url: url,
+					  data:data,
+					  success: requestSuccess,
+					  error: requestError
+					});
+				
+			
+			}
+
+			function onCancelClick( event ) {
+				clearForm();
+			}
+
+			function clearForm() {
+				$("#email").val( "" );
+				sigCapture.clear();
+				$("#feedback").html( "" );
+			}
+
+			function requestSuccess( data, textStatus, jqXHR ) {
+				//clearForm();
+				//$("#feedback").html( "Thank you." );
+				alert(textStatus);
+			}
+
+			function requestError( jqXHR, textStatus, errorThrown ) {
+				//$("#feedback").html( "Error: " + errorThrown );
+				alert(textStatus);
+			}
+
+			function verifyEmail() {
+				var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+				return re.test( $("#email").val() );
+			}
+	</script>
+	
+</head>
+
+<body>
+<form id="form17">
+
+<input id="Salesman" name="Salesman" style="display:none">
+	<div data-role="page">
+    
+       
+			<div data-role="header">
+			<a href="index.html" data-ajax="false" data-icon="home">Home</a>
+			<h1>Schedule No. 17: Equipment Listing</h1>
+				<a href="#" data-icon="check" data-theme="b" onClick="saveValues();alert('Draft Saved...');">Save Draft</a>
+        </div>
+		
+    
+        <div data-role="content">
+				
+	
+		<input name="unid" id="unid" type="Text" style="display:none"></input>	
+     
+				
+					<table data-role="table"  data-mode="reflow" width="100%" border="1" cellpadding="0" cellspacing="0" class="detail" id="example" style="border: none">
+					<thead>
+					
+						
+					
+						<tr>
+						<td colspan="6">
+						<h2>1. Major Structures Serviced at this Location (Towers, Boilers, and Closed Loops etc.):</h2>
+						</td>
+						
+							
+							
+						</tr>
+					
+					</thead>
+					<tbody>
+					
+					<tr>
+					<!-- insert here -->
+					<th width="20%">
+								Equipment Type
+							</th>
+						
+							<th width="12%" >
+								Quantity
+							</th>
+							<th width="20%" rowspan="0">
+								Manufacturer
+							</th>
+						
+							<th width="20%" rowspan="0">
+								Model/Serial No.
+							</th>
+							<th width="20%"  rowspan="0">
+								Size
+							</th>
+							<th width="10%" rowspan="0">
+								Location
+							</th>
+					</tr>	
+					
+					<!-- <tr id="row123" class="parent" style="cursor: pointer;" title="Click to expand/collapse"><td><input type="checkbox" name="checkbox" class="SelectCheckBox" id="checkbox" /><input type="text" id="EquipmentType" width="30"></td><td><input type="text" id="Quantity" width="10"></td><td><input type="text" id="Manufacturer" width="30"></td><td><input type="text" id="Model" width="30"></td><td><input type="text" id="Size" width="30"></td><td><input type="text" id="Location" width="30"></td></tr>			-->				
+					<!--	<tr id="row123" class="parent" style="cursor: pointer;" title="Click to expand/collapse"><td><input type="checkbox" class="SelectCheckBox" id="checkbox" /><input type="text" name="EquipmentType-Serviced" id="EquipmentType-Serviced" width="30" onblur="saveValues();"></td><td><input type="text" name="Quantity-Serviced" id="Quantity-Serviced" width="10" onblur="saveValues();"></td><td><input type="text" name="Manufacturer-Serviced" id="Manufacturer-Serviced" width="30" onblur="saveValues();"></td><td><input type="text" name="Model-Serviced" id="Model-Serviced" width="30" onblur="saveValues();"></td><td><input type="text" name="Size-Serviced" id="Size-Serviced" width="30" onblur="saveValues();"></td><td><input type="text" id="Location-Serviced" name="Location-Serviced" width="30" onblur="saveValues();"></td></tr> -->
+					<!--		<tr class="parent" style="cursor: pointer;" title="Click to expand/collapse"><td><input type="checkbox" class="SelectCheckBox" id="checkbox" /><input type="text" name="EquipTypeServiced" id="EquipTypeServiced" width="30" onblur="saveValues();"></td><td><input type="text" name="QuantityServiced" id="QuantityServiced" width="10" onblur="saveValues();"></td><td><input type="text" name="ManufacturerServiced" id="ManufacturerServiced" width="30" onblur="saveValues();"></td><td><input type="text" name="ModelServiced" id="ModelServiced" width="30" onblur="saveValues();"></td><td><input type="text" name="SizeServiced" id="SizeServiced" width="30" onblur="saveValues();"></td><td><input type="text" id="Location-Serviced" name="LocationServiced" width="30" onblur="saveValues();"></td></tr>					-->
+					<!--		<tr  class="parent" style="cursor: pointer;" title="Click to expand/collapse"><td><input type="checkbox" class="SelectCheckBox" id="checkbox" /><input type="text" name="EquipTypeServiced2" id="EquipTypeServiced2" width="30" onblur="saveValues();"></td><td><input type="text" name="QuantityServiced2" id="QuantityServiced2" width="10" onblur="saveValues();"></td><td><input type="text" name="ManufacturerServiced2" id="ManufacturerServiced2" width="30" onblur="saveValues();"></td><td><input type="text" name="ModelServiced2" id="ModelServiced2" width="30" onblur="saveValues();"></td><td><input type="text" name="SizeServiced2" id="SizeServiced" width="30" onblur="saveValues();"></td><td><input type="text" id="Location-Serviced2" name="LocationServiced2" width="30" onblur="saveValues();"></td></tr>';						-->	
+									
+						
+					</tbody>
+				</table>
+				<label>
+				</label>
+				
+			
+				<fieldset class="ui-grid-b">
+					<div class="ui-block-a"><input type="button" id="btnAdd" value="Add row" /></div>
+					<div class="ui-block-b"><input type="button" id="btnDelete" value="Remove Row" /></div>	  
+					<div style="display:none" class="ui-block-c"><input type="button" id="btnCopy" value="Copy Row" /></div>	   	
+				</fieldset>
+				
+				</br>
+				</br>
+				
+				<table data-role="table"  data-mode="reflow" width="100%" border="1" cellpadding="0" cellspacing="0" class="detail" id="example2"
+					style="border: none;">
+					<thead>
+					<tr>
+						<td colspan="6">
+						<h2>2. Major Structures NOT Serviced at this location (Towers, Boilers, and Closed Loops etc.): </h2>
+						</td>
+					</tr>	
+						<tr>
+							<th width="20%">
+								Equipment Type
+							</th>
+						
+							<th width="12%" >
+								Quantity
+							</th>
+							<th width="20%" rowspan="0">
+								Manufacturer
+							</th>
+						
+							<th width="20%" rowspan="0">
+								Model/Serial No.
+							</th>
+							<th width="20%"  rowspan="0">
+								Size
+							</th>
+							<th width="10%" rowspan="0">
+								Location
+							</th>
+							
+						</tr>
+					
+					</thead>
+					<tbody>
+					
+					
+					
+					<!-- <tr id="row123" class="parent" style="cursor: pointer;" title="Click to expand/collapse"><td><input type="checkbox" name="checkbox" class="SelectCheckBox" id="checkbox" /><input type="text" id="EquipmentType" width="30"></td><td><input type="text" id="Quantity" width="10"></td><td><input type="text" id="Manufacturer" width="30"></td><td><input type="text" id="Model" width="30"></td><td><input type="text" id="Size" width="30"></td><td><input type="text" id="Location" width="30"></td></tr>			-->				
+									
+						
+					</tbody>
+				</table>
+				
+					<fieldset class="ui-grid-b">
+						<div class="ui-block-a"><input type="button" id="btnAdd2" value="Add row" /></div>
+						<div class="ui-block-b"><input type="button" id="btnDelete2" value="Remove Row" /></div>	  
+						<div style="display:none" class="ui-block-c"><input type="button" id="btnCopy2" value="Copy Row" /></div>	   	
+					</fieldset>
+				
+				</br>
+				</br>
+				
+				<table data-role="table"  data-mode="reflow" width="100%" border="1" cellpadding="0" cellspacing="0" class="detail" id="example3"
+					style="border: none;">
+					<thead>
+							<tr>
+								<td colspan="6">
+								<h2> 3. Present Equipment (i.e. Feed, Bleed, Bag Filters, Pumps, Timers, etc.): </h2>
+								</td>
+							</tr>
+					
+					
+						<tr>
+							<th width="20%">
+								Equipment Type
+							</th>
+						
+							<th width="12%" >
+								Quantity
+							</th>
+							<th width="20%" rowspan="0">
+								Manufacturer
+							</th>
+						
+							<th width="20%" rowspan="0">
+								Model/Serial No.
+							</th>
+							<th width="20%"  rowspan="0">
+								Size
+							</th>
+							<th width="10%" rowspan="0">
+								Location
+							</th>
+							
+						</tr>
+					
+					</thead>
+					<tbody>
+					
+						
+					
+					<!-- <tr id="row123" class="parent" style="cursor: pointer;" title="Click to expand/collapse"><td><input type="checkbox" name="checkbox" class="SelectCheckBox" id="checkbox" /><input type="text" id="EquipmentType" width="30"></td><td><input type="text" id="Quantity" width="10"></td><td><input type="text" id="Manufacturer" width="30"></td><td><input type="text" id="Model" width="30"></td><td><input type="text" id="Size" width="30"></td><td><input type="text" id="Location" width="30"></td></tr>			-->				
+									
+						
+					</tbody>
+				</table>
+				
+					<fieldset class="ui-grid-b">
+						<div class="ui-block-a"><input type="button" id="btnAdd3" value="Add row" /></div>
+						<div class="ui-block-b"><input type="button" id="btnDelete3" value="Remove Row" /></div>	  
+						<div style="display:none" class="ui-block-c"><input type="button" id="btnCopy3" value="Copy Row" /></div>	   	
+					</fieldset>
+				
+				<!-- Fourth Table  has 7 columns -->
+				
+				</br>
+				</br>
+				
+				<table data-role="table"  data-mode="reflow" width="100%" border="1" cellpadding="0" cellspacing="0" class="detail" id="example4"
+					style="border: none;">
+					<thead>
+							<tr>
+								<td colspan="7">
+								<h2> 4. New Chardon Equipment (i.e. Feed, Bleed, Bag Filters, Pumps, Timers, etc.): </h2>
+								</td>
+							</tr>
+					
+					
+						<tr>
+							<th width="20%">
+								Equipment Type
+							</th>
+						
+							<th width="12%" >
+								Quantity
+							</th>
+							<th width="15%" rowspan="0">
+								Manufacturer
+							</th>
+						
+							<th width="15%" rowspan="0">
+								Model/Serial No.
+							</th>
+							<th width="20%"  rowspan="0">
+								Purchased Seperately
+							</th>
+							<th width="10%" rowspan="0">
+								Amortized # Month
+							</th>
+							<th width="20%" rowspan="0">
+								Required for Guarantee Service
+							</th>
+							
+						</tr>
+					
+					</thead>
+					<tbody>
+					
+						
+					
+					<!-- <tr id="row123" class="parent" style="cursor: pointer;" title="Click to expand/collapse"><td><input type="checkbox" name="checkbox" class="SelectCheckBox" id="checkbox" /><input type="text" id="EquipmentType" width="30"></td><td><input type="text" id="Quantity" width="10"></td><td><input type="text" id="Manufacturer" width="30"></td><td><input type="text" id="Model" width="30"></td><td><input type="text" id="Size" width="30"></td><td><input type="text" id="Location" width="30"></td></tr>			-->				
+									
+						
+					</tbody>
+				</table>
+				
+					<fieldset class="ui-grid-b">
+						<div class="ui-block-a"><input type="button" id="btnAdd4" value="Add row" /></div>
+						<div class="ui-block-b"><input type="button" id="btnDelete4" value="Remove Row" /></div>	  
+						<div style="display:none" class="ui-block-c"><input type="button" id="btnCopy4" value="Copy Row" /></div>	   	
+					</fieldset>
+					
+					
+				<!-- Fifth Table  has 7 columns -->
+				
+				</br>
+				</br>
+				
+				<table data-role="table"  data-mode="reflow" width="100%" border="1" cellpadding="0" cellspacing="0" class="detail" id="example5"
+					style="border: none;">
+					<thead>
+							<tr>
+								<td colspan="7">
+								<h2> 5. Softeners, Dealkalizers and Sand Filters</h2>
+								</td>
+							</tr>
+					
+					
+						<tr>
+							<th width="20%">
+								Equipment Type
+							</th>
+						
+							<th width="12%" >
+								Quantity
+							</th>
+							<th width="15%" rowspan="0">
+								Manufacturer
+							</th>
+						
+							<th width="15%" rowspan="0">
+								Model/Serial No.
+							</th>
+							<th width="20%"  rowspan="0">
+								Purchased Seperately
+							</th>
+							<th width="10%" rowspan="0">
+								Amortized # Month
+							</th>
+							<th width="20%" rowspan="0">
+								Required for Guarantee Service
+							</th>
+							
+						</tr>
+					
+					</thead>
+					<tbody>
+					
+						
+					
+					<!-- <tr id="row123" class="parent" style="cursor: pointer;" title="Click to expand/collapse"><td><input type="checkbox" name="checkbox" class="SelectCheckBox" id="checkbox" /><input type="text" id="EquipmentType" width="30"></td><td><input type="text" id="Quantity" width="10"></td><td><input type="text" id="Manufacturer" width="30"></td><td><input type="text" id="Model" width="30"></td><td><input type="text" id="Size" width="30"></td><td><input type="text" id="Location" width="30"></td></tr>			-->				
+									
+						
+					</tbody>
+				</table>
+				
+					<fieldset class="ui-grid-b">
+						<div class="ui-block-a"><input type="button" id="btnAdd5" value="Add row" /></div>
+						<div class="ui-block-b"><input type="button" id="btnDelete5" value="Remove Row" /></div>	  
+						<div style="display:none" class="ui-block-c"><input type="button" id="btnCopy5" value="Copy Row" /></div>	   	
+					</fieldset>
+				
+				
+				<div id="OtherHVAC">
+					<fieldset data-role="controlgroup">Other HVAC Equipment to Repair& Maintain on Time and Material Basis:
+					<textarea data-role="none" class="Schedule11-TextArea"  name="textarea_OtherHVAC" id="textarea_OtherHVAC" onblur="saveValues();"></textarea>
+					</fieldset>					
+				</div>
+				
+				<div id="OtherHVACComments">
+					<fieldset data-role="controlgroup">Comments and Additional Information:
+					<textarea data-role="none" class="Schedule11-TextArea"  name="textarea_OtherHVACComments" id="textarea_OtherHVACComments" onblur="saveValues();"></textarea>
+					</fieldset>	
+				</div>
+				
+				
+			
+				
+				
+						
+				
+				</br>
+				<fieldset data-role="controlgroup">
+					Listed Equipment is to be installed by:
+						<input type="checkbox" name="checkboxInstalledByChardon" id="checkboxInstalledByChardon" class="custom" onclick="saveValues();" />
+						<label for="checkboxInstalledByChardon">Chardon</label>
+						
+						<input type="checkbox" name="checkboxInstalledByCustomer" id="checkboxInstalledByCustomer" class="custom" onclick="saveValues();" />
+						<label for="checkboxInstalledByCustomer">Customer, In-house Personnel Installation</label>
+						
+						<input type="checkbox" name="checkboxInstalledByOther" id="checkboxInstalledByOther" class="custom" onclick="saveValues();" />
+						<label for="checkboxInstalledByOther">Other</label>
+						
+				</fieldset>		
+				
+				<fieldset data-role="controlgroup">
+					<div width="400px">
+					Total Price of Equipment:
+						$<input  name="textPriceOfEquip" id="textPriceOfEquip" class="custom" onblur="saveValues();"/>
+					</div>
+					Installation on Time & Material Basis:
+						$<input  name="textPriceOfInstallation" id="textPriceOfInstallation" class="custom" onblur="saveValues();" />
+						
+						
+				</fieldset>	
+				
+			
+					
+					
+		  
+            
+     
+    
+     
+			<div data-role="header">
+				<a href="Schedule14.html" data-role="button" data-ajax="false" onclick="" data-inline="true"  data-icon="arrow-l" >Previous</a>
+			   <h4>Schedule 17 - 01-SAFM-03-011</h4>
+			 	<a href= "Schedule18.html" rel="external" data-role="button" data-ajax="false" onclick="" data-inline="true"  data-icon="arrow-r" >Next</a>
+			 </div>
+		
+		</div> <!-- End Page -->
+	</form>
+</body>
+<script>
+		<!-- populate the form from previously saved localStorage cookie called form17 -->
+		  var unid = localStorage.getItem("unid");
+		  
+		 // alert(localStorage.getItem(unid+"form17"));
+	  $("#form17").deserialize(localStorage.getItem(unid+"form17"));
+
+	  
+</script>
+</html>

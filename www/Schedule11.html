@@ -1,0 +1,203 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Schedule 11</title>
+    <link rel="stylesheet" href="jq/jquery.mobile-1.0.min.css" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <script src="jq/jquery-1.7.js"></script>
+    <script src="jq/jquery.mobile-1.1.js"></script>
+	
+	<script src="js/modernizr.custom.34982.js"></script>
+	<!--<script src="js/signatureCapture.js"></script> -->
+	
+	<script src="js/jquery.deserialize.js"></script>
+	
+	<script>
+	
+	$(document).ready(function(e) {
+	
+	//alert('ready');
+	var unid = localStorage.getItem("unid");
+	//alert(unid);
+	if (unid===null){
+		var unid = localStorage.setItem("unid", "123456789");
+	}
+	
+		var unid = localStorage.getItem("unid");
+					//Save the unid to a field
+					$('#unid').val(unid);
+	//alert(localStorage.getItem("Salesman"));					
+	$('#Salesman').val(localStorage.getItem("Salesman"));			
+					
+	
+	})
+
+			
+	
+	</script>
+	
+	<script>
+	
+	
+	  function startProposal(){
+   
+   	//6-7-12  Generate a unique number for each report 
+	var unid = Math.floor(Math.random()*111111);
+	//document.forms[0].DaUnid.value = unid;
+	console.log("unid: " + unid);
+	var Status = "Draft";
+	//alert(timestamp);
+
+	console.log("Creating Propsal Stub: "+unid);
+	
+	//Save the Key for the Proposal
+	localStorage.setItem("unid", unid);
+
+	
+	}
+	
+	
+		 function saveValues() {
+			
+			var unid = localStorage.getItem("unid");
+			var str = $('#form11').serialize();
+			//save to localStorage
+			localStorage.setItem(unid+'form11', str);
+	  		//alert("Saved..");
+	
+	  
+    }
+	
+			
+				function SubmitData() {
+				
+				
+				
+				
+					var unid = localStorage.getItem("unid");
+				
+					
+					var data = localStorage.getItem(unid+"form11");
+					
+					var url = "http://www.chardonlabs.com/iPadSales.nsf/Form11?createDocument&"+data;
+					//alert(url);
+					$.ajax({
+					  type: 'POST',
+					  url: url,
+					  data:data,
+					  success: requestSuccess,
+					  error: requestError
+					});
+				
+			
+			}
+
+			function onCancelClick( event ) {
+				clearForm();
+			}
+
+			function clearForm() {
+				$("#email").val( "" );
+				
+				$("#feedback").html( "" );
+			}
+
+			function requestSuccess( data, textStatus, jqXHR ) {
+				
+				alert(textStatus);
+				//clearForm();
+				$("#feedback").html( "Thank you." );
+			}
+
+			function requestError( jqXHR, textStatus, errorThrown ) {
+				$("#feedback").html( "Error: " + errorThrown );
+			}
+
+			function verifyEmail() {
+				var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+				return re.test( $("#email").val() );
+			}
+	</script>
+	
+</head>
+
+<body onLoad="">
+<form id="form11">
+
+<input id="Salesman" name="Salesman" style="display:none">
+
+	<div data-role="page">
+    
+     
+		
+		  <div data-role="header">
+		  	
+		<a href="index.html" data-ajax="false" data-icon="home">Home</a>
+			  <h1>Schedule No. 11 Miscellaneous Service</h1>
+		<a href="#" data-icon="check" data-theme="b" onClick="saveValues();alert('Draft Saved...');">Save Draft</a>
+	
+        </div>
+		
+    
+        <div data-role="content">
+		
+		
+<!-- Used to trick deserialize The value isnt used  -->
+				<input type="checkbox" name="checkboxDummy" id="checkboxDummy" class="custom" checked="on" style="display:none" />
+				<input name="unid" id="unid" type="Text" style="display:none"></input>		
+				<ul id="MiscellaneousServices" data-role="listview" data-inset="true">
+						<h2>Miscellaneous Services</h2>
+						<h4>Type of Coverage</h4>
+						<h4>During normal working hours Chardon will provide:</h4>
+					<textarea data-role="none" class="Schedule11-TextArea"  name="textarea_MiscService" id="textarea_MiscService" onblur="saveValues();"></textarea>
+				
+				</ul>	<!--End MiscellaneousServices -->
+				
+				<ul id="MaintenanceServices" data-role="listview" data-inset="true">
+					<h4>Chardon will perform maintenance services as detailed below:</h4>
+					<textarea data-role="none" class="Schedule11-TextArea"  name="textarea_MaintenanceServices" id="textarea_MaintenanceServices" onblur="saveValues();"></textarea>
+				
+				</ul>	<!--End MaintenanceServices -->
+				
+				<ul id="Details-ul" data-role="listview" data-inset="true">
+					<h4>Details of service to be provided:</h4>
+					<textarea data-role="none" class="Schedule11-TextArea"  name="textarea_Details" id="textarea_Details" onblur="saveValues();"></textarea>
+				</ul>	<!--End DetailofServices -->
+				
+				<ul id="Exceptions-ul" data-role="listview" data-inset="true">
+					<h4>Exceptions and additions:</h4>
+					<textarea  data-role="none" class="Schedule11-TextArea" name="textarea_Exceptions" id="textarea_Exceptions" onblur="saveValues();"></textarea>
+				</ul>	<!--End DetailofServices -->
+				
+				
+				
+		</div> <!--End Content -->
+					
+					
+		  
+            
+     
+    
+       
+		
+			<div data-role="header">
+				<a href="ContractCalcSheet.html" data-role="button" data-ajax="false" onclick="" data-inline="true"  data-icon="arrow-l" >Previous</a>
+				<h4>Schedule 11</h4>
+			 	<a href="Schedule12.html" data-role="button" onclick="" data-inline="true"  data-ajax="false" data-icon="arrow-r" >Next</a>
+			 </div>
+		
+		</div> <!-- End Page -->
+	</form>
+</body>
+
+<script>
+		<!-- populate the form from previously saved localStorage cookie called form11 -->
+		var unid = localStorage.getItem("unid");
+	  $("#form11").deserialize(localStorage.getItem(unid+"form11"));
+
+	  
+</script>
+
+</html>

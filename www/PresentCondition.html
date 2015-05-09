@@ -1,0 +1,901 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Present Condition</title>
+     <link rel="stylesheet" href="jq/jquery.mobile-1.0.min.css" />
+    <link rel="stylesheet" href="assets/css/main-sched17.css" />
+	
+	
+	<script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
+	
+    <script src="jq/jquery-1.7.js"></script>
+    <script src="jq/jquery.mobile-1.1.js"></script>
+			<!--De-Serialize the data -->
+	<script src="js/jquery.deserialize.js"></script>
+	
+	<!-- <script src="js/modernizr.custom.34982.js123"></script> -->
+	<script src="js/signatureCapture.js"></script>
+	
+	<script src="js/photo.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/SaveSend.js"></script>
+	
+	<script>
+	
+	
+	    function onDeviceReady() {
+				//added 2-4-14 to save signature on orientation change
+			 
+				  	pictureSource=navigator.camera.PictureSourceType;
+					destinationType=navigator.camera.DestinationType;
+					
+					}		
+	
+	
+
+		
+		
+		
+			
+			$(document).ready(function (e) {
+				var sigCapture = null;
+				
+				
+				  function generateUNID(){
+						  
+									localUNID = localStorage.getItem("unid")
+									 
+									//alert(localUNID);
+									 if (localUNID==null){
+									   
+										//6-7-12  Generate a unique number for each report 
+										var unid = Math.floor(Math.random()*111111);
+										//document.forms[0].DaUnid.value = unid;
+										console.log("unid: " + unid);
+										var Status = "Draft";
+										//alert(timestamp);
+
+										console.log("Creating Propsal Stub: "+unid);
+										
+										//Save the Key for the Proposal
+										localStorage.setItem("unid", unid);
+								
+										}
+									}
+				 $('#Salesman').val(localStorage.getItem("Salesman"));	
+					
+					//alert('ready');
+					var unid = localStorage.getItem("unid");
+					
+						if (unid == null) {
+										generateUNID();
+									}
+						if (unid == '') {
+										generateUNID();
+									}
+					
+					//alert("unid "+unid);
+					
+									//Save the unid to a field
+									$('#unid').val(unid);
+					
+					})
+					
+	
+				
+				
+				 function saveValues() {
+					// ALERT !! -- Put the form name in for the Variable name below
+						var str = $('#PresentCondition').serialize();
+						//save to localStorage
+						
+					// ALERT !! -- Put the form name in for the Variable name below
+						var unid = localStorage.getItem("unid");
+						localStorage.setItem(unid+'PresentCondition', str);
+						
+						//alert(localStorage.getItem(unid+'ContractCalc'));
+						
+						//alert(str);
+						console.log("saving " + str);
+					}
+						var lastRowCount = 1;
+
+						var tableOneRowCount =0;
+						var tableTwoRowCount =0;
+						var tableThreeRowCount =0;
+						var tableFourRowCount =0;
+						
+						$('tr.parent').css("cursor", "pointer").attr("title", "Click to expand/collapse").click(function () {
+							$(this).siblings('.child-' + this.id).toggle();
+						});
+
+						$('tr[class^=child-]').hide();
+
+						//var orderTable = $("#example");
+
+						
+						//Add Buttons
+						$("#btnAdd").live('click', function (e) {
+							//Take the text, and also the ddl value and insert as table row.
+							//var newRow = '<tr class="child-row123"><td class="brdr">&nbsp;&nbsp;</td><td class="brdr"></td><td class="brdr">&nbsp;&nbsp;</td><td class="brdr">&nbsp;&nbsp;</td><td><input name="checkboxNNNN" type="checkbox" id="checkboxNNNN" class="SelectCheckBox" /></td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td></tr>';
+							
+							//var newRow = '<tr id="row123" class="parent" style="cursor: pointer;" title="Click to expand/collapse"><td><input type="checkbox" class="SelectCheckBox" id="checkbox" /><input type="text" name="EquipmentType-Serviced" id="EquipmentType" width="30"></td><td><input type="text" name="Quantity-Serviced" id="Quantity" width="10"></td><td><input type="text" name="Manufacturer-Serviced" id="Manufacturer" width="30"></td><td><input type="text" name="Model-Serviced" id="Model" width="30"></td><td><input type="text" name="Size-Serviced" id="Size" width="30"></td><td><input type="text" id="Location-Serviced" name="Location"width="30"></td></tr>';							
+							//var newRow = '<tr id="row123" class="parent" style="cursor: pointer;" title="Click to expand/collapse"><td><input type="checkbox" class="SelectCheckBox" id="checkbox" /><input type="text" name="EquipTypeServiced" id="EquipTypeServiced" width="30" onblur="saveValues();"></td><td><input type="text" name="QuantityServiced" id="QuantityServiced" width="10" onblur="saveValues();"></td><td><input type="text" name="ManufacturerServiced" id="ManufacturerServiced" width="30" onblur="saveValues();"></td><td><input type="text" name="ModelServiced" id="ModelServiced" width="30" onblur="saveValues();"></td><td><input type="text" name="SizeServiced" id="SizeServiced" width="30" onblur="saveValues();"></td><td><input type="text" id="Location-Serviced" name="LocationServiced" width="30" onblur="saveValues();"></td></tr>';							
+							//alert('clicked add');
+							var newRow ='	<tr id="row123'+tableOneRowCount +'">\
+		<td>\
+	<input onblur="saveValues();" type="text" id="Cooler_Name'+tableOneRowCount+'" name ="Cooler_Name'+tableOneRowCount+'" data-role="none"></input>\
+		</td>\
+			\
+		<td>\
+		<input onblur="saveValues();" type = "number"  type="number" min="1" max="5" name="CT1_Corrosion'+tableOneRowCount+'"  id="CT1_Corrosion'+tableOneRowCount+'" value="" data-role="none"></input>\
+		</td>\
+		\
+		<td>\
+		<input onblur="saveValues();" type = "number"  type="number" min="1" max="5" name="CT1_Deposit'+tableOneRowCount+'"  id="CT1_Deposit'+tableOneRowCount+'" value="" data-role="none"></input>\
+		</td>\
+		\
+		<td>\
+		<input onblur="saveValues();" type = "number"  type="number" min="1" max="5" name="CT1_Mud'+tableOneRowCount+'"  id="CT1_Mud'+tableOneRowCount+'" value="" data-role="none"></input>\
+		</td>\
+		\
+		<td>\
+		<input onblur="saveValues();" type = "number"  type="number" min="1" max="5" name="CT1_Biological'+tableOneRowCount+'"  id="CT1_Biological'+tableOneRowCount+'"  value="" data-role="none"></input>\
+	\
+		</td>\
+			\
+	</tr>'
+							//alert(newRow);
+							
+							
+							$("#example tbody").append(newRow.replace(/NNNN/g, ++tableOneRowCount));
+							//$('#example').trigger('create'); 
+							var unid = localStorage.getItem("unid");
+							
+							localStorage.setItem("tableOneRowCount"+unid, tableOneRowCount);
+							//alert(tableOneRowCount);
+							//var $orderTable = $("#example");
+						});
+						
+						//second Table
+							$("#btnAdd2").live('click', function (e) {
+							//Take the text, and also the ddl value and insert as table row.
+							//var newRow = '<tr class="child-row1234"><td class="brdr">&nbsp;&nbsp;</td><td class="brdr"></td><td class="brdr">&nbsp;&nbsp;</td><td class="brdr">&nbsp;&nbsp;</td><td><input name="checkboxNNNN" type="checkbox" id="checkboxNNNN" class="SelectCheckBox" /></td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td></tr>';
+							
+							var newRow ='	<tr id="row1234'+tableTwoRowCount +'">\
+										<td>\
+										<input onblur="saveValues();" id="Chiller_Name'+tableTwoRowCount +'" name ="Chiller_Name'+tableTwoRowCount +'" type="text" data-role="none"></input>\
+										</td>\
+											\
+										<td>\
+										<input onblur="saveValues();" type = "number"  type="number" min="1" max="5" name="Chiller_Scale'+tableTwoRowCount +'"  id="Chiller_Scale'+tableTwoRowCount +'"   value="" data-role="none"></input>\
+										</td>\
+										\
+										<td>\
+										<input onblur="saveValues();" type = "number"  type="number" min="1" max="5" name="Chiller_Fouling'+tableTwoRowCount +'" id="Chiller_Fouling'+tableTwoRowCount +'"  value="" data-role="none"></input>\
+										</td>\
+										\
+										<td>\
+										<input onblur="saveValues();" type = "number"  type="number" min="1" max="5" name="Chiller_Corrosions'+tableTwoRowCount +'"   id="Chiller_Corrosions'+tableTwoRowCount +'" value="" data-role="none"></input>\
+										</td>\
+										\
+										<td>\
+										<input onblur="saveValues();" type = "number"  type="number" min="1" max="5" name="Chiller_NA'+tableTwoRowCount +'" id="Chiller_NA'+tableTwoRowCount +'"  value="" data-role="none"></input>\
+									\
+										</td>\
+											\
+									</tr>'
+							
+							$("#example2 tbody").append(newRow.replace(/NNNN/g, ++tableTwoRowCount));
+							//$('#example2').trigger('create'); 
+							var unid = localStorage.getItem("unid");
+							localStorage.setItem("tableTwoRowCount"+unid, tableTwoRowCount);
+				
+						});
+						
+							//Third Table
+							$("#btnAdd3").live('click', function (e) {
+								var newRow ='	<tr id="row12345'+tableThreeRowCount +'">\
+										<td>\
+										<input onblur="saveValues();"id="ClosedLoop_Name'+tableThreeRowCount +'" name ="ClosedLoop_Name'+tableThreeRowCount +'" type="text" data-role="none"></input>\
+										</td>\
+											\
+										<td>\
+										<input onblur="saveValues();" type = "number"  type="number" min="1" max="5" name="ClosedLoop_Iron'+tableThreeRowCount +'"  id="ClosedLoop_Iron'+tableThreeRowCount +'"   value="" data-role="none"></input>\
+										</td>\
+										\
+										<td>\
+										<input onblur="saveValues(); "type = "number"  type="number" min="1" max="5" name="ClosedLoop_Mud'+tableThreeRowCount +'" id="ClosedLoop_Mud'+tableThreeRowCount +'"  value="" data-role="none"></input>\
+										</td>\
+										\
+										<td>\
+										<input onblur="saveValues();" type = "number"  type="number" min="1" max="5" name="ClosedLoop_Biological'+tableThreeRowCount +'"   id="ClosedLoop_Biological'+tableThreeRowCount +'" value="" data-role="none"></input>\
+										</td>\
+										\
+										<td>\
+										<input onblur="saveValues();" type = "number"  type="number" min="1" max="5" name="ClosedLoop_NA'+tableThreeRowCount +'" id="ClosedLoop_NA'+tableThreeRowCount +'"  value="" data-role="none"></input>\
+									\
+										</td>\
+											\
+									</tr>'
+							
+							$("#example3 tbody").append(newRow.replace(/NNNN/g, ++tableThreeRowCount));
+							var unid = localStorage.getItem("unid");
+							localStorage.setItem("tableThreeRowCount"+unid, tableThreeRowCount);
+						
+						});
+						
+						//Fourth Table 
+							$("#btnAdd4").live('click', function (e) {
+							//Take the text, and also the ddl value and insert as table row.
+							
+							var newRow ='	<tr id="row123456'+tableFourRowCount +'">\
+										<td>\
+										<input onblur="saveValues();" id="SteamBoilers_Name'+tableFourRowCount +'" name ="SteamBoilers_Name'+tableFourRowCount +'" type="text" data-role="none"></input>\
+										</td>\
+											\
+										<td>\
+										<input onblur="saveValues();" type = "number"  type="number" min="1" max="5" name="SteamBoilers_Scale'+tableFourRowCount +'"  id="SteamBoilers_Scale'+tableFourRowCount +'"   value="" data-role="none"></input>\
+										</td>\
+										\
+										<td>\
+										<input onblur="saveValues(); "type = "number"  type="number" min="1" max="5" name="SteamBoilers_Corrosion'+tableFourRowCount +'" id="SteamBoilers_Corrosion'+tableFourRowCount +'"  value="" data-role="none"></input>\
+										</td>\
+										\
+										<td>\
+										<input onblur="saveValues();" onblur="saveValues();" type = "number"  type="number" min="1" max="5" name="SteamBoilers_Sludge'+tableFourRowCount +'"   id="SteamBoilers_Sludge'+tableFourRowCount +'" value="" data-role="none"></input>\
+										</td>\
+										\
+										<td>\
+										<input onblur="saveValues();" type = "number"  type="number" min="1" max="5" name="SteamBoilers_NA'+tableFourRowCount +'" id="SteamBoilers_NA'+tableFourRowCount +'"  value="" data-role="none"></input>\
+									\
+										</td>\
+											\
+									</tr>'
+							$("#example4 tbody").append(newRow.replace(/NNNN/g, ++tableFourRowCount));
+							//var $orderTable = $("#example4");
+							var unid = localStorage.getItem("unid");
+							localStorage.setItem("tableFourRowCount"+unid, tableFourRowCount);
+						});
+						
+						
+						
+							//Fifth Table - 7 columns
+							$("#btnAdd5").live('click', function (e) {
+							//Take the text, and also the ddl value and insert as table row.
+							
+							var newRow = '<tr id="row123456" class="parent5" style="cursor: pointer;" title="Click to expand/collapse"><td><input type="checkbox" name="checkbox" class="SelectCheckBox5" id="checkbox5" /><input onblur="saveValues();"  type="text" id="EquipmentType5" width="30"></td><td><input onblur="saveValues();"  type="text" id="Quantity5" width="10"></td><td><input onblur="saveValues();"  type="text" id="Manufacturer5" width="30"></td><td><input onblur="saveValues();"  type="text" id="Model5" width="30"></td><td><input onblur="saveValues();"  type="text" id="PurchasedSeperately5" width="30"></td><td><input type="text" onblur="saveValues();"  id="AmortizationMonth5" width="10"></td><td><input type="text" onblur="saveValues();"  id="GuaranteeForService5" width="30"></td></tr>';							
+							
+							$("#example5 tbody").append(newRow.replace(/NNNN/g, ++lastRowCount));
+							//var $orderTable = $("#example5");
+						});
+						
+						
+						
+					
+							$('#btnDelete').live('click', function (e) {
+							//$('.SelectCheckBox2:visible:checked').parents('tr').remove();
+							$("#example tbody").children('tr:last').remove();
+							var unid = localStorage.getItem("unid");
+							localStorage.setItem("tableOneRowCount"+unid, tableOneRowCount -1);
+					
+							});
+											
+							$('#btnDelete2').live('click', function (e) {
+							//$('.SelectCheckBox2:visible:checked').parents('tr').remove();
+							$("#example2 tbody").children('tr:last').remove();
+							var unid = localStorage.getItem("unid");
+							localStorage.setItem("tableTwoRowCount"+unid, tableTwoRowCount-1);
+							});
+						
+						
+						
+							$('#btnDelete3').live('click', function (e) {
+							//$('.SelectCheckBox2:visible:checked').parents('tr').remove();
+							$("#example3 tbody").children('tr:last').remove();
+							var unid = localStorage.getItem("unid");
+							localStorage.setItem("tableThreeRowCount"+unid, tableThreeRowCount-1);
+							});
+						
+							$('#btnDelete4').live('click', function (e) {
+							//$('.SelectCheckBox2:visible:checked').parents('tr').remove();
+							$("#example4 tbody").children('tr:last').remove();
+							var unid = localStorage.getItem("unid");
+							localStorage.setItem("tableFourRowCount"+unid, tableFourRowCount-1);
+							});
+						
+						
+					
+						
+						/*
+						$('#btnDelete5').live('click', function (e) {
+							$('.SelectCheckBox5:visible:checked').parents('tr').remove();
+							--tableFourRowCount;
+						});
+						*/
+						
+						
+						
+						$('#btnCopy').live('click', function (e) {
+							$("#example tbody").append($('.SelectCheckBox:visible:checked').parents('tr').clone());
+							++tableOneRowCount;
+						});
+
+						$('#btnCopy2').live('click', function (e) {
+							$("#example2 tbody").append($('.SelectCheckBox2:visible:checked').parents('tr').clone());
+							++tableTwoRowCount;
+						});
+
+						$('#btnCopy3').live('click', function (e) {
+							$("#example3 tbody").append($('.SelectCheckBox3:visible:checked').parents('tr').clone());
+							++tableThreeRowCount;
+						});
+						$('#btnCopy4').live('click', function (e) {
+							$("#example4 tbody").append($('.SelectCheckBox4:visible:checked').parents('tr').clone());
+							++tableFourRowCount;
+						});
+						
+						
+						
+						
+						$('#btnSelectAll').live('click', function (e) {
+							$("#example").find('.SelectCheckBox:visible').attr('checked', true);
+						});
+
+						$('#cbSelectUnselectAll').live('click', function () {
+							$("#example").find('.SelectCheckBox:visible').attr('checked', $(this).prop('checked'));
+						});
+						
+						
+						//$("#btnAdd").click();  //Add the first row
+						//$("#btnAdd2").click(); //Add the first row second table
+						//$("#btnAdd3").click(); //Add the first row third table
+						//$("#btnAdd4").click(); //Add the first row fourth table
+						//$("#btnAdd5").click(); //Add the first row fifth table
+						
+						//Magically rebuild tables to their saved length
+						
+						
+	
+   
+			
+			
+			
+	
+	</script>
+	
+	<script>
+	
+	function SubmitData(){
+		
+		
+			var httpBU = createXMLHttpRequest();
+
+
+				function createXMLHttpRequest() {
+				  try { return new ActiveXObject("Msxml2.XMLHTTP"); } catch (e) {}
+				  try { return new ActiveXObject("Microsoft.XMLHTTP"); } catch (e) {}
+				  try { return new XMLHttpRequest(); } catch(e) {}
+				  alert("XMLHttpRequest not supported");
+				  return null;
+				}
+					
+						
+					
+				
+				var unid = localStorage.getItem("unid");
+				var params = localStorage.getItem(unid+"PresentCondition");
+				//alert("Parameters "+params);
+				
+				
+					var URL = "http://www.chardonlabs.com/iPadSales.nsf/PresentCondition?createDocument&"+params;
+				//alert(URL);
+				
+				
+			
+				httpBU.open("post", URL, true);
+				
+				//Add the photos from local storage
+					photo1 = localStorage.getItem(unid+"img1");
+					photo2 = localStorage.getItem(unid+"img2");
+					photo3 = localStorage.getItem(unid+"img3");
+					photo4 = localStorage.getItem(unid+"img4");
+				//var params = params +"&photo1="+photo1
+				var paramsPhotos = "&photo1="+photo1 +"&photo2="+photo2+"&photo3="+photo3+"&photo4="+photo4 ;
+				//alert(params);
+				
+				
+				
+			
+				//httpBU.send(params);
+				httpBU.send(paramsPhotos);
+				
+				//Second Photo
+				//var paramsPhotos2 = "&photo2="+photo2 ;
+				//httpBU.send(paramsPhotos2);
+				
+				
+				
+
+			
+					//clear out localStorage
+				try{
+				localStorage.setItem(unid+"img1", "");
+				localStorage.setItem(unid+"img2", "");
+				localStorage.setItem(unid+"img3", "");
+				localStorage.setItem(unid+"img4", "");
+				}
+				catch(e){
+				}
+				
+		
+		httpBU.onreadystatechange =   function()
+					{ 
+					if(httpBU.readyState  == 2)
+					{
+					//		$('body').append('<div id="progress"><img align="middle" src="img/downloading.gif">&nbsp;&nbsp;&nbsp;&nbsp;Data Sent</div>');
+					
+					}
+					
+					if(httpBU.readyState  == 3)
+					{
+						//	$('body').append('<div id="progress"><img align="middle" src="img/downloading.gif">&nbsp;&nbsp;&nbsp;&nbsp;Data Received - OK</div>');
+							$('#progress').remove();
+					}
+					
+						 if(httpBU.readyState  == 4)
+						 {
+									  if(httpBU.status  == 200) {
+								 //   	  $('body').append('<div id="progress"><img align="middle" src="img/downloading.gif">&nbsp;&nbsp;&nbsp;&nbsp;eReport Successfully Sent</div>');
+
+									  alert("Document Successfully sent to Chardon " );
+									
+								
+
+							/*
+								 var r=confirm("Remove from Device?");
+								if (r==true)
+									 {
+									  //removeReport(CustID, ListType);
+									  }
+									  else
+								  {
+								  alert("You pressed Cancel!");
+								  }
+							*/					
+								  
+								
+								  } 
+							  
+						
+							   //   alert("Received:"  + http.responseText); 
+							  else 
+								 $('#progress').remove();
+							 // alert("success"+ httpBU.status);
+						 
+							  if (httpBU.status == 0){
+							   alert("Report NOT SENT. Error Communicating with Server.  Please try again when you have a connection." );
+							 
+							
+							  }
+						 
+						 }
+					   
+					}; 
+		
+		
+		
+		}
+	
+
+			function onCancelClick( event ) {
+				clearForm();
+			}
+
+			function clearForm() {
+				$("#email").val( "" );
+				sigCapture.clear();
+				$("#feedback").html( "" );
+			}
+			
+			
+			//function requestSuccess( data, textStatus, jqXHR ) {
+				//clearForm();
+				//$("#feedback").html( "Thank you." );
+			//	alert(textStatus);
+		//	}
+
+			function requestError( jqXHR, textStatus, errorThrown ) {
+				//$("#feedback").html( "Error: " + errorThrown );
+				alert(textStatus);
+			}
+
+			function verifyEmail() {
+				var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+				return re.test( $("#email").val() );
+			}
+	</script>
+	
+</head>
+
+<body>
+<form id="PresentCondition">
+	<input id="Salesman" name="Salesman" style="display:none">
+
+	<div data-role="page">
+    
+       
+			<div data-role="header">
+			<a href="index.html" data-ajax="false" data-icon="home">Home</a>
+			<h1>Present Condition Report</h1>
+			<a href="#" data-icon="check" data-theme="b" onClick="saveValues();alert('Draft Saved...');">Save Draft</a>
+        </div>
+		
+    
+        <div data-role="content">
+				
+	
+		<input name="unid" id="unid" type="Text" style="display:none"></input>	
+        <h2>Service Location:</td><td><input id="ServiceLocation" name="ServiceLocation"></input></h2>
+					<h3>Key 1=None  2=Slight  3=Moderate 4=Considerable  5=Extreme</h3>
+					<h3>Enter the number which best describes the present condition.</h3>
+					
+					<table data-role="table"  data-mode="reflow" width="100%" border="1" cellpadding="0" cellspacing="0" class="detail" id="example"	style="border: none">
+					<thead>
+					
+						
+					
+						<tr>
+						<td colspan="6">
+						<h2>Cooling Towers</h2>
+						</td>
+						
+							
+							
+						</tr>
+					
+					</thead>
+					<tbody>
+					
+					<tr>
+					<!-- insert here -->
+					<th width="20%">
+								Name
+							</th>
+						
+							<th width="12%" >
+								Corrosion Problems
+							</th>
+							<th width="20%" rowspan="0">
+								Deposit Problems
+							</th>
+						
+							<th width="20%" rowspan="0">
+								Mud Problems
+							</th>
+							<th width="20%"  rowspan="0">
+								Biological Problems
+							</th>
+						
+					</tr>	
+					
+					
+					
+					
+					
+				
+			</tbody>
+			</table>		
+			
+			<fieldset class="ui-grid-b">
+					<div class="ui-block-a"><input type="button" id="btnAdd" value="Add row" /></div>
+					<div class="ui-block-b"><input type="button" id="btnDelete" value="Remove Row" /></div>	  
+					<div style="display:none" class="ui-block-c"><input type="button" id="btnCopy" value="Copy Row" /></div>	   	
+				</fieldset>
+				
+				</br>
+		
+			
+			<label><input type="checkbox" name="ReferToProposal" id="ReferToProposal"  onclick="saveValues();" /> Refer to Proposal </label>
+			Comments:<textarea id="PCR_Cooling_Comments" name="PCR_Cooling_Comments"  class="Schedule11-TextArea" onblur="saveValues();" ></textarea>
+								
+		</br>
+		
+		<img onclick="processPic1();"	style="width: 100px; height: 100px" id="img1" src="img/photo.png" /> 
+
+			<input type="text" id="photo1" name="photo1" value=""  style="display:none"></input>
+		</br>
+		</br>
+
+				
+			
+				
+				
+				
+						<table data-role="table"  data-mode="reflow" width="100%" border="1" cellpadding="0" cellspacing="0" class="detail" id="example2" style="border: none">
+					<thead>
+					
+						
+					
+						<tr>
+						<td colspan="6">
+						<h2>Chiller-Condenser Tubes</h2>
+						</td>
+						
+							
+							
+						</tr>
+					
+					</thead>
+					<tbody>
+					
+					<tr>
+					<!-- insert here -->
+					<th width="20%">
+								Name
+							</th>
+						
+							<th width="12%" >
+								Scale Problems
+							</th>
+							<th width="20%" rowspan="0">
+								Fouling Problems
+							</th>
+						
+							<th width="20%" rowspan="0">
+								Corrosion Problems
+							</th>
+							<th width="20%"  rowspan="0">
+								
+							</th>
+						
+					</tr>	
+					
+							
+					
+					</tbody>
+				</table>
+				<label>
+				</label>
+				
+			
+				<fieldset class="ui-grid-b">
+					<div class="ui-block-a"><input type="button" id="btnAdd2" value="Add row" /></div>
+					<div class="ui-block-b"><input type="button" id="btnDelete2" value="Remove Row" /></div>	  
+					<div style="display:none" class="ui-block-c"><input type="button" id="btnCopy2" value="Copy Row" /></div>	   	
+				</fieldset>
+				
+				</br>
+					<label><input type="checkbox" name="ReferToProposalChiller" id="ReferToProposal2Chiller"  onclick="saveValues();" /> Refer to Proposal </label>
+				Comments:<textarea id="PCR_Chiller_Comments" name="PCR_Chiller_Comments"  class="Schedule11-TextArea" onblur="saveValues();" ></textarea>
+				
+				</br>	
+				<img onclick="processPic2();"   style="width: 100px; height: 100px" id="img2" src="img/photo.png" /></br>
+				
+				</br>
+					<input type="text" id="photo2" name="photo2" value=""  style="display:none"></input>
+				</br>
+				
+			
+			
+				<table data-role="table"  data-mode="reflow" width="100%" border="1" cellpadding="0" cellspacing="0" class="detail" id="example3"	style="border: none">
+					<thead>
+					
+						
+					
+						<tr>
+						<td colspan="6">
+						<h2>Closed Loop Systems</h2>
+						</td>
+						
+							
+							
+						</tr>
+					
+					</thead>
+					<tbody>
+					
+					<tr>
+					<!-- insert here -->
+					<th width="20%">
+								Name
+							</th>
+						
+							<th width="12%" >
+								Iron Problems
+							</th>
+							<th width="20%" rowspan="0">
+								Mud Problems
+							</th>
+						
+							<th width="20%" rowspan="0">
+								Biological Problems
+							</th>
+							<th width="20%"  rowspan="0">
+								
+							</th>
+						
+					</tr>	
+					
+							
+					
+					</tbody>
+				</table>
+				<label>
+				</label>
+				
+			
+				<fieldset class="ui-grid-b">
+					<div class="ui-block-a"><input type="button" id="btnAdd3" value="Add row" /></div>
+					<div class="ui-block-b"><input type="button" id="btnDelete3" value="Remove Row" /></div>	  
+					<div style="display:none" class="ui-block-c"><input type="button" id="btnCopy3" value="Copy Row" /></div>	   	
+				</fieldset>
+				
+				</br>
+					<label><input type="checkbox" name="ReferToProposalClosedLoop" id="ReferToProposal2ClosedLoop"  onclick="saveValues();" /> Refer to Proposal </label>
+				Comments:<textarea id="PCR_ClosedLoop_Comments" name="PCR_ClosedLoop_Comments"  class="Schedule11-TextArea" onblur="saveValues();" ></textarea>
+				
+				</br>	
+				<img onclick="processPic3();"   style="width: 100px; height: 100px" id="img3" src="img/photo.png" />
+				</br>
+				<input type="text" id="photo3" name="photo3"  value=""  style="display:none"></input>
+				</br>	
+			
+     
+	 		
+				<table data-role="table"  data-mode="reflow" width="100%" border="1" cellpadding="0" cellspacing="0" class="detail" id="example4"	style="border: none">
+					<thead>
+					
+						
+					
+						<tr>
+						<td colspan="6">
+						<h2>Steam Boilers</h2>
+						</td>
+						
+							
+							
+						</tr>
+					
+					</thead>
+					<tbody>
+					
+					<tr>
+					<!-- insert here -->
+					<th width="20%">
+								Name
+							</th>
+						
+							<th width="12%" >
+								Scale Problems
+							</th>
+							<th width="20%" rowspan="0">
+								Corrosion Problems
+							</th>
+						
+							<th width="20%" rowspan="0">
+								Sludge Problems
+							</th>
+							<th width="20%"  rowspan="0">
+								
+							</th>
+						
+					</tr>	
+					
+							
+					
+					</tbody>
+				</table>
+				<label>
+				</label>
+				
+			
+				<fieldset class="ui-grid-b">
+					<div class="ui-block-a"><input type="button" id="btnAdd4" value="Add row" /></div>
+					<div class="ui-block-b"><input type="button" id="btnDelete4" value="Remove Row" /></div>	  
+					<div style="display:none" class="ui-block-c"><input type="button" id="btnCopy4" value="Copy Row" /></div>	   	
+				</fieldset>
+					</br>
+					<label><input type="checkbox" name="ReferToProposalSteam" id="ReferToProposalSteam"  onclick="saveValues();" /> Refer to Proposal </label>
+				Comments:<textarea id="PCR_Steam_Comments" name="PCR_Steam_Comments"  class="Schedule11-TextArea" onblur="saveValues();" ></textarea>
+				
+				</br>	
+				<img onclick="processPic4();"   style="width: 100px; height: 100px" id="img4" src="img/photo.png" /></br>
+				</br>
+					<input type="text" id="photo4" name="photo4" value=""  style="display:none"></input>
+				</br>		
+				
+				<div id="Status"> Status: </div>
+    <a href= "#" rel="external" data-role="button" data-ajax="false"  data-theme ="e" data-icon="refresh"  onclick="alert('Connecting to Server ....'); SendAllData();" >Save and Send All Pages</a>
+     
+			<div data-role="header">
+				<a href="Survey.html" data-role="button" data-ajax="false" onclick="" data-inline="true"  data-icon="arrow-l" >Previous</a>
+			   <h4>Present Condition</h4>
+			 	<a href= "index.html" rel="external" data-role="button" data-ajax="false" onclick="" data-inline="true"  data-icon="arrow-r" >Next</a>
+			 </div>
+		
+		
+		
+		</div> <!-- End Page -->
+	</form>
+</body>
+<script>
+		<!-- populate the form from previously saved localStorage cookie called form17 -->
+		  var unid = localStorage.getItem("unid");
+		  
+		 
+		  
+		  
+		 // alert(localStorage.getItem(unid+"form17"));
+	  $("#PresentCondition").deserialize(localStorage.getItem(unid+"PresentCondition"));
+	  
+	  //Table One
+						var unid = localStorage.getItem("unid");
+						 var tableOneRowCountRestore= localStorage.getItem("tableOneRowCount"+unid);
+						  //alert("counter restore to  "+tableOneRowCountRestore);
+							
+							
+								if(tableOneRowCountRestore==null){
+								$("#btnAdd").click(); 
+								}
+							
+							for (var i=0;i<tableOneRowCountRestore;i++)
+								{ 
+								
+									$("#btnAdd").click(); 
+														
+								}
+						//Table Two
+						var unid = localStorage.getItem("unid");
+						 var tableTwoRowCountRestore= localStorage.getItem("tableTwoRowCount"+unid);
+						 //alert("counter restore to  "+tableTwoRowCountRestore);
+							
+							if(tableTwoRowCountRestore==null){
+								$("#btnAdd2").click(); 
+							}
+							
+							for (var j=0;j<tableTwoRowCountRestore;j++)
+								{ 
+									$("#btnAdd2").click(); 
+														
+								}	
+						//Table Three
+						var unid = localStorage.getItem("unid");
+						 var tableThreeRowCountRestore= localStorage.getItem("tableThreeRowCount"+unid);
+						  //alert("counter restore to  "+tableThreeRowCountRestore);
+							
+								if(tableThreeRowCountRestore==null){
+								$("#btnAdd3").click(); 
+								}
+							
+							for (var k=0;k<tableThreeRowCountRestore;k++)
+								{ 
+									$("#btnAdd3").click(); 
+														
+								}		
+						//Table Four
+						var unid = localStorage.getItem("unid");
+						 var tableFourRowCountRestore= localStorage.getItem("tableFourRowCount"+unid);
+						  //alert("counter restore to  "+tableFourRowCountRestore);
+						
+								if(tableFourRowCountRestore==null){
+								$("#btnAdd4").click(); 
+								}
+						
+							for (var m=0;m<tableFourRowCountRestore;m++)
+								{ 
+									$("#btnAdd4").click(); 
+														
+								}			
+															
+							
+							
+							
+						  var unid = localStorage.getItem("unid");
+						  //alert(unid);
+		  	             $("#PresentCondition").deserialize(localStorage.getItem(unid+"PresentCondition"));
+
+	  
+</script>
+</html>

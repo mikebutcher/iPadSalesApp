@@ -1,0 +1,1114 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Contract Calculation Sheet</title>
+    <link rel="stylesheet" href="jq/jquery.mobile-1.0.min.css" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <script src="jq/jquery-1.7.js"></script>
+    <script src="jq/jquery.mobile-1.1.js"></script>
+	<script src="js/jquery.deserialize.js"></script>
+	
+	 <script src="js/modernizr.custom.34982.js"></script> 
+	<script src="js/signatureCapture.js"></script>
+	
+	<script>
+	// JavaScript Document
+		
+		
+		
+			$(document).ready(function(e) {
+				
+				var unid = localStorage.getItem("unid");
+				document.getElementById('refNumber').innerHTML = unid;
+		//show the canvas
+	
+		
+				// JavaScript Document
+				var sigCapture = null;
+				var sigCapture2 = null;
+				
+					var DAunid = localStorage.getItem("unid");
+					//Save the unid to a field
+					//alert(unid);
+					//document.getElementById('unid').value = DAunid;
+					$('#unid').val(DAunid);
+				
+					sigCapture = new SignatureCapture( "simple" );
+			
+					sigCapture2 = new SignatureCapture( "simple2" );
+					
+					//$("#submit").click( onSubmitClick );
+					//$("#cancel").click( onCancelClick );
+			
+			//resetCanvas();
+			$('#sigImageHolder').show();	
+			$('#sigImageHolder2').show();	
+		});
+			
+	
+	  function generateUNID(){
+  
+			localUNID = localStorage.getItem("unid")
+			 
+			//alert(localUNID);
+			 if (localUNID==null || localUNID=='' ){
+			   
+				//6-7-12  Generate a unique number for each report 
+				var unid = Math.floor(Math.random()*111111);
+				//document.forms[0].DaUnid.value = unid;
+				console.log("unid: " + unid);
+				var Status = "Draft";
+				//alert(timestamp);
+
+				console.log("Creating Proposal Stub: "+unid);
+				
+				//Save the Key for the Proposal
+				localStorage.setItem("unid", unid);
+				
+				document.getElementById('unid').innerHTML = unid;
+				
+		
+				//alert("MyProposal"+unid);
+				document.getElementById('unid').innerHTML = unid;
+				//refreshPage();
+				}
+ }
+ 
+ 
+	
+	</script>
+	
+	<script>
+	
+	
+	function checkShipName(){
+	
+	if($('#SHIPNAME').val()=="") {
+			alert("Please enter a Shipping Company Name");
+			return false;
+			}
+			else
+			{
+			return true;
+			}
+	}
+	
+	 function saveMyProposal(){
+  
+	
+			localMyProposals = localStorage.getItem("MyProposals") 
+			 
+			  if (localMyProposals==null){
+			  localStorage.setItem("MyProposals","<option value='Please Choose'>Please Choose ...</option>")
+			  }
+			 
+			 
+			 
+			
+			unid = localStorage.getItem("unid");
+			//alert("unid: "  + unid)
+			var d = new Date();
+			var strDate = (d.getMonth()+1) +"/" + d.getDate() + "/" + d.getFullYear() ;
+			//alert(strDate);
+			
+			/*
+			if($('#SHIPNAME').val()=="") {
+			alert("Please enter a Shipping Company Name");
+			return;
+			}
+			*/
+			
+			checkShipName();
+			
+			localStorage.setItem(unid+"Status", "DRAFT");
+			var DocStatus = localStorage.getItem(unid+"Status");
+			//alert(DocStatus);
+				
+			//var key = unid +"~"+ strDate + 	$('#SHIPNAME').val();
+			var key = "<option value='"+unid+"'>"+strDate+" " + $('#SHIPNAME').val()+" - "+DocStatus+"</option>";
+			console.log(key);
+		
+			var unidList = localStorage.getItem("MyProposals").split();
+			
+			//alert("unidList: " +unidList);
+		
+			var txt = new String(unidList);
+			//var search = txt.search(unid);
+			var search = txt.search(key);
+			
+			//alert(search);
+			
+			if (search <= -1 ){
+			alert('Saving New Draft to My Proposals');
+			//alert("unidList" + unidList);
+			unidList.push(key); //append unid to the list
+			localStorage.setItem("MyProposals", unidList);
+			console.log('adding to list: ' + key);
+			}
+			else{
+				alert('Draft Saved..');
+			}
+
+			
+				
+			
+	} //end SaveMyProposal
+	
+	
+	
+		 function saveValues() {
+	// ALERT !! -- Put the form name in for the Variable name below
+			var str = $('#ContractCalc').serialize();
+			console.log("Contract Calc: "+ str)
+			//save to localStorage
+			
+// ALERT !! -- Put the form name in for the Variable name below
+			var unid = localStorage.getItem("unid");
+			localStorage.setItem(unid+'ContractCalc', str);
+			localStorage.setItem('ContractCalc', str);
+			
+			//alert($('#unid').val(DAunid);
+			//alert(str);
+			//add to My Proposals Cookie
+			var d = new Date();
+			var strDate = d.getDate() +"/"+ (d.getMonth()+1) + "/" + d.getFullYear() ;
+			
+			//MyProposal
+			//alert(unid + '~'+ $('#SHIPNAME').val() + "~" + $('#SHIPNAME').val() );
+			
+			//var allProposals = allProposals +","+localStorage.getItem('MyProposals');
+			//alert(allProposals);
+			
+			//localStorage.setItem('MyProposals', allProposals + "," +unid + '~'+ $('#SHIPNAME').val() +"~"  + strDate  + '~'+unid);
+    }
+	
+	function SubmitData(){
+		
+		
+			var httpBU = createXMLHttpRequest();
+
+
+				function createXMLHttpRequest() {
+				  try { return new ActiveXObject("Msxml2.XMLHTTP"); } catch (e) {}
+				  try { return new ActiveXObject("Microsoft.XMLHTTP"); } catch (e) {}
+				  try { return new XMLHttpRequest(); } catch(e) {}
+				  alert("XMLHttpRequest not supported");
+				  return null;
+				}
+					
+						
+					
+				
+				var unid = localStorage.getItem("unid");
+				var params = localStorage.getItem(unid+"ContractCalc");
+				alert("Parameters "+params);
+				
+				
+					var URL = "http://www.chardonlabs.com/iPadSales.nsf/ContractCalcSheet?createDocument&"+params;
+				//alert(URL);
+				
+				
+			
+				httpBU.open("post", URL, true);
+				
+				var unid = localStorage.getItem("unid");
+				var params = localStorage.getItem(unid+"ContractCalc");
+				//alert("Parameters "+params);
+			
+					
+			
+					var rawSigData =  localStorage.getItem(unid+'ContractCalc_Signature1');
+					var rawSigData2 =  localStorage.getItem(unid+'ContractCalc_Signature2');
+					
+					//alert("rawSigData"+ rawSigData);
+					
+					var paramsSignature = "&"+params+"&RawSignature="+rawSigData+"&RawSignature2="+rawSigData2 ;
+					
+					alert(paramsSignature);
+			
+			
+				httpBU.send(paramsSignature);
+				
+				
+				
+					
+				
+						
+				
+
+			
+					//clear out localStorage
+			
+				
+		
+		httpBU.onreadystatechange =   function()
+					{ 
+					if(httpBU.readyState  == 2)
+					{
+					//		$('body').append('<div id="progress"><img align="middle" src="img/downloading.gif">&nbsp;&nbsp;&nbsp;&nbsp;Data Sent</div>');
+					
+					}
+					
+					if(httpBU.readyState  == 3)
+					{
+						//	$('body').append('<div id="progress"><img align="middle" src="img/downloading.gif">&nbsp;&nbsp;&nbsp;&nbsp;Data Received - OK</div>');
+							$('#progress').remove();
+					}
+					
+						 if(httpBU.readyState  == 4)
+						 {
+									  if(httpBU.status  == 200) {
+								 //   	  $('body').append('<div id="progress"><img align="middle" src="img/downloading.gif">&nbsp;&nbsp;&nbsp;&nbsp;eReport Successfully Sent</div>');
+
+									  alert("Document Successfully sent to Chardon " );
+									
+								
+
+							/*
+								 var r=confirm("Remove from Device?");
+								if (r==true)
+									 {
+									  //removeReport(CustID, ListType);
+									  }
+									  else
+								  {
+								  alert("You pressed Cancel!");
+								  }
+							*/					
+								  
+								
+								  } 
+							  
+						
+							   //   alert("Received:"  + http.responseText); 
+							  else 
+								 $('#progress').remove();
+							 // alert("success"+ httpBU.status);
+						 
+							  if (httpBU.status == 0){
+							   alert("Report NOT SENT. Error Communicating with Server.  Please try again when you have a connection." );
+							 
+							
+							  }
+						 
+						 }
+					   
+					}; 
+		
+		
+		
+		}
+	
+		
+	
+	
+	
+	
+
+
+			function onCancelClick( event ) {
+				clearForm();
+			}
+
+			function clearForm() {
+				$("#email").val( "" );
+				sigCapture.clear();
+				$("#feedback").html( "" );
+			}
+
+			function requestSuccess( data, textStatus, jqXHR ) {
+				//clearForm();
+				alert(textStatus);
+			}
+
+			function requestError( jqXHR, textStatus, errorThrown ) {
+				//$("#feedback").html( "Error: " + errorThrown );
+				alert(textStatus);
+			}
+
+	
+			
+			
+			function OnLoad(){
+					//alert('onLoad');
+					tech = localStorage.getItem("Salesman");
+					
+					$('#Salesman').val(localStorage.getItem("Salesman"));
+					
+					var unid = localStorage.getItem("unid");
+				
+					//alert(typeof(unid));
+					
+					if (unid == null || unid =='') {
+						generateUNID();
+					}
+					
+					//Save the unid to a field
+					$('#unid').val(unid);
+					
+					console.log(tech + " Started a Front Page Form "+unid);
+					
+					document.getElementById('refNumber').innerHTML = unid;
+					//alert("unid: "+unid);
+					
+					//ReDraw the Signature 1
+			
+						
+					var unid = localStorage.getItem("unid");
+					
+											
+								
+					//var rawSigData =  localStorage.getItem(unid+'ContractCalc_Signature1');
+					//var rawSigData2 =  localStorage.getItem(unid+'ContractCalc_Signature2');
+					
+						//var myImage = document.getElementById("RawSignature");
+						
+						var myImage = localStorage.getItem(unid+'ContractCalc_Signature1');
+						
+						//alert("my Image" +myImage);
+						
+					
+					
+						//alert(myImage);
+						
+						//alert(typeof(myImage));
+						
+					
+						try{
+								if (myImage.length > 100){
+									$('#simple').hide();
+									$('#sigImageHolder').show();	
+								} else
+									{
+									$('#simple').show();
+									$('#sigImageHolder').hide();	
+								}
+						} catch(e){}
+						
+						var imageElement = document.getElementById("signatureimage");   // Get the img object.
+				
+						
+						imageElement.src = myImage;   
+					
+					
+						//ReDraw the Signature 2			
+						
+						var myImage2 = localStorage.getItem(unid+'ContractCalc_Signature2');
+						//var myImage2 = document.getElementById("RawSignature2");
+						//alert(myImage2);
+						//alert(myImage2.length);
+						//alert(typeof(myImage));
+						
+						
+						
+						try{
+								if (myImage2.length > 100){
+									$('#simple2').hide();
+									$('#sigImageHolder2').show();	
+								} else
+									{
+									$('#simple2').show();
+									$('#sigImageHolder2').hide();	
+								}
+						} catch(e){}
+						
+						
+						var imageElement2 = document.getElementById("signatureimage2");   // Get the img object2.
+						imageElement2.src = myImage2;   
+						
+					
+					
+					
+			}
+			
+			
+			
+		
+		
+		function refreshPage()
+{
+					jQuery.mobile.changePage(window.location.href, {
+						allowSamePageTransition: true,
+						transition: 'none',
+						reloadPage: true
+					});
+				}
+		
+		function copyInfo(){
+		//alert('copy');
+			$("#SHIPNAME").val($("#BILLNAME").val());
+			$("#SHIPADDR1").val($("#BILLADDR1").val());
+			$("#SHIPADDR2").val($("#BILLADDR2").val());
+			$("#SHIPCITY").val($("#BILLCITY").val());
+			$("#SHIPSTATE").val($("#BILLSTATE").val());
+			$("#SHIPSTATE").val($("#BILLSTATE").val());
+			$("#SHIPZIP").val($("#BILLZIP").val());
+			$("#SHIPPHONE").val($("#BILLPhone").val());
+			$("#SHIPEMAIL").val($("#BILLEMAIL").val());
+		
+		}
+		
+	</script>
+	
+
+	
+</head>
+
+
+
+<body onload="OnLoad();">
+
+<form id="ContractCalc">
+
+<input id="Salesman" name="Salesman" style="display:none">
+
+	<div data-role="page">
+    
+        <div data-role="header">
+		
+<a href="index.html" data-ajax="false" data-icon="home">Home</a>
+            <h1>Contract Calculation Sheet</h1>
+			<center>	Ref # <text id='refNumber'></text> </center>
+			<a href="#" data-icon="check" data-theme="b" onclick="saveMyProposal();">Save Draft</a>
+
+        </div>
+    
+        <div data-role="content">
+				
+	
+		
+           <ul id="BillingAddress" data-role="listview" data-inset="true">
+				<h3>Billing Address</h3>
+						<input name="unid" id="unid" type="Text" style="display:none" ></input>
+					<table border="0" cellspacing="0" cellpadding="0">
+						
+							<tr><td><b>Company:</b></td><td ><input name="BILLNAME" id="BILLNAME" value="" onblur="saveValues(); "></td></tr>
+							<tr><td><b>Contact:</b></td><td ><input name="BILLADDR1" id="BILLADDR1" value="" onblur="saveValues(); localStorage.setItem(unid+this.name, this.value );"></td></tr>
+							<tr><td><b>Address:</b></td><td ><input name="BILLADDR2" value=""  id="BILLADDR2" onblur="saveValues(); localStorage.setItem(unid+this.name, this.value );"></td></tr>
+							<tr><td><b>Bill City:</b></td><td ><input name="BILLCITY" value="" id="BILLCITY"  onblur="saveValues(); localStorage.setItem(unid+this.name, this.value );"></td></tr>
+							<tr><td><b>Bill State:</b></td><td ><input name="BILLSTATE" value="" id="BILLSTATE" onblur="saveValues(); localStorage.setItem(unid+this.name, this.value );" ></td></tr>
+							<tr><td><b>Bill Zip:</b></td><td ><input name="BILLZIP" value="" id="BILLZIP" onblur="saveValues();  localStorage.setItem(unid+this.name, this.value );" ></td></tr>
+							<tr><td><b>Bill Phone:</b></td><td ><input name="BILLPhone" value=""  id="BILLPhone" onblur="saveValues(); localStorage.setItem(unid+this.name, this.value ); "></td></tr>
+							<tr><td><b>Bill Email:</b></td><td ><input name="BILLEMAIL" value=""  id="BILLEMAIL" onblur="saveValues(); localStorage.setItem(unid+this.name, this.value ); "></td></tr>
+			
+					</table>	
+					
+
+
+
+					
+				</ul>	<!--End Billing -->
+				
+				
+				<ul id="ShippingAddress" data-role="listview" data-inset="true">
+				<h3><a href="#" id="copy" onClick="copyInfo(); ">Shipping Address</a></h3>
+					
+					<table border="0" cellspacing="0" cellpadding="0">
+							
+							<tr><td><b>Company:</b></td><td ><input name="SHIPNAME"  id="SHIPNAME" value="" onblur="saveValues(); localStorage.setItem(unid+this.name, this.value );"></td></tr>
+							<tr><td><b>Contact:</b></td><td ><input name="SHIPADDR1"  id="SHIPADDR1" value="" onblur="saveValues(); localStorage.setItem(unid+this.name, this.value );" ></td></tr>
+							<tr><td><b>Address:</b></td><td ><input name="SHIPADDR2" id="SHIPADDR2" value="" onblur="saveValues(); localStorage.setItem(unid+this.name, this.value );" ></td></tr>
+							<tr><td><b>Ship City:</b></td><td ><input name="SHIPCITY" id="SHIPCITY" value="" onblur="saveValues(); localStorage.setItem(unid+this.name, this.value );"></td></tr>
+							<tr><td><b>Ship State:</b></td><td ><input name="SHIPSTATE" id="SHIPSTATE" value="" onblur="saveValues(); localStorage.setItem(unid+this.name, this.value );"></td></tr>
+							<tr><td><b>Ship Zip:</b></td><td ><input name="SHIPZIP" id="SHIPZIP" value="" onblur="saveValues(); localStorage.setItem(unid+this.name, this.value );"></td></tr>
+							<tr><td><b>Ship Phone:</b></td><td ><input name="SHIPPHONE" id="SHIPPHONE" value="" onblur="saveValues(); localStorage.setItem(unid+this.name, this.value );"></td></tr>
+							<tr><td><b>Ship Email:</b></td><td ><input name="SHIPEMAIL" value=""  id="SHIPEMAIL" onblur="saveValues(); localStorage.setItem(unid+this.name, this.value ); "></td></tr>
+			
+							</table>		
+				</ul>	<!--End Shipping -->
+				
+				
+				<ul id="AgreementDuration" data-role="listview" data-inset="true">
+				<h3>Duration of Agreement:</h3>
+					This master service agreement shall become effective on and shall continue on a month to month basis. Please read all pages.
+				Effective Date:<input type = "date" id="EffectiveDate"  name="EffectiveDate" value="" onblur="saveValues();">
+				<p>
+			
+			<input type="text" id="RawSignature" name="RawSignature" value="" style="display:none">
+			
+			
+			 </ul>
+			 
+			 
+			
+			 <table>
+			
+			 
+					 <tr><td colspan=2>
+					 <div id="sigImageHolder" width="750" height="250"  style="display:none">
+						<img id="signatureimage"  />	
+					 </div>
+					 </tr>
+							<tr><td colspan=2>
+								<h3>Customer Signature:</h3>
+							</td></tr>
+					 <tr>
+					 
+					 <td colspan=2>
+							<canvas id="simple" height="250" width="750" style="-webkit-border-radius: 10px; border-width: 2px; border-style: dashed; border-color: grey;"  "></canvas>
+						
+					</td>			
+					</tr>
+			</table>			
+							<input data-role="none" type="button"  value="Done" onClick="onOrientationChange(); saveValues();"/>
+							<input data-role="none" type="button" id="sigReset" value="Reset" onClick="resetCanvas();"/>
+			
+		
+					
+					
+				</p>	
+					<table border="0" cellspacing="0" cellpadding="0">
+							
+							<tr><td><b>Name:</b></td><td ><input name="PrintName"  id="PrintName" value="" onblur="saveValues();"></td></tr>
+							<tr><td><b>Title:</b></td><td ><input name="Title" id="Title" value="" onblur="saveValues();" ></td></tr>
+							<tr><td><b>Email:</b></td><td ><input name="Email" id="Email" value="" onblur="saveValues();"></td></tr>
+							<tr><td><b>Phone:</b></td><td ><input type = "text" id="ContactPhone"  name="ContactPhone" value="" onblur="saveValues();"></td></tr>
+							<tr><a href="#" data-icon="check" data-theme="b" onClick="  $('#Table-Billto-2').toggle();">Add Contacts</a></tr>
+					</table>	
+					<table id = "Table-Billto-2" border="0" cellspacing="0" cellpadding="0" style="display:none">
+							
+							<tr><td><b>Name</b></td><td ><input id="BILLNAME_2" name="BILLNAME_2" value="" onblur="saveValues();"></td></tr>
+							<tr><td><b>Title</b></td><td ><input id="BILLTitle_2"  name="BILLTitle_2" value="" onblur="saveValues();"></td></tr>
+							<tr><td><b>Email</b></td><td ><input id="BILLEmail_2" name="BILLEmail_2" value="" onblur="saveValues();"></td></tr>
+							<tr><td><b>Phone:</b></td><td ><input type = "text" id="ContactPhone2"  name="ContactPhone2" value="" onblur="saveValues();"></td></tr>
+							<tr colspan="2">&nbsp;</tr>
+							<tr><td><b>Name</b></td><td ><input id="BILLNAME_3" name="BILLNAME_3" value="" onblur="saveValues();"></td></tr>
+							<tr><td><b>Title</b></td><td ><input id="BILLTitle_3" name="BILLTitle_3" value="" onblur="saveValues();"></td></tr>
+							<tr><td><b>Email</b></td><td ><input id="BILLEmail_3" name="BILLEmail_3" value="" onblur="saveValues();"></td></tr>
+							<tr><td><b>Phone:</b></td><td ><input type = "text" id="ContactPhone3"  name="ContactPhone3" value="" onblur="saveValues();"></td></tr>
+					</table>
+					
+						
+					
+					<!--End AgreementDuration -->
+			
+			
+				<ul id="ServiceSchedule" data-role="listview" data-inset="true">
+				<h3>Service Schedules Included in this Agreement</h3>
+				<input type="checkbox" name="checkbox_ss_1" id="checkbox_ss_1" class="custom" onclick="saveValues();"/><label for="checkbox_ss_1">Cooling Tower Comfort Process</br>Schedule 12</label>		
+				<input type="checkbox" name="checkbox_ss_2" id="checkbox_ss_2" class="custom" onclick="saveValues();"/><label for="checkbox_ss_2">Boiler, Return Line,Process & Comfort</br>Schedule 13</label>	
+				<input type="checkbox" name="checkbox_ss_3" id="checkbox_ss_3" class="custom" onclick="saveValues();"/><label for="checkbox_ss_3">Closed Systems and Hot Water Boilers</br>Schedule 14</label>	
+				<input type="checkbox" name="checkbox_ss_4" id="checkbox_ss_4" class="custom" onclick="saveValues();"/><label for="checkbox_ss_4">Guarantee Policy</br>Schedule 19</label>	
+				<input type="checkbox" name="checkbox_ss_5" id="checkbox_ss_5" class="custom" onclick="saveValues();"/><label for="checkbox_ss_5">Date Amendment effective<span><br></label><center><input onclick="saveValues();" name="AMDEffectiveDate"   id="AMDEffectiveDate" type="date" value="" ></center>	
+
+				</ul>	<!--End ServiceSchedule -->
+
+				<ul id="PaymentOptions" data-role="controlgroup" data-inset="true" >
+				<h2>Payment Options</h2>
+				<fieldset data-role="controlgroup">
+					
+						<input type="radio" name="payment_choice" id="payment_choice_1" value="Seasonal" checked="checked" onclick="saveValues();" />
+						<label for="payment_choice_1">Seasonal Plan (Billed service months only)</label>
+
+						<input type="radio" name="payment_choice" id="payment_choice_2" value="Budget" onclick="saveValues();" />
+						<label for="payment_choice_2">Budget Plan (12 monthly payments)</label>
+
+						<input type="radio" name="payment_choice" id="payment_choice_3" value="Quarterly" onclick="saveValues();" />
+						<label for="payment_choice_3">Quarterly</label>
+
+						<input type="radio" name="payment_choice" id="payment_choice_4" value="Annual" onclick="saveValues();" />
+						<label for="payment_choice_4">Annual</label>
+				</fieldset>
+								
+			
+				</ul>	<!--End PaymentOptions -->
+		
+			
+			
+			
+			
+			
+	
+					
+			</ul>	<!--End ChardonTable -->
+          </br>
+		  
+		  <input type="text" id="RawSignature2" name="RawSignature2" value="" style="display:none">
+		  
+						<h3>Chardon Laborarories Inc</h3>
+							
+							<table border="0" cellspacing="0" cellpadding="0">
+									
+									<tr><td colspan="2"><b>Name</b><input id="ChardonApprovalName" name="ChardonApprovalName" value="" onblur="saveValues();"></td></tr>
+									<tr><td>
+									<div id="sigImageHolder2" width="550" height="250"  style="display:none">
+										<img id="signatureimage2"  />	
+									 </div>
+									</td></tr>
+									
+									<tr><td><b>Signature</b></td>
+									<td colspan="2">
+												<canvas id="simple2" height="250" width="550" style="-webkit-border-radius: 10px; border-width: 2px; border-style: dashed; border-color: grey;"  "></canvas>
+							<br>
+						
+						
+							<input data-role="none" type="button" id="sigReset" value="Done" onClick="onOrientationChange2(); saveValues();"/>
+						   	<input data-role="none" type="button" id="sigReset" value="Reset" onClick="resetCanvas2();"/>
+									</td>
+									<td>&nbsp;</td>
+									</tr>
+									<tr><td><b>Title</b><input name="ChardApprTitle" id="ChardApprTitle" value="" onblur="saveValues();"></td><td >Date:<input type = "date" name="ChardonApprovalDate" value="" onblur="saveValues();"  ></td></tr>
+									<tr><td><b>Approval</b><input name="ChardonAppApp" id="ChardonAppApp" value="" onblur="saveValues();" ></td></td><td >Date:<input type = "date" name="FinalApproveDate" value="" onblur="saveValues();"  ></td></tr>
+								
+							</table>	
+		  
+		  
+		  
+		  
+		  <table cellpadding=5 cellspacing=0 border ="1" class="t3">
+        
+ 
+            <tr>
+              <td colspan=15 class="tr24 td109"><p class="p11 ft19">Scope of Costs and Scheduled Service Visits:</p></td>
+           
+          
+            </tr>
+            <tr>
+               <td colspan=3  class="tr11 td75"><p class="p11 ft6">&nbsp;</p></td>
+             
+              <td colspan=5 class="tr0 td112"><p class="p39 ft5">Check Applicable Schedules</p></td>
+              <td class="tr0 td113"><p class="p11 ft6">&nbsp;</p></td>
+              <td rowspan=1 class="tr25 td114"><p class="p40 ft5">Number of</p></td>
+              <td class="tr0 td115"><p class="p11 ft6">&nbsp;</p></td>
+			    <td colspan=3 class="tr0 td117"><p class="p41 ft16">Invoice Amount</p></td>
+              <td class="tr0 td116"><p class="p11 ft6">&nbsp;</p></td>
+             
+            
+            </tr>
+   
+            <tr>
+              <td colspan=3  class="tr11 td75"><p class="p11 ft6">&nbsp;</p></td>
+             
+              <td colspan=2 class="tr11 td94"><p class="p42 ft5">12</p></td>
+              <td class="tr11 td94"><p class="p42 ft5">13</p></td>
+              <td class="tr11 td94"><p class="p42 ft5">14</p></td>
+              <td class="tr11 td18"><p class="p43 ft5">Other</p></td>
+              <td class="tr11 td119"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr11 td96"><p class="p44 ft5">Visits</p></td>
+              <td class="tr11 td78"><p class="p11 ft6">&nbsp;</p></td>
+              <td colspan=1 class="tr11 td97"><p class="p45 ft5">First Year</p></td>
+			     <td class="tr11 td78"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr11 td98"><p class="p46 ft7">Second Year</p></td>
+              <td class="tr11 td120"><p class="p11 ft6">&nbsp;</p></td>
+            </tr>
+         
+            <tr>
+             
+              <td colspan=3 class="tr7 td125"><p class="p47 ft5">January</p></td>
+              <td colspan=2 class="tr7 td126"><p class="p11 ft6"><input data-role="none" onclick="saveValues();" data-role="none"  type="checkbox" name="JanSched_12" id="JanSched_12" value="S12"  /></input></td>
+		      <td class="tr7 td126"><p class="p11 ft6"><input data-role="none" onclick="saveValues();"  data-role="none"  type="checkbox" name="JanSched_13" id="JanSched_13" value="S13"  /></input></td>
+              <td class="tr7 td126"><p class="p11 ft6"><input data-role="none" onclick="saveValues();"  data-role="none"  type="checkbox" name="JanSched_14" id="JanSched_14" value="S14"  /></input></td>
+              <td class="tr7 td18"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="JanOther" name="JanOther"></td>
+              <td class="tr7 td119"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr7 td96"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="JanVisits" name="JanVisits" class="visits1"></td>
+              <td class="tr7 td65"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr7 td34"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="JanAMT1" name="JanAMT1" class="firstYear1"></td>
+              <td class="tr7 td127"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr7 td98"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="JanAMT2" name="JanAMT2" class ="secondYear1"></td>
+              <td class="tr7 td120"><p class="p11 ft6">&nbsp;</p></td>
+            </tr>
+ 
+            <tr>
+          
+              <td colspan=3 class="tr7 td125"><p class="p47 ft5">February</p></td>
+			  <td colspan=2 class="tr7 td126"><p class="p11 ft6"><input data-role="none" onclick="saveValues();" data-role="none"  type="checkbox" name="FebSched_12" id="FebSched_12" value="S12"  /></input></td>
+		      <td class="tr7 td126"><p class="p11 ft6"><input data-role="none" onclick="saveValues();"  data-role="none"  type="checkbox" name="FebSched_13" id="FebSched_13" value="S13"  /></input></td>
+              <td class="tr7 td126"><p class="p11 ft6"><input data-role="none" onclick="saveValues();"  data-role="none"  type="checkbox" name="FebSched_14" id="FebSched_14" value="S14"  /></input></td>
+              <td class="tr7 td18"><p class="p11 ft6"><input data-role="none"  onblur="saveValues();" type="text" id ="FebOther" name="FebOther"></td>
+              <td class="tr7 td119"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr7 td96"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="FebVisits" name="FebVisits" class="visits1"></td>
+              <td class="tr7 td65"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr7 td34"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="FebAMT1" name="FebAMT1" class="firstYear1"></td>
+              <td class="tr7 td127"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr7 td98"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="FebAMT2" name="FebAMT2"class ="secondYear1"></td>
+              <td class="tr7 td120"><p class="p11 ft6">&nbsp;</p></td>
+            </tr>
+ 
+   
+            <tr>
+             
+              <td colspan=3 class="tr7 td125"><p class="p13 ft5">March</p></td>
+      	 	  <td colspan=2 class="tr7 td126"><p class="p11 ft6"><input data-role="none" onclick="saveValues();" data-role="none"  type="checkbox" name="MarSched_12" id="MarSched_12" value="S12"  /></input></td>
+		      <td class="tr7 td126"><p class="p11 ft6"><input data-role="none" onclick="saveValues();"  data-role="none"  type="checkbox" name="MarSched_13" id="MarSched_13" value="S13"  /></input></td>
+              <td class="tr7 td126"><p class="p11 ft6"><input data-role="none" onclick="saveValues();"  data-role="none"  type="checkbox" name="MarSched_14" id="MarSched_14" value="S14"  /></input></td>
+              <td class="tr7 td18"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="MarOther" name="MarOther"></td>
+              <td class="tr7 td119"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr7 td96"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="MarVisits" name="MarVisits" class="visits1"></td>
+              <td class="tr7 td65"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr7 td34"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="MarAMT1" name="MarAMT1" class="firstYear1"></td>
+              <td class="tr7 td127"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr7 td98"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="MarAMT2" name="MarAMT2"class ="secondYear1" ></td>
+              <td class="tr7 td120"><p class="p11 ft6">&nbsp;</p></td>
+            </tr>
+
+            <tr>
+            
+              <td colspan=3 class="tr20 td125"><p class="p13 ft29">April</p></td>
+    	 	  <td colspan=2 class="tr7 td126"><p class="p11 ft6"><input data-role="none" onclick="saveValues();" data-role="none"  type="checkbox" name="AprSched_12" id="AprSched_12" value="S12"  /></input></td>
+		      <td class="tr7 td126"><p class="p11 ft6"><input data-role="none" onclick="saveValues();"  data-role="none"  type="checkbox" name="AprSched_13" id="AprSched_13" value="S13"  /></input></td>
+              <td class="tr7 td126"><p class="p11 ft6"><input data-role="none" onclick="saveValues();"  data-role="none"  type="checkbox" name="AprSched_14" id="AprSched_14" value="S14"  /></input></td>
+              <td class="tr7 td18"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="AprOther" name="AprOther"></td>
+              <td class="tr7 td119"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr7 td96"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="AprVisits" name="AprVisits" class="visits1"></td>
+              <td class="tr7 td65"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr7 td34"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="AprAMT1" name="AprAMT1" class="firstYear1"></td>
+              <td class="tr7 td127"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr7 td98"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="AprAMT2" name="AprAMT2" class ="secondYear1"></td>
+              <td class="tr7 td120"><p class="p11 ft6">&nbsp;</p></td>
+            </tr>
+  
+            <tr>
+             
+              <td colspan=3 class="tr20 td125"><p class="p47 ft29">May</p></td>
+			 <td colspan=2 class="tr7 td126"><p class="p11 ft6"><input data-role="none" onclick="saveValues();" data-role="none"  type="checkbox" name="MaySched_12" id="MaySched_12" value="S12"  /></input></td>
+		      <td class="tr7 td126"><p class="p11 ft6"><input data-role="none" onclick="saveValues();"  data-role="none"  type="checkbox" name="MaySched_13" id="MaySched_13" value="S13"  /></input></td>
+              <td class="tr7 td126"><p class="p11 ft6"><input data-role="none" onclick="saveValues();"  data-role="none"  type="checkbox" name="MaySched_14" id="MaySched_14" value="S14"  /></input></td>
+              <td class="tr7 td18"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="MayOther" name="MayOther"></td>
+              <td class="tr7 td119"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr7 td96"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="MayVisits" name="MayVisits" class="visits1"></td>
+              <td class="tr7 td65"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr7 td34"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="MayAMT1" name="MayAMT1" class="firstYear1"></td>
+              <td class="tr7 td127"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr7 td98"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="MayAMT2" name="MayAMT2" class ="secondYear1"></td>
+              <td class="tr7 td120"><p class="p11 ft6">&nbsp;</p></td>
+            </tr>
+   
+            <tr>
+              
+              <td colspan=3 class="tr3 td125"><p class="p47 ft5">June</p></td>
+     		  <td colspan=2 class="tr7 td126"><p class="p11 ft6"><input data-role="none" onclick="saveValues();" data-role="none"  type="checkbox" name="JunSched_12" id="JunSched_12" value="S12"  /></input></td>
+		      <td class="tr7 td126"><p class="p11 ft6"><input data-role="none" onclick="saveValues();"  data-role="none"  type="checkbox" name="JunSched_13" id="JunSched_13" value="S13"  /></input></td>
+              <td class="tr7 td126"><p class="p11 ft6"><input data-role="none" onclick="saveValues();"  data-role="none"  type="checkbox" name="JunSched_14" id="JunSched_14" value="S14"  /></input></td>
+              <td class="tr7 td18"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="JunOther" name="JunOther"></td>
+              <td class="tr7 td119"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr7 td96"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="JunVisits" name="JunVisits" class="visits1"></td>
+              <td class="tr7 td65"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr7 td34"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="JunAMT1" name="JunAMT1" class="firstYear1"></td>
+              <td class="tr7 td127"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr7 td98"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="JunAMT2" name="JunAMT2" class ="secondYear1"></td>
+              <td class="tr7 td120"><p class="p11 ft6">&nbsp;</p></td>
+            </tr>
+    
+            <tr>
+           
+              <td colspan=3 class="tr3 td125"><p class="p13 ft5">July</p></td>
+      	      <td colspan=2 class="tr7 td126"><p class="p11 ft6"><input data-role="none" onclick="saveValues();" data-role="none"  type="checkbox" name="JulSched_12" id="JulSched_12" value="S12"  /></input></td>
+		      <td class="tr7 td126"><p class="p11 ft6"><input data-role="none" onclick="saveValues();"  data-role="none"  type="checkbox" name="JulSched_13" id="JulSched_13" value="S13"  /></input></td>
+              <td class="tr7 td126"><p class="p11 ft6"><input data-role="none" onclick="saveValues();"  data-role="none"  type="checkbox" name="JulSched_14" id="JulSched_14" value="S14"  /></input></td>
+              <td class="tr7 td18"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="JulOther" name="JulOther"></td>
+              <td class="tr7 td119"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr7 td96"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="JulVisits" name="JulVisits" class="visits1"></td>
+              <td class="tr7 td65"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr7 td34"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="JulAMT1" name="JulAMT1" class="firstYear1"></td>
+              <td class="tr7 td127"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr7 td98"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="JulAMT2" name="JulAMT2" class ="secondYear1"></td>
+              <td class="tr7 td120"><p class="p11 ft6">&nbsp;</p></td>
+            </tr>
+   
+            <tr>
+              
+              <td colspan=3 class="tr7 td125"><p class="p13 ft5">August</p></td>
+       	      <td colspan=2 class="tr7 td126"><p class="p11 ft6"><input data-role="none" onclick="saveValues();" data-role="none"  type="checkbox" name="AugSched_12" id="AugSched_12" value="S12"  /></input></td>
+		      <td class="tr7 td126"><p class="p11 ft6"><input data-role="none" onclick="saveValues();"  data-role="none"  type="checkbox" name="AugSched_13" id="AugSched_13" value="S13"  /></input></td>
+              <td class="tr7 td126"><p class="p11 ft6"><input data-role="none" onclick="saveValues();"  data-role="none"  type="checkbox" name="AugSched_14" id="AugSched_14" value="S14"  /></input></td>
+              <td class="tr7 td18"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="AugOther" name="AugOther"></td>
+              <td class="tr7 td119"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr7 td96"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="AugVisits" name="AugVisits" class="visits1"></td>
+              <td class="tr7 td65"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr7 td34"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="AugAMT1" name="AugAMT1" class="firstYear1"></td>
+              <td class="tr7 td127"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr7 td98"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="AugAMT2" name="AugAMT2" class ="secondYear1"></td>
+              <td class="tr7 td120"><p class="p11 ft6">&nbsp;</p></td>
+            </tr>
+    
+            <tr>
+            
+              <td colspan=3 class="tr7 td125"><p class="p47 ft5">September</p></td>
+			<td colspan=2 class="tr7 td126"><p class="p11 ft6"><input data-role="none" onclick="saveValues();" data-role="none"  type="checkbox" name="SepSched_12" id="SepSched_12" value="S12"  /></input></td>
+		      <td class="tr7 td126"><p class="p11 ft6"><input data-role="none" onclick="saveValues();"  data-role="none"  type="checkbox" name="SepSched_13" id="SepSched_13" value="S13"  /></input></td>
+              <td class="tr7 td126"><p class="p11 ft6"><input data-role="none" onclick="saveValues();"  data-role="none"  type="checkbox" name="SepSched_14" id="SepSched_14" value="S14"  /></input></td>
+              <td class="tr7 td18"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="SepOther" name="SepOther"></td>
+              <td class="tr7 td119"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr7 td96"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="SepVisits" name="SepVisits" class="visits1"></td>
+              <td class="tr7 td65"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr7 td34"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="SepAMT1" name="SepAMT1" class="firstYear1"></td>
+              <td class="tr7 td127"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr7 td98"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="SepAMT2" name="SepAMT2" class ="secondYear1"></td>
+              <td class="tr7 td120"><p class="p11 ft6">&nbsp;</p></td>
+            </tr>
+ 
+            <tr>
+             
+              <td colspan=3 class="tr3 td125"><p class="p47 ft5">October</p></td>
+     		  <td colspan=2 class="tr7 td126"><p class="p11 ft6"><input data-role="none" onclick="saveValues();" data-role="none"  type="checkbox" name="OctSched_12" id="OctSched_12" value="S12"  /></input></td>
+		      <td class="tr7 td126"><p class="p11 ft6"><input data-role="none" onclick="saveValues();"  data-role="none"  type="checkbox" name="OctSched_13" id="OctSched_13" value="S13"  /></input></td>
+              <td class="tr7 td126"><p class="p11 ft6"><input data-role="none" onclick="saveValues();"  data-role="none"  type="checkbox" name="OctSched_14" id="OctSched_14" value="S14"  /></input></td>
+              <td class="tr7 td18"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="OctOther" name="OctOther"></td>
+              <td class="tr7 td119"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr7 td96"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="OctVisits" name="OctVisits" class="visits1"></td>
+              <td class="tr7 td65"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr7 td34"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="OctAMT1" name="OctAMT1" class="firstYear1"></td>
+              <td class="tr7 td127"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr7 td98"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="OctAMT2" name="OctAMT2" class ="secondYear1"></td>
+              <td class="tr7 td120"><p class="p11 ft6">&nbsp;</p></td>
+            </tr>
+    
+            <tr>
+              
+              <td colspan=3 class="tr26 td125"><p class="p13 ft5">November</p></td>
+        	  <td colspan=2 class="tr7 td126"><p class="p11 ft6"><input data-role="none" onclick="saveValues();" data-role="none"  type="checkbox" name="NovSched_12" id="NovSched_12" value="S12"  /></input></td>
+		      <td class="tr7 td126"><p class="p11 ft6"><input data-role="none" onclick="saveValues();"  data-role="none"  type="checkbox" name="NovSched_13" id="NovSched_13" value="S13"  /></input></td>
+              <td class="tr7 td126"><p class="p11 ft6"><input data-role="none" onclick="saveValues();"  data-role="none"  type="checkbox" name="NovSched_14" id="NovSched_14" value="S14"  /></input></td>
+              <td class="tr7 td18"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="NovOther" name="NovOther"></td>
+              <td class="tr7 td119"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr7 td96"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="NovVisits" name="NovVisits" class="visits1"></td>
+              <td class="tr7 td65"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr7 td34"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="NovAMT1" name="NovAMT1" class="firstYear1"></td>
+              <td class="tr7 td127"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr7 td98"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="NovAMT2" name="NovAMT2" class ="secondYear1" ></td>
+              <td class="tr7 td120"><p class="p11 ft6">&nbsp;</p></td>
+            </tr>
+ 
+            <tr>
+             
+              <td colspan=3 class="tr7 td125"><p class="p13 ft5">December</p></td>
+    	  	  <td colspan=2 class="tr7 td126"><p class="p11 ft6"><input data-role="none" onclick="saveValues();" data-role="none"  type="checkbox" name="DecSched_12" id="DecSched_12" value="S12"  /></input></td>
+		      <td class="tr7 td126"><p class="p11 ft6"><input data-role="none" onclick="saveValues();"  data-role="none"  type="checkbox" name="DecSched_13" id="DecSched_13" value="S13"  /></input></td>
+              <td class="tr7 td126"><p class="p11 ft6"><input data-role="none" onclick="saveValues();"  data-role="none"  type="checkbox" name="DecSched_14" id="DecSched_14" value="S14"  /></input></td>
+              <td class="tr7 td18"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="DecOther" name="DecOther"></td>
+              <td class="tr7 td119"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr7 td96"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="DecVisits" name="DecVisits" class="visits1"></td>
+              <td class="tr7 td65"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr7 td34"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="DecAMT1" name="DecAMT1" class="firstYear1" ></td>
+              <td class="tr7 td127"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr7 td98"><p class="p11 ft6"><input data-role="none" onblur="saveValues();" type="text" id ="DecAMT2" name="DecAMT2"></td>
+              <td class="tr7 td120"><p class="p11 ft6">&nbsp;</p></td>
+            </tr>
+      
+            <tr>
+              <td colspan=7  class="tr24 td75"><p class="p11 ft6">&nbsp;</p></td>
+             
+          
+            
+              <td class="tr24 td18"><p class="p48 ft7">TOTAL</p></td>
+              <td class="tr24 td119"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr24 td96"><p class="p11 ft6"><input data-role="none" type="text" id ="TotalVisits" name="TotalVisits"></td>
+              <td class="tr24 td65"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr24 td34"><p class="p11 ft6">$<input data-role="none" type="text" id ="TotalYear1" name="TotalYear1"></td>
+              <td class="tr24 td127"><p class="p11 ft6">&nbsp;</p></td>
+              <td class="tr24 td98"><p class="p11 ft6">$<input  data-role="none" type="text" id ="TotalYear2" name="TotalYear2"></td>
+              <td class="tr24 td120"><p class="p11 ft6">&nbsp;</p></td>
+            </tr>
+  
+          </table>
+		  
+		  
+		  
+		  
+		  
+		
+		 <div>
+				<fieldset data-role="controlgroup" >
+					<h2>Tax Exempt?  (If Yes, Exemption certificate must be attached)</h2>
+						<input type="radio" name="TaxExcemptYes" id="TaxExcemptYes" value="Yes" checked=""   onclick="saveValues();" />
+						<label for="TaxExcemptYes">Yes</label>
+
+						<input type="radio" name="TaxExcemptYes" id="TaxExcemptNo" value="No" checked=""   onclick="saveValues();" />
+						<label for="TaxExcemptNo">No</label>
+						
+						
+						</br>
+					
+				</fieldset>
+		 </div>
+			
+			           	<div>
+							<h3>Purchase Order Number:</h3><input type="text" data-type="none" id="PONumber" name="PONumber" onblur="saveValues();" />
+						</div>
+						
+						</br>
+						</br>
+						
+			<div class="ui-grid-b" >
+				
+					<div class="ui-block-a">
+						<input type="checkbox" name="NewConstruction" id="NewConstruction" class="custom" onclick="saveValues();"/><label for="NewConstruction">New Construction</label>		
+					</div>
+					<div class="ui-block-b"><span style="float:right"><label  for="NewConstDate"><h3>Estimated Service Start Date: &nbsp;&nbsp;  </h3></span></label>
+					</div>
+					
+					<div class="ui-block-c"><input  type="date" name="NewConstDate" id="NewConstDate" class="custom" onclick="saveValues();"/>
+					</div>
+			</div>
+	
+		</br>
+		
+		
+		
+		<div class="ui-grid-b">
+		
+			<div data-role="header">
+				<a href="index.html" data-ajax="false" data-role="button" onclick="saveMyProposal();" data-inline="true"  data-icon="arrow-l" >Previous</a>
+				  <h4>Chardon Laboratories 2013</h4>
+			 	<a href="#"  data-ajax="false" data-role="button" onclick="saveMyProposal(); if($('#SHIPNAME').val() !=''){ window.location='Schedule11.html'}" data-inline="true"  data-icon="arrow-r" >Next</a>
+			
+				
+			 </div>
+		</div> <!--end div b -->
+     
+    </div>
+</form>
+</body>
+<script>
+
+		<!-- populate the form from previously saved localStorage using the unid -->
+		
+		var unid = localStorage.getItem("unid");
+		
+		$("#ContractCalc").deserialize(localStorage.getItem(unid+"ContractCalc"));
+
+	  
+</script>
+
+
+<script>
+//Total up the Number of Visits
+	$('.visits1').keyup(function () {
+					//alert('blur');
+						var sum = 0;
+						$('.visits1').each(function() {
+							sum += Number($(this).val());
+							//alert(sum);
+						});
+						$('#TotalVisits').val(sum);
+						
+						saveValues();
+						
+					});
+					
+	//Total up the Number of Visits Year One
+	$('.firstYear1').keyup(function () {
+					//alert('blur');
+						var sum = 0;
+						$('.firstYear1').each(function() {
+							sum += Number($(this).val());
+							//alert(sum);
+						});
+						$('#TotalYear1').val(sum);
+						saveValues();
+					});			
+	//Total up the Number of Visits Year Two
+	$('.secondYear1').keyup(function () {
+					//alert('blur');
+						var sum = 0;
+						$('.secondYear1').each(function() {
+							sum += Number($(this).val());
+							//alert(sum);
+						});
+						$('#TotalYear2').val(sum);
+						saveValues();
+					});						
+
+</script>
+
+<script>
+  function onOrientationChange()
+    {
+	
+		var canvas  = document.getElementById("simple");
+		var myImage = canvas.toDataURL("image/png");      		 // Get the data as an image.
+		var myImageRaw = canvas.toDataURL();
+		
+
+		
+		var imageElement = document.getElementById("signatureimage");  // Get the img object.
+		imageElement.src = myImage;    
+		
+		//encodeURIComponent()
+		//var unencodedSig = canvas.toDataURL("image/png");
+		//var encodedSig =encodeURIComponent(unencodedSig).replace('%20','+');
+		
+		//alert('Raw '+myImageRaw);
+		//alert('unencoded '+unencodedSig);
+		//alert('encoded '+encodedSig);
+		
+		$('#RawSignature').val(''); 
+		var unid = localStorage.getItem("unid");
+		localStorage.setItem(unid+'ContractCalc_Signature1', canvas.toDataURL("image/png"));
+		
+		$('#sigImageHolder').show();	
+		$('#simple').hide();	
+		saveValues();		
+			
+    }
+	
+	  function onOrientationChange2()
+    {
+	
+		var canvas  = document.getElementById("simple2");
+		var myImage = canvas.toDataURL("image/png");      		 // Get the data as an image.
+		var imageElement = document.getElementById("signatureimage2");  // Get the img object.
+		imageElement.src = myImage;    
+		//$('#RawSignature2').val(canvas.toDataURL()); 
+		$('#RawSignature2').val(''); //blank out the field
+	
+	var unid = localStorage.getItem("unid");
+		localStorage.setItem(unid+'ContractCalc_Signature2', canvas.toDataURL("image/png"));
+		
+		$('#sigImageHolder2').show();	
+		$('#simple2').hide();		
+		saveValues();	
+    }
+	
+	function resetCanvas()
+		{
+		myCanvas = document.getElementById("simple");
+		var width = myCanvas.width;
+		myCanvas.width = width + 1;
+		width = myCanvas.width;
+		myCanvas.width = width - 1;
+		
+			  var imageElement = document.getElementById("signatureimage");  // Get the img object.
+			  imageElement.src =".";
+			  //alert(imageElement.src); // = '';                           // Set the src to data from the canvas.
+			  
+			  $('#simple').show();
+			  $('#sigImageHolder').hide();	
+		$('#RawSignature').val('');
+		
+		
+			var unid = localStorage.getItem("unid");
+					
+					
+			
+			localStorage.setItem(unid+'ContractCalc_Signature1', '');
+			
+		
+		}
+		
+		function resetCanvas2()
+		{
+		myCanvas = document.getElementById("simple2");
+		var width = myCanvas.width;
+		myCanvas.width = width + 1;
+		width = myCanvas.width;
+		myCanvas.width = width - 1;
+		
+			  var imageElement = document.getElementById("signatureimage2");  // Get the img object.
+			  imageElement.src =".";
+			  //alert(imageElement.src); // = '';                           // Set the src to data from the canvas.
+			  
+			  $('#simple2').show();
+			  $('#sigImageHolder2').hide();	
+		$('#RawSignature2').val('');
+		var unid = localStorage.getItem("unid");
+		localStorage.setItem(unid+'ContractCalc_Signature2', '');
+		
+		}
+				
+		
+</script>
+</html>
+

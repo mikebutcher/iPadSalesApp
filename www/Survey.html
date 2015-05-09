@@ -1,0 +1,1003 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Chardon Survey</title>
+     <link rel="stylesheet" href="jq/jquery.mobile-1.0.min.css" />
+    <link rel="stylesheet" href="assets/css/main-sched17.css" />
+	
+	
+	<script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
+	
+    <script src="jq/jquery-1.7.js"></script>
+    <script src="jq/jquery.mobile-1.1.js"></script>
+			<!--De-Serialize the data -->
+	<script src="js/jquery.deserialize.js"></script>
+	
+	<!-- <script src="js/modernizr.custom.34982.js123"></script> -->
+	<script src="js/signatureCapture.js"></script>
+	
+<!--	<script src="js/photo.js"></script>-->
+	<script type="text/javascript" charset="utf-8" src="js/SaveSend.js"></script>
+	
+	<script>
+	
+	
+	    function onDeviceReady() {
+				//added 2-4-14 to save signature on orientation change
+			 
+				  	pictureSource=navigator.camera.PictureSourceType;
+					destinationType=navigator.camera.DestinationType;
+					
+					}		
+	
+	
+
+		
+		
+		
+			
+			$(document).ready(function (e) {
+				var sigCapture = null;
+				
+				
+				  function generateUNID(){
+						  
+									localUNID = localStorage.getItem("unid")
+									 
+									//alert(localUNID);
+									 if (localUNID==null){
+									   
+										//6-7-12  Generate a unique number for each report 
+										var unid = Math.floor(Math.random()*111111);
+										//document.forms[0].DaUnid.value = unid;
+										console.log("unid: " + unid);
+										var Status = "Draft";
+										//alert(timestamp);
+
+										console.log("Creating Survey Stub: "+unid);
+										
+										//Save the Key for the Proposal
+										localStorage.setItem("unid", unid);
+								
+										}
+									}
+				 $('#Salesman').val(localStorage.getItem("Salesman"));	
+					
+					//alert('ready');
+					var unid = localStorage.getItem("unid");
+					
+						if (unid == null) {
+										generateUNID();
+									}
+						if (unid == '') {
+										generateUNID();
+									}
+					
+					//alert("unid "+unid);
+					
+									//Save the unid to a field
+									$('#unid').val(unid);
+					
+					})
+					
+	
+				
+				
+				 function saveValues() {
+					// ALERT !! -- Put the form name in for the Variable name below
+						var str = $('#Survey').serialize();
+						//save to localStorage
+						
+					// ALERT !! -- Put the form name in for the Variable name below
+						var unid = localStorage.getItem("unid");
+						localStorage.setItem(unid+'Survey', str);
+						
+						//alert(localStorage.getItem(unid+'ContractCalc'));
+						
+						//alert(str);
+						console.log("saving " + str);
+					}
+					
+						var lastRowCount = 5;
+
+						var SurveytableOneRowCount =0;
+						var SurveytableTwoRowCount =0;
+						var SurveytableThreeRowCount =0;
+						var SurveytableFourRowCount =0;
+						
+						$('tr.parent').css("cursor", "pointer").attr("title", "Click to expand/collapse").click(function () {
+							$(this).siblings('.child-' + this.id).toggle();
+						});
+
+						$('tr[class^=child-]').hide();
+
+						//var orderTable = $("#example");
+
+						
+						//Add Buttons
+						$("#btnAdd").live('click', function (e) {
+						
+							
+					
+							
+							var newRow ='	<tr id="row123'+SurveytableOneRowCount +'">\
+		<td>\
+		<input onblur="saveValues();" type="text" id="Chem_Desc'+SurveytableOneRowCount+'" name ="Chem_Desc'+SurveytableOneRowCount+'" data-role="none"></input>\
+		</td>\
+			\
+		<td>\
+		<input onblur="saveValues();" type = "text"   name="TotGallon'+SurveytableOneRowCount+'"  id="TotGallon'+SurveytableOneRowCount+'" value="" data-role="none"></input>\
+		</td>\
+		\
+		<td>\
+		<input onblur="saveValues();" type = "text"  name="PriceGallon'+SurveytableOneRowCount+'"  id="PriceGallon'+SurveytableOneRowCount+'" value="" data-role="none"></input>\
+		</td>\
+		\
+		<td>\
+		<input onblur="saveValues();" type = "text"  name="CC_Total'+SurveytableOneRowCount+'"  id="CC_Total'+SurveytableOneRowCount+'" value="" data-role="none" class="chem_costs" ></input>\
+		</td>\
+	</tr>';
+							//alert(newRow);
+							
+							
+							$("#example tbody").append(newRow.replace(/NNNN/g, ++SurveytableOneRowCount));
+							//$('#example').trigger('create'); 
+							var unid = localStorage.getItem("unid");
+							localStorage.setItem("SurveytableOneRowCount"+unid, SurveytableOneRowCount);
+							//alert(SurveytableOneRowCount);
+							//var $orderTable = $("#example");
+							
+							
+							
+							
+						});
+						
+						//second Table
+							$("#btnAdd2").live('click', function (e) {
+							//Take the text, and also the ddl value and insert as table row.
+							//var newRow = '<tr class="child-row1234"><td class="brdr">&nbsp;&nbsp;</td><td class="brdr"></td><td class="brdr">&nbsp;&nbsp;</td><td class="brdr">&nbsp;&nbsp;</td><td><input name="checkboxNNNN" type="checkbox" id="checkboxNNNN" class="SelectCheckBox" /></td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td><td>&nbsp;&nbsp;</td></tr>';
+							
+					var newRow ='	<tr id="row12345'+SurveytableTwoRowCount +'">\
+								<td>\
+								<input onblur="saveValues();" type="text" id="Chem_Desc'+SurveytableTwoRowCount+'" name ="Chem_Desc'+SurveytableTwoRowCount+'" data-role="none"></input>\
+								</td>\
+									\
+								<td>\
+								<input onblur="saveValues();" type = "text"   name="TotGallon'+SurveytableTwoRowCount+'"  id="TotGallon'+SurveytableTwoRowCount+'" value="" data-role="none"></input>\
+								</td>\
+								\
+								<td>\
+								<input onblur="saveValues();" type = "text"  name="PriceGallon'+SurveytableTwoRowCount+'"  id="PriceGallon'+SurveytableTwoRowCount+'" value="" data-role="none"></input>\
+								</td>\
+								\
+								<td>\
+								<input onblur="saveValues();" type = "text"  name="CC_Total'+SurveytableTwoRowCount+'"  id="CC_Total'+SurveytableTwoRowCount+'" value="" data-role="none" class="equip_costs" ></input>\
+								</td>\
+							</tr>';
+							
+							//alert(newRow);
+							
+							$("#example2 tbody").append(newRow.replace(/NNNN/g, ++SurveytableTwoRowCount));
+							//$('#example2').trigger('create'); 
+							
+							localStorage.setItem("SurveytableTwoRowCount"+unid, SurveytableTwoRowCount);
+				
+						});
+						
+							//Third Table
+							$("#btnAdd3").live('click', function (e) {
+							
+							
+					
+							
+								var newRow ='	<tr id="row12345'+SurveytableThreeRowCount +'">\
+										<td>\
+										<input onblur="saveValues();"id="Service_desc'+SurveytableThreeRowCount +'" name ="Service_desc'+SurveytableThreeRowCount +'" type="text" data-role="none"></input>\
+										</td>\
+											\
+										<td>\
+										<input onblur="saveValues();"   type="text" name="Months_to_perform'+SurveytableThreeRowCount +'"  id="Months_to_perform'+SurveytableThreeRowCount +'"   value="" data-role="none"></input>\
+										</td>\
+										\
+										<td>\
+										<input onblur="saveValues(); " type="text"  name="serv_tot_cost'+SurveytableThreeRowCount +'" id="serv_tot_cost'+SurveytableThreeRowCount +'"  value="" data-role="none"></input>\
+										</td>\
+									</tr>'
+							
+							$("#example3 tbody").append(newRow.replace(/NNNN/g, ++SurveytableThreeRowCount));
+							localStorage.setItem("SurveytableThreeRowCount"+unid, SurveytableThreeRowCount);
+						
+						});
+						
+						//Fourth Table 
+							$("#btnAdd4").live('click', function (e) {
+							//Take the text, and also the ddl value and insert as table row.
+							
+							var newRow ='	<tr id="row123456">\
+										<td>\
+										<input type="checkbox" class="SelectCheckBox4" id="checkbox3" /><input onblur="saveValues();" id="SteamBoilers_Name" name ="SteamBoilers_Name" type="text" data-role="none"></input>\
+										</td>\
+											\
+										<td>\
+										<input onblur="saveValues();" type = "number"  type="number" min="1" max="5" name="SteamBoilers_Scale"  id="SteamBoilers_Scale"   value="" data-role="none"></input>\
+										</td>\
+										\
+										<td>\
+										<input onblur="saveValues(); "type = "number"  type="number" min="1" max="5" name="SteamBoilers_Corrosion" id="SteamBoilers_Corrosion"  value="" data-role="none"></input>\
+										</td>\
+										\
+										<td>\
+										<input onblur="saveValues();" onblur="saveValues();" type = "number"  type="number" min="1" max="5" name="SteamBoilers_Sludge"   id="SteamBoilers_Sludge" value="" data-role="none"></input>\
+										</td>\
+										\
+										<td>\
+										<input onblur="saveValues();" type = "number"  type="number" min="1" max="5" name="SteamBoilers_NA" id="SteamBoilers_NA"  value="" data-role="none"></input>\
+									\
+										</td>\
+											\
+									</tr>'
+							$("#example4 tbody").append(newRow.replace(/NNNN/g, ++SurveytableFourRowCount));
+							//var $orderTable = $("#example4");
+							localStorage.setItem("SurveytableFourRowCount"+unid, SurveytableFourRowCount);
+						});
+						
+						
+						
+						
+						
+						
+						
+					
+						
+							$('#btnDelete').live('click', function (e) {
+							//$('.SelectCheckBox2:visible:checked').parents('tr').remove();
+							$("#example tbody").children('tr:last').remove();
+							var unid = localStorage.getItem("unid");
+							localStorage.setItem("SurveytableOneRowCount"+unid, SurveytableOneRowCount-1);
+							
+							
+			
+							
+							//alert(localStorage.SurveytableOneRowCount+unid);
+						});
+
+					
+						
+						
+							$('#btnDelete2').live('click', function (e) {
+							//$('.SelectCheckBox2:visible:checked').parents('tr').remove();
+							$("#example2 tbody").children('tr:last').remove();
+							var unid = localStorage.getItem("unid");
+							localStorage.setItem("SurveytableTwoRowCount"+unid, SurveytableTwoRowCount-1);
+						});
+						
+						
+							$('#btnDelete3').live('click', function (e) {
+							//$('.SelectCheckBox2:visible:checked').parents('tr').remove();
+							$("#example3 tbody").children('tr:last').remove();
+							var unid = localStorage.getItem("unid");
+							localStorage.setItem("SurveytableThreeRowCount"+unid, SurveytableThreeRowCount-1);
+						});
+						
+					
+						/*
+						$('#btnDelete4').live('click', function (e) {
+							$('.SelectCheckBox4:visible:checked').parents('tr').remove();
+							--SurveytableFourRowCount;localStorage.setItem("SurveytableFourRowCount", SurveytableFourRowCount);
+						});
+						*/
+						
+						/*
+						$('#btnDelete5').live('click', function (e) {
+							$('.SelectCheckBox5:visible:checked').parents('tr').remove();
+							--SurveytableFourRowCount;
+						});
+						*/
+						
+						
+						
+						$('#btnCopy').live('click', function (e) {
+							$("#example tbody").append($('.SelectCheckBox:visible:checked').parents('tr').clone());
+							++SurveytableOneRowCount;
+						});
+
+						$('#btnCopy2').live('click', function (e) {
+							$("#example2 tbody").append($('.SelectCheckBox2:visible:checked').parents('tr').clone());
+							++SurveytableTwoRowCount;
+						});
+
+						$('#btnCopy3').live('click', function (e) {
+							$("#example3 tbody").append($('.SelectCheckBox3:visible:checked').parents('tr').clone());
+							++SurveytableThreeRowCount;
+						});
+						$('#btnCopy4').live('click', function (e) {
+							$("#example4 tbody").append($('.SelectCheckBox4:visible:checked').parents('tr').clone());
+							++SurveytableFourRowCount;
+						});
+						
+						
+						
+						
+						$('#btnSelectAll').live('click', function (e) {
+							$("#example").find('.SelectCheckBox:visible').attr('checked', true);
+						});
+
+						$('#cbSelectUnselectAll').live('click', function () {
+							$("#example").find('.SelectCheckBox:visible').attr('checked', $(this).prop('checked'));
+						});
+						
+						
+						//$("#btnAdd").click();  //Add the first row
+						//$("#btnAdd2").click(); //Add the first row second table
+						//$("#btnAdd3").click(); //Add the first row third table
+						//$("#btnAdd4").click(); //Add the first row fourth table
+						//$("#btnAdd5").click(); //Add the first row fifth table
+						
+						//Magically rebuild tables to their saved length
+						
+						
+	
+   
+			
+			
+			
+	
+	</script>
+	
+	<script>
+	
+	function SubmitData(){
+		
+		
+			var httpBU = createXMLHttpRequest();
+
+
+				function createXMLHttpRequest() {
+				  try { return new ActiveXObject("Msxml2.XMLHTTP"); } catch (e) {}
+				  try { return new ActiveXObject("Microsoft.XMLHTTP"); } catch (e) {}
+				  try { return new XMLHttpRequest(); } catch(e) {}
+				  alert("XMLHttpRequest not supported");
+				  return null;
+				}
+					
+						
+					
+				
+				var unid = localStorage.getItem("unid");
+				console.log("unid "+ unid);
+				
+				var params = localStorage.getItem(unid+"Survey");
+				//alert("Parameters "+params);
+				
+				
+					var URL = "http://www.chardonlabs.com/iPadSales.nsf/Survey?createDocument";
+				//alert(URL);
+				
+				
+			
+				httpBU.open("post", URL, true);
+				
+		
+				var params = "&"+params;
+				//alert(params);
+				
+				
+				
+			
+				//httpBU.send(params);
+				httpBU.send(params);
+				
+			
+				
+				
+				
+
+		
+				
+		
+		httpBU.onreadystatechange =   function()
+					{ 
+					if(httpBU.readyState  == 2)
+					{
+					//		$('body').append('<div id="progress"><img align="middle" src="img/downloading.gif">&nbsp;&nbsp;&nbsp;&nbsp;Data Sent</div>');
+					
+					}
+					
+					if(httpBU.readyState  == 3)
+					{
+						//	$('body').append('<div id="progress"><img align="middle" src="img/downloading.gif">&nbsp;&nbsp;&nbsp;&nbsp;Data Received - OK</div>');
+							$('#progress').remove();
+					}
+					
+						 if(httpBU.readyState  == 4)
+						 {
+									  if(httpBU.status  == 200) {
+								 //   	  $('body').append('<div id="progress"><img align="middle" src="img/downloading.gif">&nbsp;&nbsp;&nbsp;&nbsp;eReport Successfully Sent</div>');
+
+									  alert("Document Successfully sent to Chardon " );
+									
+								
+
+							/*
+								 var r=confirm("Remove from Device?");
+								if (r==true)
+									 {
+									  //removeReport(CustID, ListType);
+									  }
+									  else
+								  {
+								  alert("You pressed Cancel!");
+								  }
+							*/					
+								  
+								
+								  } 
+							  
+						
+							   //   alert("Received:"  + http.responseText); 
+							  else 
+								 $('#progress').remove();
+							 // alert("success"+ httpBU.status);
+						 
+							  if (httpBU.status == 0){
+							   alert("Report NOT SENT. Error Communicating with Server.  Please try again when you have a connection." );
+							 
+							
+							  }
+						 
+						 }
+					   
+					}; 
+		
+		
+		
+		}
+	
+
+			function onCancelClick( event ) {
+				clearForm();
+			}
+
+			function clearForm() {
+				$("#email").val( "" );
+				sigCapture.clear();
+				$("#feedback").html( "" );
+			}
+
+			function requestSuccess( data, textStatus, jqXHR ) {
+				//clearForm();
+				//$("#feedback").html( "Thank you." );
+				alert(textStatus);
+			}
+
+			function requestError( jqXHR, textStatus, errorThrown ) {
+				//$("#feedback").html( "Error: " + errorThrown );
+				alert(textStatus);
+			}
+
+			function verifyEmail() {
+				var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+				return re.test( $("#email").val() );
+			}
+	</script>
+	
+</head>
+
+<body>
+<form id="Survey">
+	<input id="Salesman" name="Salesman" style="display:none">
+
+	<div data-role="page">
+    
+       
+			<div data-role="header">
+			<a href="index.html" data-ajax="false" data-icon="home">Home</a>
+			<h1>Contract Calculation Sheet</h1>
+				<a href="#" data-icon="check" data-theme="b" onClick="saveValues();alert('Draft Saved...');">Save Draft</a>
+        </div>
+		
+    
+        <div data-role="content">
+		
+		
+		
+	
+		<input name="unid" id="unid" type="Text" style="display:none"></input>	
+		
+		<h1>Contract Calculation Sheet</h1>
+		
+		<h3>Business Info</h3>
+					
+					<table data-role="table"  data-mode="reflow" border="0" cellspacing="0" cellpadding="0">
+												
+							<tr><td><b>Lead Generated By:</b></td><td ><input data-role="none1"  name="LeadGenBy" value="" id="LeadGenBy" onblur="saveValues();" ></td></tr>
+							<tr><td><b>Type of Business:</b></td><td ><input data-role="none1"  name="TypeOfBus" value=""  id="TypeOfBus" onblur="saveValues();"></td></tr>
+							<tr><td><b>Mechanical Contractor:</b></td><td ><input data-role="none1"  name="MechContractor" value=""  id="MechContractor" onblur="saveValues();"></td></tr>
+							<tr><td><b>Previous Supplier:</b></td><td ><input data-role="none1"  name="PrevSupplier" value=""  id="PrevSupplier" onblur="saveValues();"></td></tr>
+					</table>	
+
+
+	    <h3>Make Up Water</h3>
+					
+					<table border="0" cellspacing="0" cellpadding="0">
+						
+							<tr><td><b>Total Hardness:</b></td><td ><input data-role="none1"  name="TotalHardness" id="TotalHardness" value="" onblur="saveValues();"></td></tr>
+							<tr><td><b>Ca</b></td><td ><input data-role="none1"  name="Ca" id="Ca" value="" onblur="saveValues();" ></td></tr>
+							<tr><td><b>Total Alk</b></td><td ><input data-role="none1"  name="TotAlk" value=""  id="TotAlk" onblur="saveValues();"></td></tr>
+							<tr><td><b>Chlorides</b></td><td ><input data-role="none1"  name="Chlorides" value="" id="Chlorides"  onblur="saveValues();"></td></tr>
+							<tr><td><b>Conductivity:</b></td><td ><input data-role="none1"  name="Conductivity" value="" id="Conductivity" onblur="saveValues();" ></td></tr>
+							<tr><td><b>Water Per year:</b></td><td ><input data-role="none1"  name="Water" value="" id="Water" onblur="saveValues();" ></td></tr>
+			
+					</table>	
+
+		<h3>Cooling Tower</h3>
+						
+					<table data-role="table"  data-mode="reflow" border="1" cellspacing="0" cellpadding="7">
+						<tr>
+						<td>Tons</td><td>Hrs/Day</td><td>Days/Wk</td><td>Mo/Yr</td><td>% Load</td>
+						</tr>
+					
+						
+						<tr>
+						<td><input data-role="none"  name="CT_Tons" id="CT_Tons" value="" onblur="saveValues();"></td>
+						<td><input data-role="none"  name="CT_Hours" id="CT_Hours" value="" onblur="saveValues();"></td>
+						<td><input data-role="none"  name="CT_Days" id="CT_Days" value="" onblur="saveValues();"></td>
+						<td><input data-role="none"  name="CT_Months" id="CT_Months" value="" onblur="saveValues();"></td>
+						<td><input data-role="none"  name="CT_Load" id="CT_Load" value="" onblur="saveValues();"></td>
+						</tr>
+						
+						<tr>
+						<td>Skin Temp</td><td>Cycles</td><td>Pans Cov</td><td>Tower Type</td>
+						</tr>
+						
+						<td><input data-role="none"  name="CT_Skin" id="CT_Skin" value="" onblur="saveValues();"></td>	
+						<td><input data-role="none"  name="CT_Cycles" id="CT_Cycles" value="" onblur="saveValues();"></td>		
+						<td><input data-role="none"  name="CT_Pans" id="CT_Pans" value="" onblur="saveValues();"></td>	
+						<td><input data-role="none"  name="CT_Tower" id="CT_Tower" value="" onblur="saveValues();"></td>		
+					
+						</tr>
+						
+		
+					</table>			
+		
+			<h3>Boiler</h3>
+						
+					<table data-role="table"  data-mode="reflow" border="1" cellspacing="0" cellpadding="7">
+						<tr>
+						<td>HP / PSIG</td><td>Hrs/Day</td><td>Days/Wk</td><td>Mo/Yr</td><td>% Load</td>
+						</tr>
+						
+						<tr>
+						<td><input data-role="none"  name="Boiler_HP" id="Boiler_HP" value="" onblur="saveValues();"></td>
+						<td><input data-role="none"  name="Boiler_Hours" id="Boiler_Hours" value="" onblur="saveValues();"></td>
+						<td><input data-role="none"  name="Boiler_Days" id="Boiler_Days" value="" onblur="saveValues();"></td>
+						<td><input data-role="none"  name="Boiler_Months" id="Boiler_Months" value="" onblur="saveValues();"></td>
+						<td><input data-role="none"  name="Boiler_Load" id="Boiler_Load" value="" onblur="saveValues();"></td>
+						</tr>
+						<tr>
+						</tr>
+						
+						<tr>
+						<td>Cond Ret</td><td>Softener</td><td>Deareator</td><td>Food Cont</td>
+						</tr>
+						<tr>
+						<td><input data-role="none"  name="Boiler_Cond" id="Boiler_Cond" value="" onblur="saveValues();"></td>	
+						<td><input data-role="none"  name="Boiler_Softener" id="Boiler_Softener" value="" onblur="saveValues();"></td>		
+						<td><input data-role="none"  name="Boiler_Deareator" id="Boiler_Deareator" value="" onblur="saveValues();"></td>	
+						<td><input data-role="none"  name="Boiler_Food" id="Boiler_Food" value="" onblur="saveValues();"></td>		
+					
+						</tr>
+						
+		
+					</table>	
+		
+									
+					<table data-role="table"  data-mode="reflow" border="1" cellspacing="0" cellpadding="7">
+						<tr>
+						<td>Feed Water Temp</td><td></td><td>Cl</td><td>Cycles</td><td>Fuel Consumption / Yr</td><td>Water Consumption / Yr</td>
+						</tr>
+						
+						<tr>
+						<td><input data-role="none"  name="FW_Temp" id="FW_Temp" value="" onblur="saveValues();"></td>
+						<td></td>
+						<td><input data-role="none"  name="CI" id="CI" value="" onblur="saveValues();"></td>
+						<td><input data-role="none"  name="Cycles" id="Cycles" value="" onblur="saveValues();"></td>
+						<td><input data-role="none"  name="Fuel_Cons" id="Fuel_Cons" value="" onblur="saveValues();"></td>
+						<td><input data-role="none"  name="Water_Cons" id="Water_Cons" value="" onblur="saveValues();"></td>	
+						
+					
+						</tr>
+						
+		
+					</table>
+		
+</br>
+<h3>Service Costs</h3>
+		<table data-role="table"  data-mode="reflow" border="1" cellspacing="0" cellpadding="7">
+						<tr>
+						<td>Mileage Charge / Visit</br><input data-role="none"  name="MileageChrg" id="MileageChrg" value="" onblur="saveValues();"></td><td></td><td>Number of Visits</br><input data-role="none"  name="Mile_Visits" id="Mile_Visits" value="" onblur="saveValues();"></td><td></td><td>Total</br><input data-role="none"  name="Mile_Total" id="Mile_Total" value="" onblur="saveValues();"></td><td></td>
+						</tr>
+						
+						<tr>
+						<td>Service Charge Visit</br><input data-role="none"  data-role="none" name="ServiceChrg" id="ServiceChrg" value="" onblur="saveValues();"></td><td></td><td>Number of Visits</br><input data-role="none"  name="Service_Visits" id="Service_Visits" value="" onblur="saveValues();"></td><td></td><td>Total</br><input data-role="none"  name="Service_Total" id="Service_Total" value="" onblur="saveValues();"></td><td></td>
+						</tr>
+						
+						<tr>
+						<td>Chartainment Rental</br><input data-role="none"  name="ChartainmentRental" id="ChartainmentRental" value="" onblur="saveValues();"></td>
+						<td></td>
+						<td></td>
+		
+						</tr>
+						
+		
+					</table>
+		
+		
+	
+
+
+	
+
+
+					<table data-role="table"  data-mode="reflow" width="100%" border="1" cellpadding="0" cellspacing="0" class="detail" id="example"	style="border: none">
+					<thead>
+					
+						
+					
+						<tr>
+						<td colspan="6">
+						<h2>Chemical Costs </h2>
+						</td>
+						
+							
+							
+						</tr>
+					
+					</thead>
+					<tbody>
+					
+					<tr>
+					<!-- insert here -->
+					<th width="20%">
+								Description
+							</th>
+						
+							<th width="12%" >
+								Total Gallon
+							</th>
+							<th width="20%" rowspan="0">
+								Price Gallon
+							</th>
+						
+							<th width="20%" rowspan="0">
+								Total Cost
+							</th>
+						
+						
+					</tr>	
+					
+					
+					
+					
+					
+				
+			</tbody>
+			</table>	
+			<table data-role="table"  data-mode="reflow" width="100%" border="1" cellpadding="0" cellspacing="0" class="detail" id="exampleChemCostTotal"	style="border: none">
+				
+					<tbody>
+					
+					<tr>
+					<!-- insert here -->
+					<th width="20%">
+								
+							</th>
+						
+							<th width="12%" >
+						
+							</th>
+							<th width="20%" rowspan="0">
+							
+							</th>
+						
+							<th width="20%" rowspan="0">
+								Total Cost <input data-role="none" id="TotCost" name="TotCost"></input>
+							</th>
+						
+						
+					</tr>	
+					
+					
+					
+					
+					
+				
+			</tbody>
+			</table>		
+			
+			
+			<fieldset class="ui-grid-b">
+					<div class="ui-block-a"><input type="button" id="btnAdd" value="Add row" /></div>
+					<div class="ui-block-b"><input type="button" id="btnDelete" value="Remove Row" /></div>	  
+					<div style="display:none" class="ui-block-c"><input type="button" id="btnCopy" value="Copy Row" /></div>	   	
+				</fieldset>
+				
+				</br>
+					
+	
+		</br>
+
+				
+			
+				
+				
+				
+				<table data-role="table"  data-mode="reflow" width="100%" border="1" cellpadding="0" cellspacing="0" class="detail" id="example2"	style="border: none">
+					<thead>
+					
+						
+					
+						<tr>
+						<td colspan="6">
+						<h2>Equipment Costs (Only required if Leased or Amortized.)</h2>
+						</td>
+						
+							
+							
+						</tr>
+					
+					</thead>
+					<tbody>
+					
+					<tr>
+					<!-- insert here -->
+					<th width="20%">
+								Description
+							</th>
+						
+							<th width="12%" >
+								Price Each
+							</th>
+							<th width="20%" rowspan="0">
+								Amount
+							</th>
+						
+							<th width="20%" rowspan="0">
+								Total Cost
+							</th>
+						
+						
+					</tr>	
+					
+					
+					
+					
+					
+				
+			</tbody>
+			</table>	
+				
+			
+			
+			
+			
+					<table data-role="table"  data-mode="reflow" width="100%" border="1" cellpadding="0" cellspacing="0" class="detail" id="exampleEquipCostTotal"	style="border: none">
+				
+					<tbody>
+					
+					<tr>
+					<!-- insert here -->
+					<th width="20%">
+								
+							</th>
+						
+							<th width="12%" >
+						
+							</th>
+							<th width="20%" rowspan="0">
+							
+							</th>
+						
+							<th width="20%" rowspan="0">
+								Total Cost <input data-role="none" id="TotEquipCost" name="TotEquipCost"></input>
+							</th>
+						
+						
+					</tr>	
+					
+					
+					
+					
+					
+				
+			</tbody>
+			</table>
+				
+			
+				<fieldset class="ui-grid-b">
+					<div class="ui-block-a"><input type="button" id="btnAdd2" value="Add row" /></div>
+					<div class="ui-block-b"><input type="button" id="btnDelete2" value="Remove Row" /></div>	  
+					<div style="display:none" class="ui-block-c"><input type="button" id="btnCopy2" value="Copy Row" /></div>	   	
+				</fieldset>
+				
+				</br>
+				
+				
+				<table data-role="table"  data-mode="reflow" width="100%" border="1" cellpadding="5" cellspacing="0" id="example3">
+				<thead>
+					
+						
+					
+						<tr>
+						<td colspan="6">
+						<h2>Additional Services</h2>
+						</td>
+						
+							
+							
+						</tr>
+					
+					</thead>
+				<tr>
+				<th>Service Description</th><th>Months to Perform</th><th>Total Cost</th>
+				</tr>
+				
+				<tr>
+				<td><input data-role="none" id="Service_desc" name="Service_desc"></input></td><td><input data-role="none" id="Months_to_perform" name="Months_to_perform"></input></td><td><input data-role="none" id="serv_tot_cost" name="serv_tot_cost"></input></td>
+				</tr>
+				
+				<tr>
+				</tr>
+				</table>
+				<fieldset class="ui-grid-b">
+					<div class="ui-block-a"><input type="button" id="btnAdd3" value="Add row" /></div>
+					<div class="ui-block-b"><input type="button" id="btnDelete3" value="Remove Row" /></div>	  
+					<div style="display:none" class="ui-block-c"><input type="button" id="btnCopy3" value="Copy Row" /></div>	   	
+				</fieldset>
+				
+				</br>
+				
+				</br></br>
+				
+				<table data-role="table"  data-mode="reflow" width="100%" border="1" cellpadding="5" cellspacing="0">
+				<tr>
+				<td></td><td align="right" >SubTotal</td><td><input data-role="none" id="SubTot" name="SubTot"></input></td>
+				</tr>
+				
+				<tr>
+				<td></td><td align="right">Freight / Handling</td><td><input data-role="none" id="Freight" name="Freight"></input></td>
+				</tr>
+				
+				<tr>
+				<td></td><td align="right">Grand Total</td><td><input data-role="none" id="Grand_Total" name="Grand_Total"></input></td>
+				</tr>
+				
+				<tr>
+				<td></td><td align="right">Number of Bills Per Year</td><td><input data-role="none" id="BillsperYear" name="BillsperYear"></input></td>
+				</tr>
+				
+				<tr>
+				<td></td><td align="right">Price Per Month</td><td><input data-role="none" id="PricePerMonth" name="PricePerMonth"></input></td>
+				</tr>
+				</table>
+				
+				
+				
+				
+				
+	 
+ 
+     
+			<div data-role="header">
+				<a href="Schedule19.html" data-role="button" data-ajax="false" onclick="" data-inline="true"  data-icon="arrow-l" >Previous</a>
+			   <h4>Contract Calculation Sheet</h4>
+			 	<a href= "PresentCondition.html" rel="external" data-role="button" data-ajax="false" onclick="" data-inline="true"  data-icon="arrow-r" >Next</a>
+			 </div>
+		
+		</div> <!-- End Page -->
+	</form>
+</body>
+<script>
+		<!-- populate the form from previously saved localStorage cookie called Survey -->
+		  var unid = localStorage.getItem("unid");
+		  //alert("unid " +unid);
+		 
+		  
+		  
+		 // alert(localStorage.getItem(unid+"form17"));
+	  $("#Survey").deserialize(localStorage.getItem(unid+"Survey"));
+	  
+	  //Table One
+						 var SurveytableOneRowCountRestore= localStorage.getItem("SurveytableOneRowCount"+unid);
+						//  alert("counter restore to  "+SurveytableOneRowCountRestore);
+							//Start with One Row
+							if(SurveytableOneRowCountRestore==null){
+								$("#btnAdd").click(); 
+								}
+							
+							
+							for (var i=0;i<SurveytableOneRowCountRestore;i++)
+								{ 
+								
+									$("#btnAdd").click(); 
+														
+								}
+						//Table Two
+						 var SurveytableTwoRowCountRestore= localStorage.getItem("SurveytableTwoRowCount"+unid);
+						  //alert("counter restore to  "+SurveytableTwoRowCountRestore);
+							if(SurveytableTwoRowCountRestore==null){
+								$("#btnAdd2").click(); 
+								}
+			
+						
+							for (var j=0;j<SurveytableTwoRowCountRestore;j++)
+								{ 
+									$("#btnAdd2").click(); 
+														
+								}	
+						//Table Three
+						 var SurveytableThreeRowCountRestore= localStorage.getItem("SurveytableThreeRowCount"+unid);
+						  //alert("counter restore to  "+SurveytableThreeRowCountRestore);
+							if(SurveytableThreeRowCountRestore==null){
+								$("#btnAdd3").click(); 
+								}
+								
+							for (var k=0;k<SurveytableThreeRowCountRestore;k++)
+								{ 
+									$("#btnAdd3").click(); 
+														
+								}		
+						//Table Four
+						 var SurveytableFourRowCountRestore= localStorage.getItem("SurveytableFourRowCount"+unid);
+						  //alert("counter restore to  "+SurveytableFourRowCountRestore);
+							if(SurveytableFourRowCountRestore==null){
+								$("#btnAdd4").click(); 
+								}
+							for (var m=0;m<SurveytableFourRowCountRestore;m++)
+								{ 
+									$("#btnAdd4").click(); 
+														
+								}			
+															
+							
+							
+							
+						  var unid = localStorage.getItem("unid");
+						  //alert(unid);
+		  	             $("#Survey").deserialize(localStorage.getItem(unid+"Survey"));
+						 
+			 
+			 
+			 //Total up the Chemical Costs
+					$('.chem_costs').keyup(function () {
+					//alert('blur');
+						var sum = 0;
+						$('.chem_costs').each(function() {
+							sum += Number($(this).val());
+							//alert(sum);
+						});
+						$('#TotCost').val(sum);
+						
+						saveValues();
+						
+					});
+						 
+		 	 //Total up the Equipment Costs
+					$('.equip_costs').keyup(function () {
+					//alert('blur');
+						var sum = 0;
+						$('.equip_costs').each(function() {
+							sum += Number($(this).val());
+							//alert(sum);
+						});
+						$('#TotEquipCost').val(sum);
+						
+						saveValues();
+						
+					});
+
+	  
+</script>
+</html>

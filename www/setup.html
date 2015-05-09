@@ -1,0 +1,242 @@
+<!DOCTYPE html> 
+<html> 
+	<head> 
+		<title>iReport Setup</title> 
+	
+		<meta name="viewport" content="width=device-width, initial-scale=1"> 
+		<link rel="stylesheet" href="css/stylemaster.css" type="text/css" media="screen" title="no title" charset="utf-8">
+		<link rel="stylesheet" href="jq/jquery.mobile-1.0.css" />
+	  <script src="jq/jquery-1.7.js"></script>
+	
+		<script src="jq/jquery.mobile-1.0.js"></script>
+		
+		<script type="text/javascript" charset="utf-8" src="js/iReport.js"></script>
+		<script src="js/setup.js"></script>
+		<script src="js/setup2.js"></script>
+		
+		
+		
+		<script>
+		</script>
+		
+		
+	</head> 
+	<body> 
+	<form>
+	<div data-role="page" data-theme="d">
+	
+						<div data-role="header" data-theme="c" data-position="fixed" >
+								<a href="index.html" data-ajax="false" data-icon="home" data-theme="d">Home</a>
+									<center><img src="img/logo.png" alt="Chardon Logo" height="35px" width="30px" ></br><h2>Chardon Labs - Sales Application</h2></img></center>
+								<span data-theme="c" id="TechNameOptions" ></span>
+																														
+						</div><!-- /header -->
+
+		<div data-role="content" data-theme="f">	
+		<center><h2>Initial Setup</h2></center>
+		<div id="userSetup" >
+		
+		<h2> Username
+		
+		<input id = "Username" name="Username" value="" size=30 maxlength=50 autocomplete=off>
+		Password
+		
+		<input id = "Password" name="Password" value="" type="password" size=30 maxlength=50 autocomplete=off>
+		
+		</h2>
+		</br>
+		<input type="button"  data-theme="c"  data-ajax="false" id="initial_setup" value=" Sign In ">
+		
+
+
+
+		
+		</div>
+		
+		  
+		  <div style="display:none">
+		  <select name="type" id="ProposalList" > </select>
+		  </div>
+		  
+		<div data-role="collapsible">
+	   <h3>Manage My Data</h3>
+			<div class="control-group">
+			<h3>Remove Proposal Data from Device</h3>
+				<label class="control-label" for="type"></label>
+				<div class="controls">
+				  <select name="type" id="ProposalList2" >
+				   
+				  </select>
+				</div>
+			  </div>
+		<a href="#" data-ajax="false" data-role="button" onclick="removeAllItems();" >Remove Selected</a>
+		
+						<div class="control-group">
+			<h3>Remove FSO Data from Device</h3>
+				<label class="control-label" for="type"></label>
+				<div class="controls">
+				  <select name="type" id="FSOList2" >
+				   
+				  </select>
+				</div>
+			  </div>
+		<a href="#" data-ajax="false" data-role="button" onclick="removeAllFSOItems();" >Remove Selected</a>
+		
+		</div><!-- /content -->
+		
+		
+		
+		<a href="#" data-ajax="false" data-role="button" onclick="listAllItems();" style="display:none" >List All Items</a>
+		
+</div>
+		
+		
+			<div style="display:none">
+			Customers:<select id="custList" name ="custList" ></select>
+			FSO:<select id="FSOList" name ="FSOList" ></select>
+			</div>
+			
+		<div id="CustomerDownload" style="display: none">
+			<center><h2>You have been Successfully Setup!</h2></center>
+			
+			<a type="button" href="index.html"   data-ajax="false" ><h2>Done</h2></a>
+			<div style="display:none">
+				<a type="button" onclick="getCustomers();"  data-ajax="false" ><h2>Download Customer Info to iPad</h2></a>
+			</div>	
+			<br>
+			
+			Customers:<select id="custList2" name ="custList2"></select>
+			
+		</div>
+		
+  
+		</div><!-- /content -->
+
+	
+	</div><!-- /page -->
+
+	<script>
+
+document.getElementById('ProposalList').innerHTML = localStorage.getItem('MyProposals');
+document.getElementById('ProposalList2').innerHTML = localStorage.getItem('MyProposals');
+
+
+document.getElementById('FSOList').innerHTML = localStorage.getItem('MyFSOs');
+document.getElementById('FSOList2').innerHTML = localStorage.getItem('MyFSOs');
+
+//alert(localStorage.getItem('MyProposals'));
+
+
+function removeAllItems(){  
+		
+		var x=document.getElementById("ProposalList");
+		var y=document.getElementById("ProposalList2");
+		
+		var unid = y.value;
+		
+			for (i=0; i<=localStorage.length-1; i++)  
+			{  
+				key = localStorage.key(i);  
+				//alert('key '+ key);
+			//	alert(localStorage.getItem(key));
+				//alert('unid '+unid);
+				
+			var search = key.search(unid);
+			
+			//alert(search);
+			
+					if (search > -1 ){
+						//alert('unid' + unid);
+						//alert('removing: ' + key);
+						
+						
+						var r=confirm("Remove "+key+"?");
+						if (r==true)
+						  {
+						
+						//Clear all docs with the Key
+						delete window.localStorage[key];
+						  
+						  //Manipulate the pick lists
+							 x.remove(y.selectedIndex);
+							//$('#ProposalList').find('option').clone().appendTo('#ProposalList2');
+							y.innerHTML =  "";
+							$('#ProposalList option').clone().appendTo('#ProposalList2');
+							localStorage.MyProposals = x.innerHTML;
+						    window.location.href=window.location.href; // reload
+						  }
+						else
+						  {
+						  x="You pressed Cancel!";
+						  }
+								
+					}
+				
+				
+				
+				
+			}  
+		} //end removeAllItems
+		
+
+		function removeAllFSOItems(){  
+		
+		var x=document.getElementById("FSOList");
+		var y=document.getElementById("FSOList2");
+		
+		var unid = y.value;
+		
+			for (i=0; i<=localStorage.length-1; i++)  
+			{  
+				key = localStorage.key(i);  
+				//alert('key '+ key);
+			//	alert(localStorage.getItem(key));
+				//alert('unid '+unid);
+				
+			var search = key.search(unid);
+			
+			//alert(search);
+			
+					if (search > -1 ){
+						//alert('unid' + unid);
+						//alert('removing: ' + key);
+						
+						
+						var r=confirm("Remove "+key+"?");
+						if (r==true)
+						  {
+						
+						//Clear all docs with the Key
+						delete window.localStorage[key];
+						  
+						  //Manipulate the pick lists
+							 x.remove(y.selectedIndex);
+							//$('#ProposalList').find('option').clone().appendTo('#ProposalList2');
+							y.innerHTML =  "";
+							$('#FSOList option').clone().appendTo('#FSOList2');
+							localStorage.MyFSOs = x.innerHTML;
+						    window.location.href=window.location.href; // reload
+						  }
+						else
+						  {
+						  x="You pressed Cancel!";
+						  }
+								
+					}
+				
+				
+				
+				
+			}  
+		} //end removeAllItems FSO
+		
+		
+		
+</script>
+	
+	
+	</body>
+	</form>
+</html>
+
+

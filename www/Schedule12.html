@@ -1,0 +1,291 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Schedule 12</title>
+     <link rel="stylesheet" href="jq/jquery.mobile-1.0.min.css" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <script src="jq/jquery-1.7.js"></script>
+    <script src="jq/jquery.mobile-1.1.js"></script>
+	
+	<!--<script src="js/modernizr.custom.34982.js"></script> -->
+	<!--De-Serialize the data -->
+	<script src="js/jquery.deserialize.js"></script>
+	
+	<script>
+	// JavaScript Document
+		var sigCapture = null;
+		
+		
+		
+	$(document).ready(function(e) {
+	
+			//alert('ready');
+			var unid = localStorage.getItem("unid");
+			//alert(unid);
+			if (unid===null){
+				var unid = localStorage.setItem("unid", "123456789");
+			}
+			
+				var unid = localStorage.getItem("unid");
+					//Save the unid to a field
+					$('#unid').val(unid);
+					
+		$('#Salesman').val(localStorage.getItem("Salesman"));	
+
+	
+	})
+			
+	
+				 function saveValues() {
+				// ALERT !! -- Put the form name in for the Variable name below
+					var str = $('#form12').serialize();
+					//save to localStorage
+					
+				// ALERT !! -- Put the form name in for the Variable name below
+					var unid = localStorage.getItem("unid");
+					localStorage.setItem(unid+'form12', str);
+					//alert(str);
+				
+				}
+	
+	</script>
+	
+	<script>
+	function onLoad( event ) {
+				//alert('onLoad');
+			}
+	
+				function SubmitData() {
+				
+				
+				
+				
+					var unid = localStorage.getItem("unid");
+				
+					
+					var data = localStorage.getItem(unid+"form12");
+					
+					var url = "http://www.chardonlabs.com/iPadSales.nsf/Form12?createDocument&"+data;
+					//alert(url);
+					$.ajax({
+					  type: 'POST',
+					  url: url,
+					  data:data,
+					  success: requestSuccess,
+					  error: requestError
+					});
+				
+			
+			}
+
+			function onCancelClick( event ) {
+				clearForm();
+			}
+
+			function clearForm() {
+				$("#email").val( "" );
+				sigCapture.clear();
+				$("#feedback").html( "" );
+			}
+
+			function requestSuccess( data, textStatus, jqXHR ) {
+			//	clearForm();
+			alert(textStatus);
+				//$("#feedback").html( "Thank you." );
+			}
+
+			function requestError( jqXHR, textStatus, errorThrown ) {
+				//$("#feedback").html( "Error: " + errorThrown );
+				alert(textStatus);
+			}
+
+			function verifyEmail() {
+				var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+				return re.test( $("#email").val() );
+			}
+			
+				
+			
+	</script>
+	
+</head>
+
+<body onLoad="onLoad();">
+<form id="form12">
+<input id="Salesman" name="Salesman" style="display:none">
+<!-- Used to trick deserialize The value isnt used  -->
+				<input type="checkbox" name="checkboxDummy" id="checkboxDummy" class="custom" checked="on" style="display:none" />
+	
+	<div data-role="page">
+    
+      
+		<div data-role="header">
+		<a href="index.html" data-ajax="false" data-icon="home">Home</a>
+			 <h1>Schedule No. 12: Cooling Tower, Comfort & Process Systems</h1>
+		<a href="#" data-icon="check" data-theme="b" onClick="saveValues();alert('Draft Saved...');">Save Draft</a>
+		
+		<input name="unid" id="unid" type="Text" style="display:none"></input>	
+        </div>
+		
+    
+        <div data-role="content">
+				
+	<p><tt id="results"></tt></p>
+		
+      
+				
+				<ol id="ServiceA" data-role="listview" data-inset="true">
+						<h2>Cooling Tower Standard Service</h2>
+						<input type="checkbox" name="PlanA" id="PlanA" class="custom" onclick="saveValues();" />
+						<label for="PlanA">Plan A</label>
+					
+					  <li data-role="list-divider">Your Standard Service Includes</li>
+					  <li>Chemicals</li>
+					  <li>Batching Chemicals</li>
+					  <li>Shock Feed Biocides When Needed</li>
+					  <li>Examination of Chemical Feed/Bleed Equipment</li>
+					  <li>Any Necessary Adjustments of Chemical Feed Equipment</li>
+					  <li>Recalibration of Conductivity Controller</li>
+					  <li>Check & Clean Conductivity Probe</li>
+					  <li>Check & Clean Bleed Line Strainer</li> 
+					  <li>Check & Clean Bleed Solenoid</li>
+					  <li>Inspect Tower Sump</li>
+					  <li>Inspect and Sweep Distribution Pans (if automated biocide)</li>
+					  <li>Remove all Chardon Shipping Containers</li>
+					  <li>Special Training of Customer</li>
+					  <li>Laboratory Water & Deposit Sample Analysis (as necessary)</li>
+					  
+					  <li>Testing (as necessary)</li>
+						<table cellpadding="10px">
+						<tr><td span="3">a) Tower Condenser Water Tests(as necessary):</td></tr>	
+						<tr><td>Specific Conductance</td><td>pH</td><td>Iron</td></tr>
+						<tr><td>Water MeterReadings</td><td>M Alkalinity</td><td>Inhibitor </td></tr>
+						<tr><td>Calcium Hardness</td><td>Chlorides</td><td>Cycles</td></tr>
+						<tr><td>Saturation Index</td><td>Mass Balance</td><td>Copper</td></tr>
+						
+						<tr><td span="3">Make-up Water Tests:</td></tr>	
+							<tr><td>Specific Conductance</td><td>Calcium Hardness</td><td></td></tr>
+							<tr><td>M Alkalinity</td><td>Chlorides</td><td></td></tr>
+						</table>	
+					   
+					     
+					  
+					  
+					
+				</ol>	<!--End ServiceA -->
+				
+				<ol id="ServiceB" data-role="listview" data-inset="true">
+						<h2>Cooling Tower Standard Service</h2>
+						<input type="checkbox" name="PlanB" id="PlanB" class="custom"  onclick="saveValues();" />
+						<label for="PlanB">Service B - Your standard service includes everything in Plan A, except that chemicals are purchased separately. </label>
+				
+					  
+					  
+					  
+					  
+				
+					 
+					  
+							<fieldset data-role="controlgroup" data-inset="true">
+							   <legend></legend>
+							   <input type="checkbox" name="checkbox_B_Test_Kits" id="checkbox_B_Test_Kits" class="custom"  onclick="saveValues();" />
+							   <label for="checkbox_B_Test_Kits">Test Kits</label>
+							  
+							   <input type="checkbox" name="checkbox_B_Reagents" id="checkbox_B_Reagents" class="custom"  onclick="saveValues();"/>
+							   <label for="checkbox_B_Reagents">Reagents</label>
+							   
+							   <input type="checkbox" name="checkbox_B_Biological_Testing" id="checkbox_B_Biological_Testing" class="custom"  onclick="saveValues();" />
+							   <label for="checkbox_B_Biological_Testing">Biological Testing (field or lab)</label>
+							   
+							   <input type="checkbox" name="checkbox_B_Repair_MaintainCFE" id="checkbox_B_Repair_MaintainCFE" class="custom"  onclick="saveValues();" />
+							   <label for="checkbox_B_Repair_MaintainCFE">Repair/Maintain Chemical Feed/Bleed Equipment</label>
+							 
+							   
+							   <input type="checkbox" name="checkbox_B_Lay_up_Treatment" id="checkbox_B_Lay_up_Treatment" class="custom"  onclick="saveValues();" />
+							   <label for="checkbox_B_Lay_up_Treatment">Lay_up Treatment</label>
+							   
+							   <input type="checkbox" name="checkbox_B_Inst_Corr_Mon_Rack" id="checkbox_B_Inst_Corr_Mon_Rack" class="custom"  onclick="saveValues();" />
+							   <label for="checkbox_B_Inst_Corr_Mon_Rack">Install Corrosion Monitoring Rack</label>
+							   
+							   <input type="checkbox" name="checkbox_B_STest_Corrosion" id="checkbox_B_STest_Corrosion" class="custom"  onclick="saveValues();"/>
+							   <label for="checkbox_B_STest_Corrosion">Supply & Test Corrosion Coupons</label>
+							   
+							   <input type="checkbox" name="checkbox_B_STCor_Elect" id="checkbox_B_STCor_Elect" class="custom"  onclick="saveValues();" />
+							   <label for="checkbox_B_STCor_Elect">Supply & Test Corrater Electrodes</label>
+							   
+							   <input type="checkbox" name="checkbox_B_Check_Float" id="checkbox_B_Check_Float" class="custom"  onclick="saveValues();" />
+							   <label for="checkbox_B_Check_Float">Check Float Operation</label>
+							   
+							   <input type="checkbox" name="checkbox_B_Repairs_on_TM" id="checkbox_B_Repairs_on_TM" class="custom"  onclick="saveValues();"/>
+							   <label for="checkbox_B_Repairs_on_TM">Repairs on T&M</label>
+							   
+							   <input type="checkbox" name="checkbox_B_Replace_Sand" id="checkbox_B_Replace_Sand" class="custom"  onclick="saveValues();"/>
+							   <label for="checkbox_B_Replace_Sand">Replace Sand filter Media</label>
+							   
+							   <input type="checkbox" name="checkbox_B_Clean_Sump" id="checkbox_B_Clean_Sump" class="custom"  onclick="saveValues();"/>
+							   <label for="checkbox_B_Clean_Sump">Clean Sump Basin</label>
+							   
+							   <input type="checkbox" name="checkbox_B_Tower_RR" id="checkbox_B_Tower_RR" class="custom" onclick="saveValues();" />
+							   <label for="checkbox_B_Tower_RR">Tower Repair/Restore</label>
+							   
+							   <input type="checkbox" name="checkbox_B_Legionella" id="checkbox_B_Legionella" class="custom"  onclick="saveValues();"/>
+							   <label for="checkbox_B_Legionella">Legionella Testing</label>
+							   
+							   <input type="checkbox" name="checkbox_B_Other" id="checkbox_B_Other" class="custom"  onclick="saveValues();"/>
+							   <label for="checkbox_B_Other">Other</label>
+							   <textarea data_role="none" class="Schedule11_TextArea"   name="Schedule12_TextArea_Other" id="Schedule12_TextArea_Other"  onblur="saveValues();"></textarea>
+							</fieldset>
+							
+							
+							<fieldset data-role="controlgroup" data-inset="true">
+							
+							<input type="radio" name="checkboxBOpt_Serv_Inc" id="checkboxBOpt_Serv_Inc" class="custom"  onclick="saveValues();" value="Optional Services Included" />
+							<label for="checkboxBOpt_Serv_Inc">Optional Services Included</label>
+							   
+							<input type="radio" name="checkboxBOpt_Serv_Inc" id="checkboxBOpt_Serv_Inc2" class="custom"  onclick="saveValues();" value ="Optional Services Purchased Separately"/>
+							<label for="checkboxBOpt_Serv_Inc2">Optional Services Purchased Separately</label>   
+							   
+							</fieldset>
+							
+					
+					</ol>	<!--End ServiceB-->	 						  
+			
+											
+					
+				
+				
+		
+			
+		</div> <!--End Content -->
+					
+					
+		  
+            
+     
+    
+ 
+		
+			<div data-role="header">
+				<a href="Schedule11.html" rel="external" data-role="button" onclick="" data-inline="true"  data-icon="arrow-l" >Previous</a>
+			<h4>Schedule 12 - 01-SAFM-03-015</h4>
+			 	<a href="Schedule13.html" rel="external" data-role="button" onclick="" data-inline="true"  data-icon="arrow-r" >Next</a>
+			 </div>
+		
+    </div> <!-- End Page -->
+</form>
+</body>
+
+
+
+<script>
+		<!-- populate the form from previously saved localStorage cookie called form11 -->
+	  	var unid = localStorage.getItem("unid");
+		
+	    $("#form12").deserialize(localStorage.getItem(unid+"form12"));
+
+	  
+</script>
+
+</html>

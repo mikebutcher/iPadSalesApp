@@ -1,0 +1,1134 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Schedule No. 18 Customer's Recommented Preventative Maintenance Schedule</title>
+  <link rel="stylesheet" href="jq/jquery.mobile-1.0.min.css" /> 
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <script src="jq/jquery-1.7.js"></script>
+    <script src="jq/jquery.mobile-1.1.js"></script>
+	<script src="js/jquery.deserialize.js"></script>
+	
+	<!-- <script src="js/modernizr.custom.34982.js"></script> -->
+	<!--<script src="js/signatureCapture.js"></script> -->
+	
+	<script>
+	
+	$(document).ready(function(e) {
+	
+			//alert('ready');
+			var unid = localStorage.getItem("unid");
+			//alert(unid);
+			
+				var unid = localStorage.getItem("unid");
+					//Save the unid to a field
+					$('#unid').val(unid);
+						$('#Salesman').val(localStorage.getItem("Salesman"));	
+			
+	
+	})
+	
+	
+	// JavaScript Document
+		var sigCapture = null;
+		
+		
+			$(document).ready(function(e) {
+			//sigCapture = new SignatureCapture( "signature1" );
+			//sigCapture2 = new SignatureCapture( "signature2" );
+			
+			//$("#submit").click( onSubmitClick );
+			//$("#cancel").click( onCancelClick );
+		});
+			
+	
+	</script>
+	
+	<script>
+	
+	
+		 function saveValues() {
+		// ALERT !! -- Put the form name in for the Variable name below
+			var str = $('#form18').serialize();
+			//save to localStorage
+			
+		// ALERT !! -- Put the form name in for the Variable name below
+			var unid = localStorage.getItem("unid");
+			localStorage.setItem(unid+'form18', str);
+			
+			//alert(localStorage.getItem(unid+'ContractCalc'));
+			
+	  		//alert(str);
+	
+	  
+    }
+	
+	
+				function SubmitData() {
+				
+				
+						
+					var unid = localStorage.getItem("unid");
+					var data = localStorage.getItem(unid+"form18");
+					
+					var url = "http://www.chardonlabs.com/iPadSales.nsf/Form18?createDocument&"+data;
+					//alert(url);
+					$.ajax({
+					  type: 'POST',
+					  url: url,
+					  data:data,
+					  success: requestSuccess,
+					  error: requestError
+					});
+				
+			
+			}
+
+			function onCancelClick( event ) {
+				clearForm();
+			}
+
+			function clearForm() {
+				$("#email").val( "" );
+				sigCapture.clear();
+				$("#feedback").html( "" );
+			}
+
+			function requestSuccess( data, textStatus, jqXHR ) {
+				//clearForm();
+				alert(textStatus);
+			}
+
+			function requestError( jqXHR, textStatus, errorThrown ) {
+				alert(textStatus);
+			}
+
+			function verifyEmail() {
+				var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+				return re.test( $("#email").val() );
+			}
+			
+			
+		
+	</script>
+	
+</head>
+
+<body>
+<form id="form18">
+
+<input id="Salesman" name="Salesman" style="display:none">
+	<div data-role="page">
+    
+        <div data-role="header">
+	<a href="index.html" data-ajax="false" data-icon="home">Home</a>
+            <h1>Schedule No. 18 Customer's Recommented Preventative Maintenance Schedule</h1>
+		<a href="#" data-icon="check" data-theme="b" onClick="saveValues();alert('Draft Saved...');">Save Draft</a>
+        </div>
+		
+    <input name="unid" id="unid" type="Text" style="display:none"></input>	
+        <div data-role="content">
+		<h1>Customer is recommended to do the following checked items:</h1>
+		<h2>1) Run the following chemical tests and enter in log book:</h2>
+		
+		<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+				</fieldset>
+		<!-- FIRST COLUMN -->
+				<div class="ui-block-a">
+				<legend><h2>a. Steam Boilers</h2></legend>
+				<table>
+				<tr>
+				<th>
+				Conductivity
+				</th>
+				<td>
+				<input type="checkbox" name="SB_Cond_Daily" id="SB_Cond_Daily" value="Daily" class="custom" onclick="saveValues();" />
+				<label for="SB_Cond_Daily">Daily</label>
+				</td>
+				<td>
+				<input type="checkbox" name="SB_Cond_Weekly" id="SB_Cond_Weekly" value="Weekly" class="custom" onclick="saveValues();" />
+				<label for="SB_Cond_Weekly">Weekly</label>
+				</td>
+				<td>
+				<input type="checkbox" name="SB_Cond_Other" id="SB_Cond_Other" value="Other" class="custom" onclick="saveValues();" />
+				
+				<label for="SB_Cond_Other">Other</label>
+				</td>
+				<td>
+				<input type="text" id="SB_Cond_Other_text" name ="SB_Cond_Other_text" onblur="saveValues();" ></input>
+				</td>
+				</tr>
+				
+				<tr>
+				<th>
+				Sulfite
+				</th>
+				<td>
+				<input type="checkbox" name="SB_Sulfite_Daily" id="SB_Sulfite_Daily" value="Daily" class="custom" onclick="saveValues();" />
+				<label for="SB_Sulfite_Daily">Daily</label>
+				</td>
+				<td>
+				<input type="checkbox" name="SB_Sulfite_Weekly" id="SB_Sulfite_Weekly" value="Weekly" class="custom" onclick="saveValues();" />
+				<label for="SB_Sulfite_Weekly">Weekly</label>
+				</td>
+				<td>
+				<input type="checkbox" name="SB_Sulfite_Other" id="SB_Sulfite_Other" value="Other" class="custom" onclick="saveValues();" />
+				
+				<label for="SB_Sulfite_Other">Other</label>
+				</td>
+				<td>
+				<input type="text" id="SB_Sulfite_Other_text" name="SB_Sulfite_Other_text" onblur="saveValues();"></input>
+				</td>
+				</tr>
+				
+				<tr>
+				<th>
+				Alkalinity
+				</th>
+				<td>
+				<input type="checkbox" name="SB_Alkalinity_Daily" id="SB_Alkalinity_Daily" value="Daily" class="custom" onclick="saveValues();" />
+				<label for="SB_Alkalinity_Daily">Daily</label>
+				</td>
+				<td>
+				<input type="checkbox" name="SB_Alkalinity_Weekly" id="SB_Alkalinity_Weekly" value="Weekly" class="custom" onclick="saveValues();" />
+				<label for="SB_Alkalinity_Weekly">Weekly</label>
+				</td>
+				<td>
+				<input type="checkbox" name="SB_Alkalinity_Other" id="SB_Alkalinity_Other" value="Other" class="custom" onclick="saveValues();" />
+				
+				<label for="SB_Alkalinity_Other">Other</label>
+				</td>
+				<td>
+				<input type="text" id="SB_Alkalinity_Other_text" name="SB_Alkalinity_Other_text" onblur="saveValues();"></input>
+				</td>
+				</tr>
+				
+				<tr>
+				<th>
+				Total Hardness
+				</th>
+				<td>
+				<input type="checkbox" name="SB_Hardness_Daily" id="SB_Hardness_Daily" value="Daily" class="custom" onclick="saveValues();" />
+				<label for="SB_Hardness_Daily">Daily</label>
+				</td>
+				<td>
+				<input type="checkbox" name="SB_Hardness_Weekly" id="SB_Hardness_Weekly" value="Weekly" class="custom" onclick="saveValues();" />
+				<label for="SB_Hardness_Weekly">Weekly</label>
+				</td>
+				<td>
+				<input type="checkbox" name="SB_Hardness_Other" id="SB_Hardness_Other" value="Other" class="custom" onclick="saveValues();" />
+				
+				<label for="SB_Hardness_Other">Other</label>
+				</td>
+				<td>
+				<input type="text" id="SB_Hardness_Other_text" name="SB_Hardness_Other_text"  onblur="saveValues();"></input>
+				</td>
+				</tr>
+				
+				<tr>
+				<th>
+				pH
+				</th>
+				<td>
+				<input type="checkbox" name="SB_pH_Daily" id="SB_pH_Daily" value="Daily" class="custom" onclick="saveValues();" />
+				<label for="SB_pH_Daily">Daily</label>
+				</td>
+				<td>
+				<input type="checkbox" name="SB_pH_Weekly" id="SB_pH_Weekly" value="Weekly" class="custom" onclick="saveValues();" />
+				<label for="SB_pH_Weekly">Weekly</label>
+				</td>
+				<td>
+				<input type="checkbox" name="SB_pH_Other" id="SB_pH_Other" value="Other" class="custom" onclick="saveValues();" />
+				
+				<label for="SB_pH_Other">Other</label>
+				</td>
+				<td>
+				<input type="text" id="SB_pH_Other_text"   name="SB_pH_Other_text" onblur="saveValues();"></input>
+				</td>
+				</tr>
+				
+				<tr>
+				<th>
+				Other
+				</th>
+				<td>
+				<input type="checkbox" name="SB_other_Daily" id="SB_other_Daily" value="Daily" class="custom" onclick="saveValues();" />
+				<label for="SB_other_Daily">Daily</label>
+				</td>
+				<td>
+				<input type="checkbox" name="SB_other_Weekly" id="SB_other_Weekly" value="Weekly" class="custom" onclick="saveValues();" />
+				<label for="SB_other_Weekly">Weekly</label>
+				</td>
+				<td>
+				<input type="checkbox" name="SB_other_Other" id="SB_other_Other" value="Other" class="custom" onclick="saveValues();" />
+				
+				<label for="SB_other_Other">Other</label>
+				</td>
+				<td>
+				<input type="text" id="SB_other_Other_text" name="SB_other_Other_text" onblur="saveValues();"></input>
+				</td>
+				</tr>
+				
+				</table>
+				
+				</div>
+				
+			
+				
+		
+		<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+				</fieldset>
+		<!--FIRST COLUMN -->
+				<div class="ui-block-a">
+				<legend><h2>b. Condensate</h2></legend>
+				<table>
+				<tr>
+				<th>
+				Conductivity
+				</th>
+				<td>
+				<input type="checkbox" name="Cond_Cond_Daily" id="Cond_Cond_Daily" value="Daily" class="custom" onclick="saveValues();" />
+				<label for="Cond_Cond_Daily">Daily</label>
+				</td>
+				<td>
+				<input type="checkbox" name="Cond_Cond_Weekly" id="Cond_Cond_Weekly" value="Weekly" class="custom" onclick="saveValues();" />
+				<label for="Cond_Cond_Weekly">Weekly</label>
+				</td>
+				<td>
+				<input type="checkbox" name="Cond_Cond_Other" id="Cond_Cond_Other" value="Other" class="custom" onclick="saveValues();" />
+				
+				<label for="Cond_Cond_Other">Other</label>
+				</td>
+				<td>
+				<input type="text" id="Cond_Cond_Other_text" name="Cond_Cond_Other_text" onblur="saveValues();" ></input>
+				</td>
+				</tr>
+				
+				
+				<tr>
+				<th>
+				pH
+				</th>
+				<td>
+				<input type="checkbox" name="Cond_pH_Daily" id="Cond_pH_Daily" value="Daily" class="custom" onclick="saveValues();" />
+				<label for="Cond_pH_Daily">Daily</label>
+				</td>
+				<td>
+				<input type="checkbox" name="Cond_pH_Weekly" id="Cond_pH_Weekly" value="Weekly" class="custom" onclick="saveValues();" />
+				<label for="Cond_pH_Weekly">Weekly</label>
+				</td>
+				<td>
+				<input type="checkbox" name="Cond_pH_Other" id="Cond_pH_Other" value="Other" class="custom" onclick="saveValues();" />
+				
+				<label for="Cond_pH_Other">Other</label>
+				</td>
+				<td>
+				<input type="text" id="Cond_pH_Other_text"  name="Cond_pH_Other_text" onblur="saveValues();" ></input>
+				</td>
+				</tr>
+				
+	
+				
+				
+				<tr>
+				<th>
+				Other
+				</th>
+				<td>
+				<input type="checkbox" name="Cond_other_Daily" id="Cond_other_Daily" value="Daily" class="custom" onclick="saveValues();" />
+				<label for="Cond_other_Daily">Daily</label>
+				</td>
+				<td>
+				<input type="checkbox" name="Cond_other_Weekly" id="Cond_other_Weekly" value="Weekly" class="custom" onclick="saveValues();" />
+				<label for="Cond_other_Weekly">Weekly</label>
+				</td>
+				<td>
+				<input type="checkbox" name="Cond_other_Other" id="Cond_other_Other" value="Other" class="custom" onclick="saveValues();" />
+				
+				<label for="Cond_other_Other">Other</label>
+				</td>
+				<td>
+				<input type="text" id="Cond_other_Other_text" name="Cond_other_Other_text" onblur="saveValues();" ></input>
+				</td>
+				</tr>
+				
+				</table>
+				
+				</div>
+				
+			
+				
+
+				
+					<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+				</fieldset>
+		<!-- FIRST COLUMN -->
+				<div class="ui-block-a">
+				<legend><h2>c. Feed Water</h2></legend>
+				<table>
+				<tr>
+				<th>
+				Conductivity
+				</th>
+				<td>
+				<input type="checkbox" name="FW_Cond_Daily" id="FW_Cond_Daily" value="Daily" class="custom" onclick="saveValues();" />
+				<label for="FW_Cond_Daily">Daily</label>
+				</td>
+				<td>
+				<input type="checkbox" name="FW_Cond_Weekly" id="FW_Cond_Weekly" value="Weekly" class="custom" onclick="saveValues();" />
+				<label for="FW_Cond_Weekly">Weekly</label>
+				</td>
+				<td>
+				<input type="checkbox" name="FW_Cond_Other" id="FW_Cond_Other" value="Other" class="custom" onclick="saveValues();" />
+				
+				<label for="FW_Cond_Other">Other</label>
+				</td>
+				<td>
+				<input type="text" id="FW_Cond_Other_text" name="FW_Cond_Other_text" onblur="saveValues();" ></input>
+				</td>
+				</tr>
+				
+				
+				<tr>
+				<th>
+				pH
+				</th>
+				<td>
+				<input type="checkbox" name="FW_pH_Daily" id="FW_pH_Daily" value="Daily" class="custom" onclick="saveValues();" />
+				<label for="FW_pH_Daily">Daily</label>
+				</td>
+				<td>
+				<input type="checkbox" name="FW_pH_Weekly" id="FW_pH_Weekly" value="Weekly" class="custom" onclick="saveValues();" />
+				<label for="FW_pH_Weekly">Weekly</label>
+				</td>
+				<td>
+				<input type="checkbox" name="FW_pH_Other" id="FW_pH_Other" value="Other" class="custom" onclick="saveValues();" />
+				
+				<label for="FW_pH_Other">Other</label>
+				</td>
+				<td>
+				<input type="text" id="FW_pH_Other_text" name="FW_pH_Other_text" onblur="saveValues();"></input>
+				</td>
+				</tr>
+				
+				<tr>
+				<th>
+				Total Hardness
+				</th>
+				<td>
+				<input type="checkbox" name="FW_Total_Hardness_Daily" id="FW_Total_Hardness_Daily" value="Daily" class="custom" onclick="saveValues();" />
+				<label for="FW_Total_Hardness_Daily">Daily</label>
+				</td>
+				<td>
+				<input type="checkbox" name="FW_Total_Hardness_Weekly" id="FW_Total_Hardness_Weekly" value="Weekly" class="custom" onclick="saveValues();" />
+				<label for="FW_Total_Hardness_Weekly">Weekly</label>
+				</td>
+				<td>
+				<input type="checkbox" name="FW_Total_Hardness_Other" id="FW_Total_Hardness_Other" value="Other" class="custom" onclick="saveValues();" />
+				<label for="FW_Total_Hardness_Other">Other</label>
+				</td>
+				<td>
+				<input type="text" id="FW_Total_Hardness_Other_text"  name="FW_Total_Hardness_Other_text" onblur="saveValues();"></input>
+				</td>
+				</tr>
+				
+				<tr>
+				<th>
+				Sulfite
+				</th>
+				<td>
+				<input type="checkbox" name="FW_Sulfite_Daily" id="FW_Sulfite_Daily" value="Daily" class="custom" onclick="saveValues();" />
+				<label for="FW_Sulfite_Daily">Daily</label>
+				</td>
+				<td>
+				<input type="checkbox" name="FW_Sulfite_Weekly" id="FW_Sulfite_Weekly" value="Weekly" class="custom" onclick="saveValues();" />
+				<label for="FW_Sulfite_Weekly">Weekly</label>
+				</td>
+				<td>
+				<input type="checkbox" name="FW_Sulfite_Other" id="FW_Sulfite_Other" value="Other" class="custom" onclick="saveValues();" />
+				<label for="FW_Sulfite_Other">Other</label>
+				</td>
+				<td>
+				<input type="text" id="FW_Sulfite_Other_text"  name="FW_Sulfite_Other_text" onblur="saveValues();"></input>
+				</td>
+				</tr>
+				
+				
+				
+				<tr>
+				<th>
+				Other
+				</th>
+				<td>
+				<input type="checkbox" name="FW_other_Daily" id="FW_other_Daily" value="Daily" class="custom" onclick="saveValues();" />
+				<label for="FW_other_Daily">Daily</label>
+				</td>
+				<td>
+				<input type="checkbox" name="FW_other_Weekly" id="FW_other_Weekly" value="Weekly" class="custom" onclick="saveValues();" />
+				<label for="FW_other_Weekly">Weekly</label>
+				</td>
+				<td>
+				<input type="checkbox" name="FW_other_Other" id="FW_other_Other" value="Other" class="custom" onclick="saveValues();" />
+				
+				<label for="FW_other_Other">Other</label>
+				</td>
+				<td>
+				<input type="text" id="FW_other_Other_text" name="FW_other_Other_text" onblur="saveValues();"></input>
+				</td>
+				</tr>
+				
+				</table>
+				
+				</div>
+				
+			
+				
+				
+				
+				<!--FIRST COLUMN -->
+				<div class="ui-block-a">
+				<legend><h2>d. Softener</h2></legend>
+				<table>
+				<tr>
+				<th>
+				Total Hardness
+				</th>
+				<td>
+				<input type="checkbox" name="softener_Hardness_Daily" id="softener_Hardness_Daily" value="Daily" class="custom" onclick="saveValues();" />
+				<label for="softener_Hardness_Daily">Daily</label>
+				</td>
+				<td>
+				<input type="checkbox" name="softener_Hardness_Weekly" id="softener_Hardness_Weekly" value="Weekly" class="custom" onclick="saveValues();" />
+				<label for="softener_Hardness_Weekly">Weekly</label>
+				</td>
+				<td>
+				<input type="checkbox" name="softener_Hardness_Other" id="softener_Hardness_Other" value="Other" class="custom" onclick="saveValues();" />
+				
+				<label for="softener_Hardness_Other">Other</label>
+				</td>
+				<td>
+				<input type="text" id="softener_Hardness_Other_text" name="softener_Hardness_Other_text" onblur="saveValues();"></input>
+				</td>
+				</tr>
+				
+				<tr>
+				<th>
+				Other
+				</th>
+				<td>
+				<input type="checkbox" name="softener_other_Daily" id="softener_other_Daily" value="Daily" class="custom" onclick="saveValues();" />
+				<label for="softener_other_Daily">Daily</label>
+				</td>
+				<td>
+				<input type="checkbox" name="softener_other_Weekly" id="softener_other_Weekly" value="Weekly" class="custom" onclick="saveValues();" />
+				<label for="softener_other_Weekly">Weekly</label>
+				</td>
+				<td>
+				<input type="checkbox" name="softener_other_Other" id="softener_other_Other" value="Other" class="custom" onclick="saveValues();" />
+				
+				<label for="softener_other_Other">Other</label>
+				</td>
+				<td>
+				<input type="text" id="softener_other_Other_text" name="softener_other_Other_text" onblur="saveValues();" ></input>
+				</td>
+				</tr>
+				</table>
+				</div>
+				
+				<!-- FIRST COLUMN -->
+				<div class="ui-block-a">
+				<legend><h2>e. Dealkalizer</h2></legend>
+				<table>
+				<tr>
+				<th>
+				Alkalinity
+				</th>
+				<td>
+				<input type="checkbox" name="Dealk_Alk_Daily" id="Dealk_Alk_Daily" value="Daily" class="custom" onclick="saveValues();" />
+				<label for="Dealk_Alk_Daily">Daily</label>
+				</td>
+				<td>
+				<input type="checkbox" name="Dealk_Alk_Weekly" id="Dealk_Alk_Weekly" value="Weekly" class="custom" onclick="saveValues();" />
+				<label for="Dealk_Alk_Weekly">Weekly</label>
+				</td>
+				<td>
+				<input type="checkbox" name="Dealk_Alk_Other" id="Dealk_Alk_Other" value="Other" class="custom" onclick="saveValues();" />
+				
+				<label for="Dealk_Alk_Other">Other</label>
+				</td>
+				<td>
+				<input type="text" id="Dealk_Alk_Other_text" name="Dealk_Alk_Other_text" onblur="saveValues();" ></input>
+				</td>
+				</tr>
+				
+				<tr>
+				<th>
+				Other
+				</th>
+				<td>
+				<input type="checkbox" name="Dealkalizer_other_Daily" id="Dealkalizer_other_Daily" value="Daily" class="custom" onclick="saveValues();" />
+				<label for="Dealkalizer_other_Daily">Daily</label>
+				</td>
+				<td>
+				<input type="checkbox" name="Dealkalizer_other_Weekly" id="Dealkalizer_other_Weekly" value="Weekly" class="custom" onclick="saveValues();" />
+				<label for="Dealkalizer_other_Weekly">Weekly</label>
+				</td>
+				<td>
+				<input type="checkbox" name="Dealkalizer_other_Other" id="Dealkalizer_other_Other" value="Other" class="custom" onclick="saveValues();" />
+				
+				<label for="Dealkalizer_other_Other">Other</label>
+				</td>
+				<td>
+				<input type="text" id="Dealkalizer_other_Other_text" name="Dealkalizer_other_Other_text" onblur="saveValues();"></input>
+				</td>
+				</tr>
+				
+				</table>
+				</div>
+				
+				<div class="ui-block-a">
+				<legend><h2>f. Cooling Tower</h2></legend>
+				<table>
+				<tr>
+				<th>
+				Conductivity
+				</th>
+				<td>
+				<input type="checkbox" name="CT_Cond_Daily" id="CT_Cond_Daily" value="Daily" class="custom" onclick="saveValues();" />
+				<label for="CT_Cond_Daily">Daily</label>
+				</td>
+				<td>
+				<input type="checkbox" name="CT_Cond_Weekly" id="CT_Cond_Weekly" value="Weekly" class="custom" onclick="saveValues();" />
+				<label for="CT_Cond_Weekly">Weekly</label>
+				</td>
+				<td>
+				<input type="checkbox" name="CT_Cond_Other" id="CT_Cond_Other" value="Other" class="custom" onclick="saveValues();" />
+				
+				<label for="CT_Cond_Other">Other</label>
+				</td>
+				<td>
+				<input type="text" id="CT_Cond_Other_text" name="CT_Cond_Other_text" onblur="saveValues();"></input>
+				</td>
+				</tr>
+				
+				
+				<tr>
+				<th>
+				pH
+				</th>
+				<td>
+				<input type="checkbox" name="CT_pH_Daily" id="CT_pH_Daily" value="Daily" class="custom" onclick="saveValues();" />
+				<label for="CT_pH_Daily">Daily</label>
+				</td>
+				<td>
+				<input type="checkbox" name="CT_pH_Weekly" id="CT_pH_Weekly" value="Weekly" class="custom" onclick="saveValues();" />
+				<label for="CT_pH_Weekly">Weekly</label>
+				</td>
+				<td>
+				<input type="checkbox" name="CT_pH_Other" id="CT_pH_Other" value="Other" class="custom" onclick="saveValues();" />
+				
+				<label for="CT_pH_Other">Other</label>
+				</td>
+				<td>
+				<input type="text" id="CT_pH_Other_text" name="CT_pH_Other_text" onblur="saveValues();"></input>
+				</td>
+				</tr>
+				
+				<tr>
+				
+				<tr>
+				<th>
+				Iron
+				</th>
+				<td>
+				<input type="checkbox" name="CT_Iron_Daily" id="CT_Iron_Daily" value="Daily" class="custom" onclick="saveValues();" />
+				<label for="CT_Iron_Daily">Daily</label>
+				</td>
+				<td>
+				<input type="checkbox" name="CT_Iron_Weekly" id="CT_Iron_Weekly" value="Weekly" class="custom" onclick="saveValues();" />
+				<label for="CT_Iron_Weekly">Weekly</label>
+				</td>
+				<td>
+				<input type="checkbox" name="CT_Iron_Other" id="CT_Iron_Other" value="Other" class="custom" onclick="saveValues();" />
+				
+				<label for="CT_Iron_Other">Other</label>
+				</td>
+				<td>
+				<input type="text" id="CT_Iron_Other_text" name="CT_Iron_Other_text" onblur="saveValues();"></input>
+				</td>
+				</tr>
+				
+				<tr>
+				<th>
+				Alkalinity
+				</th>
+				<td>
+				<input type="checkbox" name="CT_Alkalinity_Daily" id="CT_Alkalinity_Daily" value="Daily" class="custom" onclick="saveValues();" />
+				<label for="CT_Alkalinity_Daily">Daily</label>
+				</td>
+				<td>
+				<input type="checkbox" name="CT_Alkalinity_Weekly" id="CT_Alkalinity_Weekly" value="Weekly" class="custom" onclick="saveValues();" />
+				<label for="CT_Alkalinity_Weekly">Weekly</label>
+				</td>
+				<td>
+				<input type="checkbox" name="CT_Alkalinity_Other" id="CT_Alkalinity_Other" value="Other" class="custom" onclick="saveValues();" />
+				
+				<label for="CT_Alkalinity_Other">Other</label>
+				</td>
+				<td>
+				<input type="text" id="CT_Alkalinity_Other_text" name="CT_Alkalinity_Other_text" onblur="saveValues();"></input>
+				</td>
+				</tr>
+				
+				<tr>
+				<th>
+				Total Hardness
+				</th>
+				<td>
+				<input type="checkbox" name="CT_Total_Hardness_Daily" id="CT_Total_Hardness_Daily" value="Daily" class="custom" onclick="saveValues();" />
+				<label for="CT_Total_Hardness_Daily">Daily</label>
+				</td>
+				<td>
+				<input type="checkbox" name="CT_Total_Hardness_Weekly" id="CT_Total_Hardness_Weekly" value="Weekly" class="custom" onclick="saveValues();" />
+				<label for="CT_Total_Hardness_Weekly">Weekly</label>
+				</td>
+				<td>
+				<input type="checkbox" name="CT_Total_Hardness_Other" id="CT_Total_Hardness_Other" value="Other" class="custom" onclick="saveValues();" />
+				
+				<label for="CT_Total_Hardness_Other">Other</label>
+				</td>
+				<td>
+				<input type="text" id="CT_Total_Hardness_Other_text" name="CT_Total_Hardness_Other_text" onblur="saveValues();"></input>
+				</td>
+				</tr>
+				
+				
+				
+				<tr>
+				<th>
+				Other
+				</th>
+				<td>
+				<input type="checkbox" name="CT_other_Daily" id="CT_other_Daily" value="Daily" class="custom" onclick="saveValues();" />
+				<label for="CT_other_Daily">Daily</label>
+				</td>
+				<td>
+				<input type="checkbox" name="CT_other_Weekly" id="CT_other_Weekly" value="Weekly" class="custom" onclick="saveValues();" />
+				<label for="CT_other_Weekly">Weekly</label>
+				</td>
+				<td>
+				<input type="checkbox" name="CT_other_Other" id="CT_other_Other" value="Other" class="custom" onclick="saveValues();" />
+				
+				<label for="CT_other_Other">Other</label>
+				</td>
+				<td>
+				<input type="text" id="CT_other_Other_text" name="CT_other_Other_text" onblur="saveValues();" ></input>
+				</td>
+				</tr>
+				
+				</table>
+				
+				</div>
+				
+				<div class="ui-block-a">
+				<legend><h2>g. Closed Loop</h2></legend>
+				<table>
+				<tr>
+				<th>
+				Inhibitor
+				</th>
+				<td>
+				<input type="checkbox" name="CL_Inhibitor_Daily" id="CL_Inhibitor_Daily" value="Daily" class="custom" onclick="saveValues();" />
+				<label for="CL_Inhibitor_Daily">Daily</label>
+				</td>
+				<td>
+				<input type="checkbox" name="CL_Inhibitor_Weekly" id="CL_Inhibitor_Weekly" value="Weekly" class="custom" onclick="saveValues();" />
+				<label for="CL_Inhibitor_Weekly">Weekly</label>
+				</td>
+				<td>
+				<input type="checkbox" name="CL_Inhibitor_Other" id="CL_Inhibitor_Other" value="Other" class="custom" onclick="saveValues();" />
+				
+				<label for="CL_Inhibitor_Other">Other</label>
+				</td>
+				<td>
+				<input type="text" id="CL_Inhibitor_Other_text" name="CL_Inhibitor_Other_text" onblur="saveValues();" ></input>
+				</td>
+				</tr>
+				
+				<tr>
+				<th>
+				Iron
+				</th>
+				<td>
+				<input type="checkbox" name="CL_Iron_Daily" id="CL_Iron_Daily" value="Daily" class="custom" onclick="saveValues();" />
+				<label for="CL_Iron_Daily">Daily</label>
+				</td>
+				<td>
+				<input type="checkbox" name="CL_Iron_Weekly" id="CL_Iron_Weekly" value="Weekly" class="custom" onclick="saveValues();" />
+				<label for="CL_Iron_Weekly">Weekly</label>
+				</td>
+				<td>
+				<input type="checkbox" name="CL_Iron_Other" id="CL_Iron_Other" value="Other" class="custom" onclick="saveValues();" />
+				
+				<label for="CL_Iron_Other">Other</label>
+				</td>
+				<td>
+				<input type="text" id="CL_Iron_Other_text" name="CL_Iron_Other_text"  onblur="saveValues();"></input>
+				</td>
+				</tr>
+				
+				<tr>
+				<th>
+				Conductivity
+				</th>
+				<td>
+				<input type="checkbox" name="CL_Cond_Daily" id="CL_Cond_Daily" value="Daily" class="custom" onclick="saveValues();" />
+				<label for="CL_Cond_Daily">Daily</label>
+				</td>
+				<td>
+				<input type="checkbox" name="CL_Cond_Weekly" id="CL_Cond_Weekly" value="Weekly" class="custom" onclick="saveValues();" />
+				<label for="CL_Cond_Weekly">Weekly</label>
+				</td>
+				<td>
+				<input type="checkbox" name="CL_Cond_Other" id="CL_Cond_Other" value="Other" class="custom" onclick="saveValues();" />
+				
+				<label for="CL_Cond_Other">Other</label>
+				</td>
+				<td>
+				<input type="text" id="CL_Cond_Other_text"  name="CL_Cond_Other_text" onblur="saveValues();"></input>
+				</td>
+				</tr>
+				
+				
+				
+				<tr>
+				<th>
+				pH
+				</th>
+				<td>
+				<input type="checkbox" name="CL_pH_Daily" id="CL_pH_Daily" value="Daily" class="custom" onclick="saveValues();" />
+				<label for="CL_pH_Daily">Daily</label>
+				</td>
+				<td>
+				<input type="checkbox" name="CL_pH_Weekly" id="CL_pH_Weekly" value="Weekly" class="custom" onclick="saveValues();" />
+				<label for="CL_pH_Weekly">Weekly</label>
+				</td>
+				<td>
+				<input type="checkbox" name="CL_pH_Other" id="CL_pH_Other" value="Other" class="custom" onclick="saveValues();" />
+				
+				<label for="CL_pH_Other">Other</label>
+				</td>
+				<td>
+				<input type="text" id="CL_pH_Other_text" name="CL_pH_Other_text" onblur="saveValues();"></input>
+				</td>
+				</tr>
+				
+				<tr>
+				<th>
+				Other
+				</th>
+				<td>
+				<input type="checkbox" name="CL_other_Daily" id="CL_other_Daily" value="Daily" class="custom" onclick="saveValues();" />
+				<label for="CL_other_Daily">Daily</label>
+				</td>
+				<td>
+				<input type="checkbox" name="CL_other_Weekly" id="CL_other_Weekly" value="Weekly" class="custom" onclick="saveValues();" />
+				<label for="CL_other_Weekly">Weekly</label>
+				</td>
+				<td>
+				<input type="checkbox" name="CL_other_Other" id="CL_other_Other" value="Other" class="custom" onclick="saveValues();" />
+				
+				<label for="CL_other_Other">Other</label>
+				</td>
+				<td>
+				<input type="text" id="CL_other_Other_text" name="CL_other_Other_text" onblur="saveValues();"></input>
+				</td>
+				</tr>
+				
+				</table>
+				
+				</div>
+				
+				
+				<div class="ui-block-a">
+				<table>
+				<tr>
+				<th>
+				2)
+				</th>
+				<td>
+				<input type="checkbox" name="Blow_Down" id="Blow_Down"  class="custom" onclick="saveValues();" />
+				<label for="Blow_Down">Blow down Steam Boiler to recommended conductivity levels per monthly service report.</label>
+				</td>
+				</tr>
+				
+				<tr>
+				<th>
+				3)
+				</th>
+				<td>
+				<input type="checkbox" name="Apply_Boiler_Layup_Treatment" id="Apply_Boiler_Layup_Treatment" class="custom" onclick="saveValues();" />
+				<label for="Apply_Boiler_Layup_Treatment">Apply Steam Boiler Lay-up treatment.</label>
+				</td>
+				</tr>
+				
+				
+				<tr>
+				<th>
+				4)
+				</th>
+				<td>
+				<input type="checkbox" name="Check_Boiler_Layup_Treatment" id="Check_Boiler_Layup_Treatment" class="custom" onclick="saveValues();" />
+				<label for="Check_Boiler_Layup_Treatment">Check Boiler Lay-up Treatment (sulfite) when boiler is off-line.</label>
+				</td>
+				</tr>
+				
+				<tr>
+				<th>
+				5)
+				</th>
+				<td>
+				<input type="checkbox" name="Batch_Boiler_Layup_Treatment" id="Batch_Boiler_Layup_Treatment" class="custom" onclick="saveValues();" />
+				<label for="Batch_Boiler_Layup_Treatment">Batch Steam Boiler chemicals between service visits.</label>
+				</td>
+				</tr>
+				
+				<tr>
+				<th>
+				6)
+				</th>
+				<td>
+				<input type="checkbox" name="Repair_Adjust_Tower_Float" id="Repair_Adjust_Tower_Float" class="custom" onclick="saveValues();" />
+				<label for="Repair_Adjust_Tower_Float">Repair / adjust tower float (as necessary) to avoid excessive water / chemical costs.</label>
+				</td>
+				</tr>
+				
+				<tr>
+				<th>
+				7)
+				</th>
+				<td>
+				<input type="checkbox" name="Repair_Leaks" id="Repair_Leaks" class="custom" onclick="saveValues();" />
+				<label for="Repair_Leaks">Repair leaks when necessary to avoid excessive water / chemical costs.</label>
+				</td>
+				</tr>
+				
+				<tr>
+				<th>
+				8)
+				</th>
+				<td>
+				<input type="checkbox" name="Replace_Sand_Filter" id="Replace_Sand_Filter" class="custom" onclick="saveValues();" />
+				
+				
+				<td>
+				<input type="checkbox" name="Replace_Sand_Filter_Annually" id="Replace_Sand_Filter_Annually" value="Annually" class="custom" onclick="saveValues();" />
+				<label for="Replace_Sand_Filter_Annually">Annually</label>
+				</td>
+				<td>
+				<input type="checkbox" name="Replace_Sand_Filter_Other" id="Replace_Sand_Filter_Other" value="Other" class="custom" onclick="saveValues();" />
+				<input type="text" id="Replace_Sand_Filter_Other_text" name="Replace_Sand_Filter_Other_text"></input>
+				<label for="Replace_Sand_Filter_Other">Other</label>
+				</td>
+				<td>
+				<label for="Replace_Sand_Filter">Replace Sand filter media</label>
+				</td>
+				</tr>
+				
+				<tr>
+				<th>
+				9)
+				</th>
+				<td>
+				<input type="checkbox" name="Inspect_Inform_Chardon" id="Inspect_Inform_Chardon" class="custom" onclick="saveValues();" />
+				<label for="Inspect_Inform_Chardon">Inspect and inform Chardon of any water treatment equipment problems/concerns.</label>
+				</td>
+				</tr>
+				
+				<tr>
+				<th>
+				10)
+				</th>
+				<td>
+				<input type="checkbox" name="Apply_Layup_Treatment" id="Apply_Layup_Treatment" class="custom" onclick="saveValues();" />
+				<label for="Apply_Layup_Treatment">Apply Cooling Tower Lay-up treatment</label>
+				</td>
+				</tr>
+				
+					<tr>
+				<th>
+				11)
+				</th>
+				<td>
+				<input type="checkbox" name="Change_Filter_Bags" id="Change_Filter_Bags" class="custom" onclick="saveValues();" />
+					<label for="Change_Filter_Bags">Change Filter Bags between visits</label>
+				</td>	
+				<td>
+				<input type="checkbox" name="Change_Filter_Bags_Daily" id="Change_Filter_Bags_Daily" value="Daily" class="custom" onclick="saveValues();" />
+				<label for="Change_Filter_Bags_Daily">Daily</label>
+				</td>
+				
+				<td>
+				<input type="checkbox" name="Change_Filter_Bags_Weekly" id="Change_Filter_Bags_Weekly" value="Weekly" class="custom" onclick="saveValues();" />
+				<label for="Change_Filter_Bags_Weekly">Weekly</label>
+				</td>
+				
+				<td>
+				<input type="checkbox" name="Change_Filter_Bags_Monthly" id="Change_Filter_Bags_Monthly" value="Monthly" class="custom" onclick="saveValues();" />
+				<label for="Change_Filter_Bags_Monthly">Monthly</label>
+				</td>
+				</tr>
+			
+				<tr>
+				<th>
+				12)
+				</th>
+				<td>
+				<input type="checkbox" name="Add_Salt_To_Brine" id="Add_Salt_To_Brine" class="custom" onclick="saveValues();" />
+				<label for="Add_Salt_To_Brine">Add salt to the Brine Tank.</label>
+				</td>
+				</tr>
+				
+
+				<tr>
+				<th>
+				13)
+				</th>
+				<td>
+				<input type="checkbox" name="Clean_Cooling_Tower" id="Clean_Cooling_Tower" class="custom" onclick="saveValues();" />
+					<label for="Clean_Cooling_Tower">Clean Cooling Tower / Sump</label>
+				</td>
+				</tr>
+				
+					
+				<tr>
+				<td></td>
+				
+				<div class="ui-grid-a">
+				
+				<td>
+				<div class="ui-block-a">
+				<input type="checkbox" name="Clean_Cooling_Tower_Other" id="Clean_Cooling_Tower_Other" value="Other" class="custom1" onclick="saveValues();" />
+				<label for="Clean_Cooling_Tower_Other">Other</label>
+				</div>
+				
+				<div class="ui-block-b">
+				<input type="text" id="Clean_Cooling_Tower_Other_text" name="Clean_Cooling_Tower_Other_text"  ></input>
+				</div>
+				</td>
+				
+				<div class="ui-block-c">
+				<td>
+				<input type="checkbox" name="Clean_Cooling_Tower_Annually" id="Clean_Cooling_Tower_Annually" value="Annually" class="custom1" onclick="saveValues();" />
+				<label for="Clean_Cooling_Tower_Annually">Annually</label>
+				</td>
+				<td>
+				<input type="checkbox" name="Clean_Cooling_Tower_Semi" id="Clean_Cooling_Tower_Semi" value="Semi_Annually" class="custom1" onclick="saveValues();" />
+				<label for="Clean_Cooling_Tower_Semi">Semi-Annually</label>
+				</td>
+			
+				</tr>
+				</div>
+			
+				<tr>
+				<th>
+				14)
+				</th>
+				<td>
+				<input type="checkbox" name="Inspect_Chiller_Tubes" id="Inspect_Chiller_Tubes" class="custom" onclick="saveValues();" />
+					<label for="Inspect_Chiller_Tubes">Inspect / Brush chiller tubes</label>
+				</td>
+				<td>
+				<input type="checkbox" name="Inspect_Chiller_Tubes_Annually" id="Inspect_Chiller_Tubes_Annually" value="Annually" class="custom1" onclick="saveValues();" />
+				<label for="Inspect_Chiller_Tubes_Annually">Annually</label>
+				</td>
+				<td>
+				<input type="checkbox" name="Inspect_Chiller_Tubes_Other" id="Inspect_Chiller_Tubes_Other" value="Other" class="custom1" onclick="saveValues();" />
+				
+				<input type="text" id="Inspect_Chiller_Tubes_Other_text" name="Inspect_Chiller_Tubes_Other_text"  ></input>
+				<label for="Inspect_Chiller_Tubes_Other">Other</label>
+				</td>
+				</tr>
+			
+			
+				<tr>
+				<th>
+				15)
+				</th>
+				<td>
+				<input type="checkbox" name="Remove_Water" id="Remove_Water"  class="custom" onclick="saveValues();" />
+				<label for="Remove_Water">Remove water meter on make-up to cooling tower during off-season to prevent freezing.</label>
+				</td>
+				</tr>
+			
+				<tr>
+				<th>
+				16)
+				</th>
+				<td>
+				<input type="checkbox" name="Notify_Chardon_Phone_Changes" id="Notify_Chardon_Phone_Changes"  class="custom" onclick="saveValues();" />
+				<label for="Notify_Chardon_Phone_Changes">Notify Chardon of any phone number changes that would affect Remote Monitoring capabilities.</label>
+				</td>
+				</tr>
+			
+				<tr>
+				<th>
+				17)
+				</th>
+				<td>
+				<input type="checkbox" name="Notify_Chardon_Metal_Changes" id="Notify_Chardon_Metal_Changes"  class="custom" onclick="saveValues();" />
+				<label for="Notify_Chardon_Metal_Changes">Notify Chardon of any changes on the metallurgy or operating skin temperatures (that would affect how we treat the system).</label>
+				</td>
+				</tr>
+			
+				<tr>
+				<th>
+				18)
+				</th>
+				
+				<td>
+				<input type="checkbox" data-role="none1" name="Other" id="Other"  class="custom" onclick="saveValues();" />
+				<label for="Other">Other</label>
+				</td>
+				</tr>
+				<table>
+				
+				<td><tr>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input  type="textarea" data-role="none" id="Other_Text" name= "Other_Text" class="Schedule11-TextArea" onblur="saveValues();"></input>
+				</tr>
+				</td>
+				
+				
+			
+			
+				
+			
+				</table>
+				</table>
+				</div>
+				
+				<!--Really the footer but i like the header spacing -->
+				<div data-role="header">
+				<a href="Schedule17.html" rel="external" data-role="button" onclick="" data-inline="true"  data-icon="arrow-l" >Previous</a>
+			   <h4>Schedule 18</h4>
+			 	<a href= "Schedule19.html" rel="external" data-role="button" onclick="" data-inline="true"  data-icon="arrow-r" >Next</a>
+			 </div>
+				
+				
+		</div> <!--//End Content Div> -->
+		
+		
+		
+</form>
+</body>
+
+<script>
+	<!-- populate the form from previously saved localStorage cookie called form18 -->
+	  var unid = localStorage.getItem("unid");
+	  $("#form18").deserialize(localStorage.getItem(unid+"form18"));
+
+	  
+</script>
+</html>				
+				

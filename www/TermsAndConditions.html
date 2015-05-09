@@ -1,0 +1,187 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Terms and Conditions</title>
+  <link rel="stylesheet" href="jq/jquery.mobile-1.0.min.css" /> 
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <script src="jq/jquery-1.7.js"></script>
+    <script src="jq/jquery.mobile-1.1.js"></script>
+	<script src="js/jquery.deserialize.js"></script>
+	
+	<!-- <script src="js/modernizr.custom.34982.js"></script> -->
+	<!--<script src="js/signatureCapture.js"></script> -->
+	
+	<script>
+	
+	$(document).ready(function(e) {
+	
+			//alert('ready');
+			var unid = localStorage.getItem("unid");
+			//alert(unid);
+			
+				var unid = localStorage.getItem("unid");
+					//Save the unid to a field
+					$('#unid').val(unid);
+			
+	
+	})
+	
+	
+	// JavaScript Document
+		var sigCapture = null;
+		
+		
+			$(document).ready(function(e) {
+			//sigCapture = new SignatureCapture( "signature1" );
+			//sigCapture2 = new SignatureCapture( "signature2" );
+			
+			//$("#submit").click( onSubmitClick );
+			//$("#cancel").click( onCancelClick );
+		});
+			
+	
+	</script>
+	
+	<script>
+	
+	
+		 function saveValues() {
+		// ALERT !! -- Put the form name in for the Variable name below
+			var str = $('#form18').serialize();
+			//save to localStorage
+			
+		// ALERT !! -- Put the form name in for the Variable name below
+			var unid = localStorage.getItem("unid");
+			localStorage.setItem(unid+'form18', str);
+			
+			//alert(localStorage.getItem(unid+'ContractCalc'));
+			
+	  		//alert(str);
+	
+	  
+    }
+	
+	
+				function SubmitData() {
+				
+				
+						
+					var unid = localStorage.getItem("unid");
+					var data = localStorage.getItem(unid+"form18");
+					
+					var url = "http://www.chardonlabs.com/iPadSales.nsf/Form18?createDocument&"+data;
+					//alert(url);
+					$.ajax({
+					  type: 'POST',
+					  url: url,
+					  data:data,
+					  success: requestSuccess,
+					  error: requestError
+					});
+				
+			
+			}
+
+			function onCancelClick( event ) {
+				clearForm();
+			}
+
+			function clearForm() {
+				$("#email").val( "" );
+				sigCapture.clear();
+				$("#feedback").html( "" );
+			}
+
+			function requestSuccess( data, textStatus, jqXHR ) {
+				//clearForm();
+				alert(textStatus);
+			}
+
+			function requestError( jqXHR, textStatus, errorThrown ) {
+				alert(textStatus);
+			}
+
+			function verifyEmail() {
+				var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+				return re.test( $("#email").val() );
+			}
+			
+			
+		
+	</script>
+	
+</head>
+
+<body>
+<form id="form18">
+	<div data-role="page">
+    
+        <div data-role="header">
+	<a href="index.html" data-ajax="false" data-icon="home">Home</a>
+            <h1>Terms and Conditions</h1>
+			<a href="index.html" data-ajax="false" data-icon="check" data-theme="b" onclick="" >Done</a>
+        </div>
+		
+    <input name="unid" id="unid" type="Text" style="display:none"></input>	
+        <div data-role="content">
+		<h1>Terms and Conditions</h1>
+
+<p>		1) Customer shall be billed through Chardon's automatic monthly invoicing system beginning with the inception of this agreement. All invoices are due within 30 days of the date of the invoice.
+</br></br>2) A 1.5% per month late fee will be assessed to delinquent accounts.
+</br></br>3) A standard 4% freight, handling and shipping container removal charge will automatically be calculated into each invoice.
+</br></br>4) Any and all service visits above and beyond those provided through this service agreement where it is subsequently found that no water treatment or service failure exists shall be invoiced separately on a time and
+material basis at the rate of time and a half during regular Chardon business hours and double time for Chardon holidays and weekends.
+</br></br>5) Prior to the inception of this agreement, Chardon shall take a condition report of all scheduled equipment in order to ascertain the current operating condition of all systems. This condition report will mandate whether or not Chardon can guarantee any kind of a scale-free system (see Schedule No. 19):
+</br></br>a) If the condition report reveals a clean system, then guarantees may be made.
+</br></br>b) If the condition report reveals a dirty system, then customer must have the system thoroughly cleaned or begin and maintain a treatment program before any guarantees may be made.
+<h1>Budgeting</h1>
+</br></br>6) If the budget payment option is selected, a proration of fees for services and/or materials plus a finance charge of 1% of the unpaid balance per month shall be spread over a 12-month period.
+</br></br><h1>Cancellation</h1>
+</br></br>7) Either party may cancel this agreement by notifying the other party in writing at the respective address on the front of this agreement, at least 30 days prior to the desired date of termination.
+</br></br>8) Chardon reserves the right to terminate this agreement should the customer fall delinquent on payment of services.
+</br></br>9) Should the customer terminate this agreement, it is understood that the principal amount on all equipment indicated in Schedule No. 17 of this agreement and on all services provided is immediately due and payable by the customer. It is also understood that, should a budget account be cancelled, all equipment costs and remaining service charges equivalent to the amount of service actually provided are immediately due.
+</br></br>10) Should either party cancel this agreement, it is understood that the remaining chemical is the property of Chardon Laboratories, Inc. and shall be removed by an authorized Chardon representative upon cancellation of contract. This may also include batch tanks which were provided by Chardon as part of this agreement.
+</br></br><h1>Initial Survey</h1>
+</br></br>11) When Chardon completes an initial survey of a given waterside system covered by this agreement (see Schedule No. 17) either on a routine service schedule or initial season start-up, Chardon will notify the customer if any of the equipment listed in Schedule No. 17 is found inoperative or in need of cleaning or repair. If such equipment is not brought up to Chardon's standards, Chardon may still provide scheduled waterside maintenance for such equipment upon special written request of our client, but only with the understanding that Chardon can no longer guarantee a clean system, and that the customer shall be responsible for its present and future repairs or cleaning.
+Scheduled Waterside Service
+</br></br>12) Chardon will provide services as set forth on the attached service schedule(s) of this agreement.
+</br></br>13) Chardon assumes no liability or obligation to repair, clean or provide additional chemicals or services for damages caused by the negligent design of any equipment sold by Chardon or its misuse or abuse by anyone other than Chardon. Chardon assumes no liability for any direct, indirect, special or consequential damages which are a result of equipment malfunction or which are beyond the ability of Chardon to control.
+Change of Water Quality or Equipment
+</br></br>14) If any equipment outlined in Schedule No. 17 is modified, enlarged, expanded or the water quality make-up or feed water changes with a resultant effect being a marked increase in chemical usage or the need to modify the controls or feed/bleed equipment during the term of this agreement, Chardon shall modify this agreement to incorporate those changes accordingly.
+Access
+</br></br>15) It is agreed that the customer shall provide Chardon with prompt and safe access to all scheduled equipment under this service agreement, including any removal, replacement or dismantling of equipment in the execution of its primary service functions.
+</br></br><h1>Liability</h1>
+</br></br>16) Chardon’s responsibility for injury to persons or property shall be limited to injury caused directly by Chardon’s gross negligence in performing its operations under this agreement and in no event shall Chardon be liable for consequential, special or indirect damages. Chardon shall not be liable for any loss, delay, injury or damage, whether direct or consequential, that may be caused by conditions beyond Chardon’s control, including but not limited to acts of God, acts of the government, power outages, power surges, strikes, lockouts, fire, explosion, theft, riot, civil commotion, war, malicious mischief or the inability to obtain materials or supplies.
+</br></br><h1>Assessments</h1>
+</br></br>17) The prices quoted do not include any applicable sales and/or use taxes. Customer agrees to pay Chardon any present or future taxes or any other government charges now or hereinafter imposed by existing or future laws with respect to the transfer, use, ownership or possession of the equipment or service(s) to which this service agreement relates. Chardon is not liable for any applicable Federal, state and local sales, use, excise or other taxes imposed upon Chardon due to an invalid exemption certificate from the customer.
+Renewal and Other Notices
+</br></br>18) An annual review of this service agreement may require an adjustment to the annual or monthly agreement price based upon increases in the prevailing costs relative to changes in water quality or equipment, cost of chemicals, and the overall inflation index. Notice of such adjustments to the agreement price will be provided to the customer by Chardon 30 days prior to the date such changes take effect. This or any notice will be in writing and shall be either sent by mail or hand delivered to the parties at the addresses indicated herein.
+Assignment
+</br></br>19) This agreement will not become assignable without the prior written consent of the parties hereto.
+Insurance
+</br></br>20) Chardon shall keep in force for the term of this Master Service Agreement workers’ compensation insurance, employer’s liability and public liability insurance and shall furnish evidence thereof upon the customer’s request.  Chardon assumes no responsibility to insure property of the customer.
+Exclusions Where Applicable
+</br></br>21) It is acknowledged that effective water management will remove scale, corrosion, rust, dirt and other particulate matter in the waterside of your system(s). It is possible that scale or other foreign minerals may be the only elements which bridge corrosion pin-holes in your water system(s) that may go undetected in the initial survey. When scale and/or other fouling is relieved in the water system, the system could offer initial occurrences of leaks. The purpose of this exclusion is to acknowledge the possibility that effective water management may focus attention to a pre-existing corrosion condition which was not caused by your new proper water treatment procedures and that Chardon is not liable in such circumstances. 
+</br></br><h1>Entire Agreement</h1>
+</br></br>22) This instrument, with its attachments included, embodies the entire statement of understanding and commitments between two parties. All subsequent changes and modifications shall be supported by a written instrument duly acknowledged or received by both parties.
+</p>
+		
+		
+		</div> <!--//End Content Div> -->
+		
+		
+		
+</form>
+</body>
+
+<script>
+	<!-- populate the form from previously saved localStorage cookie called form18 -->
+	  var unid = localStorage.getItem("unid");
+	  $("#form18").deserialize(localStorage.getItem(unid+"form18"));
+
+	  
+</script>
+</html>				
+				

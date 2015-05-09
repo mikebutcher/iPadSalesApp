@@ -1,0 +1,377 @@
+<!DOCTYPE HTML>
+
+<html>
+<head>
+
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+<title>Chardon Labs - Sales Application</title>
+
+<link rel="stylesheet" href="css/stylemaster.css" type="text/css" media="screen" title="no title" charset="utf-8">
+
+<script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
+
+
+<script type="text/javascript" charset="utf-8" src="js/photo.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/SaveSend.js"></script>
+<script src="js/setup2.js"></script>
+
+<!--Local Db -->
+<!--<script src="js/CustomerDB.js"></script> -->
+
+<!-- jQuery Mobile Includes -->
+<link rel="stylesheet" href="jq/jquery.mobile-1.0.css" />
+
+    <script src="jq/jquery-1.7.js"></script>
+    <script src="jq/jquery.mobile-1.1.js"></script>
+
+
+
+
+<!--  HighCharts Includes  -->
+<!-- <script src="js/highcharts/js/highcharts.js"></script> -->
+
+
+
+
+<!--Graphing Functions  -->
+<!--<script src="js/myGraphCallback.js"></script> -->
+
+
+<script type="text/javascript" charset="utf-8">
+     
+	     
+		
+   //Global Vars
+     var daIndex = 0;
+
+     
+     // Wait for PhoneGap to load
+    // The err condition allows you to run this on Chrome with web security disabled:  chrome.exe --disable-web-security
+   
+
+function onLoad() {
+	
+		try {	
+	    onDeviceReady();
+		//document.addEventListener("deviceready", onDeviceReady, false);
+		}
+		catch (err){
+		onDeviceReady();
+		}
+	
+	}
+	
+	
+	
+    function onDeviceReady() {
+	
+	try{
+	
+	
+	
+      	pictureSource=navigator.camera.PictureSourceType;
+	    destinationType=navigator.camera.DestinationType;
+    }  
+     catch(err) {
+	 //alert("chrome");
+	 }
+	 
+        //Globals
+		
+	var backupURL
+		
+
+	
+	 backupURL = "http://www.chardonlabs.com/Customer2.nsf/preCustProfile?createdocument";
+		
+	
+		localStorage.setItem('backupURL', backupURL );
+			
+			
+		var daIndex = 0;
+				
+		//ToDo  Create schema for the customer2 customer profile
+		//	 initWEBDB(); //iReport.js
+		 	
+		//Check for blank Salesman, if so then go to setup.html
+		console.log('setup user');
+		setupUser();	//initDB.js	
+		
+		
+		//populate the Shrinking List
+		//loadSL();  //iReport.js
+		//localStorage.setItem('listType', 'shrinkingList' ); // init the List Type
+		 	 
+
+  
+	
+	
+	// Add this behavior to all text fields
+   
+	
+    	 
+	 //Get the Tech name from LocalStorage
+
+	
+	//Get the Template List Type from localStorage
+	//var listType = localStorage.getItem('listType');
+//alert("listType stored is: " + listType);
+
+	
+
+
+  	
+  //Check network status
+   
+         //navigator.network.isReachable("www.chardonlabs.com", reachableCallback, {});
+     	 
+    }
+    
+ //Network Reachable ?
+		function reachableCallback(reachability) {
+        // There is no consistency on the format of reachability
+        var networkState = reachability.code || reachability;
+
+        var states = {};
+        states[NetworkStatus.NOT_REACHABLE]                      = 'Offline';
+        states[NetworkStatus.REACHABLE_VIA_CARRIER_DATA_NETWORK] = 'Cell';
+        states[NetworkStatus.REACHABLE_VIA_WIFI_NETWORK]         = 'WiFi';
+
+		document.getElementById('onlineStatus').innerHTML = states[networkState];
+
+        //alert('Connection type: ' + states[networkState]);
+    }
+    
+    
+	
+	
+
+	
+	
+  ///////////////////////////////////////////////////////////
+ //VERSION
+ ///////////////////////////////////////////////
+      
+	  var Version = localStorage.setItem('Version', 'iPad Customer Sales 8-20-14');
+    
+    
+    
+    //Business / Navigation Logic
+    
+    //Step 1 - Pick you Customer and Start the eReport
+    
+    function startReport(){
+    
+    var daCustID = document.getElementById("customer_templates").value;
+	
+	
+	if (daCustID ==""){
+	alert("Please choose a Customer.");
+	return;
+	}
+	
+    localStorage.setItem("custid", daCustID);
+    var daCustID2 = localStorage.getItem("custid");
+    
+    var ListType = localStorage.getItem("listType");
+    
+	console.log(ListType + " index.html 183");
+
+  //Save Type of Report so you can remove from Shrinking List or Not Remove from BV
+       
+    if (ListType != "onDevice"){
+    saveReport (daCustID2, "listType", ListType);
+
+    }
+    
+        
+		// Original begin code
+       // begin(); //begin.js
+		
+			
+        //Start Time is set in begin.js on non-draft reports
+       	window.today.click();
+				
+		var d = new Date();
+		var curr_date = d.getDate();
+		var curr_month = d.getMonth();
+		curr_month++;
+		var curr_year = d.getFullYear();
+		daDate =   curr_month  + '/' + curr_date  + '/' + curr_year;
+		document.forms[0].ReportDate.value = daDate;
+		
+		//alert(daDate);
+		//End Date Population
+		
+    	hide("ChooseCustomer");
+    	//hide("preview");
+    	//hide("Begin");
+    	
+    	hide ("signature");
+    	show("Makeup");
+	
+		hide("simple");
+        }
+	//Step 2 - Get the Makeup Values
+
+	
+	//Step 3 - Load the Equipment Arrays
+
+	
+	
+    
+    var mapURL = null;
+ 
+
+  function generateUNID(){
+  
+			localUNID = localStorage.getItem("unid")
+			 
+			//alert(localUNID);
+			 if (localUNID==null || localUNID=='') {
+			   
+				//6-7-12  Generate a unique number for each report 
+				var unid = Math.floor(Math.random()*111111);
+				//document.forms[0].DaUnid.value = unid;
+				console.log("unid: " + unid);
+				var Status = "Draft";
+				//alert(timestamp);
+
+				console.log("Creating Propsal Stub: "+unid);
+				
+				//Save the Key for the Proposal
+				localStorage.setItem("unid", unid);
+				
+					//localStorage.setItem("MyProposals", unid);
+				//alert("MyProposal"+unid);
+				//document.getElementById('ref-number').innerHTML = unid;
+				//refreshPage();
+				}
+ }
+
+
+function OnLoad(){
+//alert('onLoad');
+tech = localStorage.getItem("Salesman");
+
+if (tech == null){
+//alert('no salesman');
+
+window.location = "setup.html"
+//Go to the FSO as the psuedo login and get customers to store on the DB
+
+}
+document.getElementById('Salesman-Name').innerHTML = tech;
+
+}
+
+	
+	
+		
+		
+		
+		
+	
+
+</script>
+
+
+
+
+
+
+</head>
+<body onload="OnLoad();"  id="stage" class="theme">
+<form>
+
+
+<div data-role="page" id="ChooseCustomer">
+
+
+  
+   <div data-role="header" data-position="fixed" data-id="toolbar1" data-fullscreen="true">
+    <div data-role="navbar">
+      <ul>
+        <li><a href="ContractCalcSheet.html" data-ajax="false" data-icon="grid" onClick="localStorage.unid =''; generateUNID();"  id="Start-New-Proposal" data-theme="b" >Start New Proposal<text id="SLCnt"></text></a></li>
+	    <li><a href="MyProposals.html" data-ajax="false" data-icon="grid" onClick="" id="daBVCnt" data-theme="b"  >My Proposals</a></li> 
+		 
+		
+		<li><a href="FSO.html" data-icon="grid" rel="external"  onClick="localStorage.ajaxFSO=''; "  id="GetOD" data-theme="b"  >Field Service Order<text id="CompCnt"></text></a></li>
+		<li><a href="MyFSOs.html" data-ajax="false" data-icon="grid" onClick="" id="daBVCnt" data-theme="b"  >My FSOs</a></li> 
+	
+	    </ul>
+    </div>
+  </div>
+  
+    </br>
+  
+  	<p align='right' style="display:none1" >Logged in as: <text id='Salesman-Name'></text></p>
+	
+  <center><h1>Chardon Labs - Sales Workspace</h1></center>
+  
+  
+ <div class="ui-grid-b">
+		
+			 <div class="ui-block-a"> <a href="ContractCalcSheet.html" rel="external" data-role="button" data-icon="" data-iconpos="top" data-theme="e" onClick="generateUNID();" ><center><img src="img/logo.png" alt="Chardon Logo" height="35px" width="30px" ></center><h2>Front Page Master Service</h2></br></a>
+			 </div>
+				<div class="ui-block-b"><a href="Schedule11.html" data-role="button" data-iconpos="top" data-theme="e" rel="external" ><center><img src="img/logo.png" alt="Chardon Logo" height="35px" width="30px" ></center><h2>Schedule 11</h2></br></a>
+				 </div>
+		
+		 <div class="ui-block-c"><a href="Schedule12.html" data-role="button" data-iconpos="top" data-theme="e" rel="external" onclick=""><center><img src="img/logo.png" alt="Chardon Logo" height="35px" width="30px" ></center><h2>Schedule 12</h2></br></a>
+ </div>
+</div><!-- /grid-b -->
+
+ <div class="ui-grid-b">
+	<div class="ui-block-a"><a href="Schedule13.html" data-role="button" data-iconpos="top" data-theme="e" rel="external" onclick=""><center><img src="img/logo.png" alt="Chardon Logo" height="35px" width="30px" ></center><h2>Schedule 13</h2></br></a>
+ </div>
+	<div class="ui-block-b"><a  href="Schedule14.html" data-role="button" data-iconpos="top" data-theme="e" rel="external" onclick=""><center><img src="img/logo.png" alt="Chardon Logo" height="35px" width="30px" ></center><h2>Schedule 14</h2></br></a>
+ </div>
+	<div class="ui-block-c"><a href="Schedule17.html" data-role="button" data-iconpos="top" data-theme="e" rel="external" onclick=""><center><img src="img/logo.png" alt="Chardon Logo" height="35px" width="30px" ></center><h2>Schedule 17</h2></br></a>
+ </div>
+</div><!-- /grid-b -->
+
+ <div class="ui-grid-c">
+	<div class="ui-block-a"><a href="Schedule18.html" data-role="button" data-iconpos="top" data-theme="e" rel="external" onclick=""><center><img src="img/logo.png" alt="Chardon Logo" height="35px" width="30px" ></center><h2>Schedule 18</h2></br></a>
+ </div>
+	<div class="ui-block-b"><a  href="Schedule19.html" data-role="button" data-iconpos="top" data-theme="e" rel="external" onclick=""><center><img src="img/logo.png" alt="Chardon Logo" height="35px" width="30px" ></center><h2>Schedule 19</h2></br></a>
+ </div>
+ 	<div class="ui-block-b"><a  href="Survey.html" data-role="button" data-iconpos="top" data-theme="e" rel="external" onclick=""><center><img src="img/logo.png" alt="Chardon Logo" height="35px" width="30px" ></center><h2>Contract Calc</h2></br></a>
+ </div>
+ 
+ <div class="ui-block-c"><a href="PresentCondition.html" data-role="button" data-iconpos="top" data-theme="e" rel="external" onclick=""><center><img src="img/logo.png" alt="Chardon Logo" height="35px" width="30px" ></center><h2>Present Condition</h2></br></a>
+ </div>
+  
+</div><!-- /grid-c -->
+
+
+  		<div>	
+	<a href="TermsAndConditions.html" data-role="button"  data-theme="b" rel="external" ><h2>Terms and Conditions</h2></a>
+	</div>
+
+
+
+	<div data-role="footer" data-position="fixed" data-id="toolbar" data-fullscreen="true">  
+    <div data-role="navbar">
+      <ul>
+        <li><a href="#" data-icon="arrow-d" data-transition="fade" data-ajax="false" onclick="alert('Connecting to Server ....'); SendAllData();" >Save & Send</a></li>
+        <li><a href="#" onclick="getCustomers();" data-icon="refresh" data-transition="fade">Update Customers</a></li>
+
+		     <li><a href="setup.html" data-ajax="false"  data-icon="gear" data-transition="fade">Setup</a></li>
+      </ul>
+    </div>
+  </div> 
+  <div id="Status"> Status: </div>
+  
+	<div style="display:none">
+			Customers:<select id="custList" name ="custList" ></select>
+			Customers:<select id="custList2" name ="custList2"></select>
+			
+			</div>
+
+</div>
+
+</form>
+</body>
+</html>

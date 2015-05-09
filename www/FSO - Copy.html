@@ -1,0 +1,1215 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Field Sales / Service Order</title>
+	
+    <link rel="stylesheet" href="jq/jquery.mobile-1.0.min.css" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+	
+	
+    <script src="jq/jquery-1.7.js"></script>
+    <script src="jq/jquery.mobile-1.1.js"></script>
+	
+	 <script src="js/modernizr.custom.34982.js"></script>
+	<script src="js/signatureCapture.js"></script>
+	
+	<script src="js/jquery.deserialize.js"></script>
+	
+	<script>
+	//Splits out the customer information
+	function populateInfo(theString){
+	
+		//alert(theString);
+		
+		theCustArray = theString.split("~");
+		
+	//	alert(theCustArray[3]);
+		//$('#BILLADDR2').val(theCustArray[3]);
+		
+		$('#BILLNAME').val(theCustArray[1]);
+		$('#BILLADDR1').val(theCustArray[2]);
+		$('#BILLADDR2').val(theCustArray[3]);
+		$('#BILLCITY').val(theCustArray[4]);
+		$('#BILLSTATE').val(theCustArray[5]);
+		$('#BILLZIP').val(theCustArray[6]);
+		$('#BILLPhone').val(theCustArray[7]);
+		
+		$('#SHIPNAME').val(theCustArray[10]);
+		$('#SHIPADDR1').val(theCustArray[11]);
+		$('#SHIPADDR2').val(theCustArray[12]);
+		$('#SHIPCITY').val(theCustArray[13]);
+		$('#SHIPSTATE').val(theCustArray[14]);
+		$('#SHIPZIP').val(theCustArray[15]);
+		$('#SHIPPHONE').val(theCustArray[16]);
+	
+
+		//uncheck new Customer check box
+		//checkval =$('#checkbox_1').attr('checked');
+		//checkval =$('input[name=checkbox_1]').is(':checked')
+		//$('input[name=checkbox_1]').attr('checked', false);
+		$('input[name=checkbox_1]').attr('checked', false).checkboxradio("refresh");
+		//$("input[type='checkbox']").checkboxradio("refresh");
+	//alert(checkval);
+		saveValues();
+	
+	}
+	
+	
+	// JavaScript Document
+	var FSONumber = null;
+		var sigCapture = null;
+		
+			
+		
+		    function onDeviceReady() {
+				//added 2-4-14 to save signature on orientation change
+			 
+				window.addEventListener("orientationchange", onOrientationChange, false);
+				}
+				
+				
+				
+				
+		
+			$(document).ready(function(e) {
+			
+			
+			localMyFSOs = localStorage.getItem("MyFSOs") 
+			 
+			
+			  if (localMyFSOs==null){
+			  localStorage.setItem("MyFSOs","<option value='Please Choose'>Please Choose ...</option>");
+			  //alert(localStorage.getItem("MyFSOs"));
+			  }
+			
+			var sigCapture = null;
+			sigCapture = new SignatureCapture( "simple" );
+			
+			//Populate the Customer List
+				var Customer = localStorage.getItem('custList');
+				//alert(Customers123);
+				document.getElementById('custList').innerHTML = localStorage.getItem('custList');
+			
+					
+			
+			
+			
+					var tableOneRowCount = 0;
+					
+					//var unid = localStorage.getItem("ajaxFSO");
+					//alert('unid ' + unid);
+					var lastRowCount = 5;
+					
+					var url = "http://www.chardonlabs.com/FSONumber.nsf/number?createdocument";
+				
+					tempFSO = localStorage.getItem("ajaxFSO");
+						
+					//alert("tempFSO "+ tempFSO +" no AJAX REquest");	
+				
+					if (tempFSO==null | tempFSO==''){
+						alert('Retrieving new FSO Number from Server...');
+						getFSONumber333();
+										
+					}
+					
+					$("#FSONumber").val(localStorage.ajaxFSO);
+					
+					function getFSONumber333(){
+							$.ajax({
+								url:        "http://www.chardonlabs.com/FSONumber.nsf/number?createdocument",
+								type:       "POST",
+								data:       {"field1": "one"},
+								success:    function(data) {
+								
+									
+									localStorage.setItem("ServerResponse", data) ;
+									var firstPos = data.indexOf('###');                
+									//alert('first ' + firstPos);
+									var secondPos = data.indexOf('###', firstPos + 1);  //finds the 	second ##
+									//alert('second ' + secondPos);
+									var ajaxFSO = data.substr(firstPos+3, secondPos-firstPos-3);
+									
+									alert('FSO Number Assigned: '+ajaxFSO);
+									console.log('FSO Number Assigned from SERVER: '+ajaxFSO);
+									localStorage.setItem("ajaxFSO", ajaxFSO);
+									$("#FSONumber").val(ajaxFSO);
+											
+									
+									
+									
+									
+									
+								},
+								error:      function() {
+									alert("FSO Number will be assigned when connected.");
+									
+									var randomunid = Math.floor(Math.random()*11111111);
+									localStorage.setItem("ajaxFSO", "T"+randomunid);
+									
+									console.log('FSO Number Assigned from DEVICE: '+'T'+randomunid);
+									
+									$("#FSONumber").val("T"+randomunid);
+									//alert("Random: " +randomunid );
+								}
+							});
+					}
+					
+	
+			
+				//Add Buttons Remove and Copy Buttons
+						SalesmanName = localStorage.getItem("Salesman") ;
+						console.log("Salesman: "+SalesmanName);
+							//First Table - 7 columns
+							$("#btnAdd").live('click', function (e) {
+							//Take the text, and also the ddl value and insert as table row.
+							
+								var newRow = '<tr id="row123" class="parent5" style="cursor: pointer;" title="Click to expand/collapse"><td><input onblur="saveValues();"  type="text" name="Inventory_ID'+tableOneRowCount +'" id="Inventory_ID'+tableOneRowCount +'" width="10"></td><td><input onblur="saveValues();"  type="text" name="Description'+tableOneRowCount +'" id="Description'+tableOneRowCount +'" width="10"></td><td><input onblur="saveValues();"  type="number" name="QTY'+tableOneRowCount +'" id="QTY'+tableOneRowCount +'" width="30"></td><td><input onblur="saveValues();"  type="number" name="Price'+tableOneRowCount +'" id="Price'+tableOneRowCount +'" width="30"></td><td><input onblur="saveValues();"  type="number" name="Subtotal'+tableOneRowCount +'" id="Subtotal'+tableOneRowCount +'" width="30"></td><td><input onblur="saveValues();"  type="checkbox" id="ToBeInstalled'+tableOneRowCount +'" name="ToBeInstalled'+tableOneRowCount +'" width="30"></td><td><input onblur="saveValues();"  type="text" id="SystemName'+tableOneRowCount +'" name="SystemName'+tableOneRowCount +'" width="30"></td><td><input onblur="saveValues();"  type="text" id="Notes'+tableOneRowCount +'" name="Notes'+tableOneRowCount +'" width="30"></td></tr>';
+					
+							
+							$("#example5 tbody").append(newRow.replace(/NNNN/g, ++tableOneRowCount));
+							//$('#example').trigger('create'); 
+							
+							
+							var ajaxFSO = localStorage.ajaxFSO;
+							//alert(ajaxFSO);
+							
+							localStorage.setItem("tableOneRowCount"+ajaxFSO, tableOneRowCount);
+							//var $orderTable = $("#example5");
+						});
+						
+					
+						
+						$('#btnDelete').live('click', function (e) {
+							//$('.SelectCheckBox2:visible:checked').parents('tr').remove();
+							$("#example5 tbody").children('tr:last').remove();
+							var ajaxFSO = localStorage.ajaxFSO;
+							localStorage.setItem("tableOneRowCount"+ajaxFSO, tableOneRowCount-1);
+						});
+						
+						
+						
+						$('#btnCopy').live('click', function (e) {
+							$("#example5 tbody").append($('.SelectCheckBox:visible:checked').parents('tr').clone());
+								++tableOneRowCount;
+						});
+						
+						
+						var lastRowCount = 5;
+
+						$('tr.parent').css("cursor", "pointer").attr("title", "Click to expand/collapse").click(function () {
+							$(this).siblings('.child-' + this.id).toggle();
+						});
+
+						$('tr[class^=child-]').hide();
+
+			//Magically rebuild tables to their saved length
+						
+						var ajaxFSO = localStorage.ajaxFSO;
+												
+						//Table One
+						 var tableOneRowCountRestore= localStorage.getItem("tableOneRowCount"+ajaxFSO);
+						  //alert("counter restore to  "+tableOneRowCountRestore);
+							
+							//show one row initially
+							if(tableOneRowCountRestore==null){
+									$("#btnAdd").click(); 
+								}
+								
+							for (var i=0;i<tableOneRowCountRestore;i++)
+								{ 
+								
+									$("#btnAdd").click(); 
+														
+								}
+																				
+							
+							
+							
+						  var unid = localStorage.getItem("ajaxFSO");
+						//  alert(unid);
+		  	             $("#FSO").deserialize(localStorage.getItem(unid+"FSO"));			
+						
+						
+						
+					
+	
+			
+			
+			//ReDraw the Signature
+						//var canvas  = document.getElementById("simple");
+						//var myImage = canvas.toDataURL("image/png");      		 // Get the data as an image.
+						
+						//var myImage = $('#SignatureData').val();
+					 	var unid = localStorage.getItem("ajaxFSO");
+				     	var myImage = localStorage.getItem(unid+'FSO_Signature1');
+						
+						//alert(myImage);
+						
+						if (myImage!= null){
+							$('#simple').hide();
+							$('#sigImageHolder').show();	
+						}
+						
+						var imageElement = document.getElementById("signatureimage");  // Get the img object.
+						imageElement.src = myImage;   
+	
+
+//Read in the Bill and Ship Information from the localStorage
+var unid = localStorage.getItem("ajaxFSO");
+
+
+						
+	}); // End Doc Ready
+	
+	
+		function ValidateForm(){
+			console.log('entering validate form')
+		
+			
+			
+			// Field Validations
+			
+			if($('#BILLNAME').val()=="") {
+			alert("Please enter a Billing Company Name");
+			console.log('Save Values false');
+			$('#BILLNAME').focus();
+			return(false);
+			}
+			if($('#BILLADDR1').val()=="") {
+			alert("Please enter a Billing Contact");
+			$('#BILLADDR1').focus();
+			return(false);
+			}
+			if($('#BILLADDR2').val()=="") {
+			alert("Please enter a Billing Address");
+			$('#BILLADDR2').focus();
+			return(false);
+			}
+			if($('#BILLCITY').val()=="") {
+			alert("Please enter a Billing City");
+			$('#BILLCITY').focus();
+			return(false);
+			}
+			if($('#BILLSTATE').val()=="") {
+			alert("Please enter a Billing State");
+			$('#BILLSTATE').focus();
+			return(false);
+			}
+			if($('#BILLZIP').val()=="") {
+			alert("Please enter a Billing Zip");
+			$('#BILLZIP').focus();
+			return(false);
+			}
+			if($('#BILLPHONE').val()=="") {
+			alert("Please enter a Billing Phone");
+			$('#BILLPHONE').focus();
+			return(false);
+			}
+			
+			
+			
+			
+			
+			if($('#SHIPNAME').val()=="") {
+			alert("Please enter a Shipping Company Name");
+			console.log('Save Values false');
+			$('#SHIPNAME').focus();
+			return(false);
+			}
+			if($('#SHIPADDR1').val()=="") {
+			alert("Please enter a Shipping Contact");
+			$('#SHIPADDR1').focus();
+			return(false);
+			}
+			if($('#SHIPADDR2').val()=="") {
+			alert("Please enter a Shipping Address");
+			$('#SHIPADDR2').focus();
+			return(false);
+			}
+			if($('#SHIPCITY').val()=="") {
+			alert("Please enter a Shipping City");
+			$('#SHIPCITY').focus();
+			return(false);
+			}
+			if($('#SHIPSTATE').val()=="") {
+			alert("Please enter a Shipping State");
+			$('#SHIPSTATE').focus();
+			return(false);
+			}
+			if($('#SHIPZIP').val()=="") {
+			alert("Please enter a Shipping Zip");
+			$('#SHIPZIP').focus();
+			return(false);
+			}
+			if($('#SHIPPHONE').val()=="") {
+			alert("Please enter a Shipping Phone");
+			$('#SHIPPHONE').focus();
+			return(false);
+			}
+			
+			
+			if($('#PONumber').val()=="") {
+			alert("Please enter a PO Number");
+			$('#PONumber').focus();
+			return(false);
+			}
+			
+			
+			else
+			{
+				//return (true);
+				SubmitData();
+			}
+	}
+
+	
+
+	
+	
+	
+			
+			function SubmitData(){
+			
+					
+		
+			console.log('Submiting ajax');
+			
+			
+			var httpBU = createXMLHttpRequest();
+
+
+				function createXMLHttpRequest() {
+				  try { return new ActiveXObject("Msxml2.XMLHTTP"); } catch (e) {}
+				  try { return new ActiveXObject("Microsoft.XMLHTTP"); } catch (e) {}
+				  try { return new XMLHttpRequest(); } catch(e) {}
+				  alert("XMLHttpRequest not supported");
+				  return null;
+				}
+						//ajaxFSO is the UNID on FSO Document
+				var unid = localStorage.getItem("ajaxFSO");
+				
+				
+				//Is this a Temporary FSO Number
+				isTempFSO = unid.indexOf("T");
+					
+					
+				if (isTempFSO>-1){
+				
+//				alert(isTempFSO);
+				alert('Getting FSO number of Server...');
+				
+				getFSONumberReal();
+				
+				
+					function getFSONumberReal(){
+							$.ajax({
+								url:        "http://www.chardonlabs.com/FSONumber.nsf/number?createdocument",
+								type:       "POST",
+								data:       {"field1": "one"},
+								success:    function(data) {
+								
+									
+									localStorage.setItem("ServerResponseReal", data) ;
+									var firstPos = data.indexOf('###');                
+									//alert('first ' + firstPos);
+									var secondPos = data.indexOf('###', firstPos + 1);  //finds the 	second ##
+									//alert('second ' + secondPos);
+									var RealajaxFSO = data.substr(firstPos+3, secondPos-firstPos-3);
+									
+									alert('FSO Number Assigned: '+RealajaxFSO);
+									
+									localStorage.setItem("RealajaxFSO", RealajaxFSO);
+									//$("#FSONumber").val(ajaxFSO);
+										SendIt();	
+									//return(RealajaxFSO);
+									
+									
+									
+									
+								},
+								error:      function() {
+									alert("FSO Number will be assigned when connected.");
+									
+									var randomunid = Math.floor(Math.random()*11111111);
+									return (randomunid)
+									//localStorage.setItem("ajaxFSO", "T"+randomunid);
+									//$("#FSONumber").val("T"+randomunid);
+									//alert("Random: " +randomunid );
+								}
+							});
+					}
+				
+				
+					}
+					
+					else
+					{
+					//FSO Number was assigned from the Server so use it
+					console.log("FSO Number was assigned from the Server so use it: " + localStorage.ajaxFSO);
+					localStorage.setItem("RealajaxFSO", localStorage.ajaxFSO);
+					SendIt();	
+					}
+					
+				}
+				//End The FSO number stuff
+				
+				
+			function SendIt(){
+				//alert('in SendIT');
+				var params = localStorage.getItem(unid+"FSO");
+				
+			console.log("Params: " +params);
+						 
+						
+				var URL = "http://www.chardonlabs.com/iPadSales.nsf/FSO?createDocument&"+params;
+				//var URL = "http://www.chardonlabs.com/iPadSales.nsf/FSO?createDocument";
+		
+				//alert(URL);
+				
+				
+				var httpBU = createXMLHttpRequest();
+
+
+				function createXMLHttpRequest() {
+				  try { return new ActiveXObject("Msxml2.XMLHTTP"); } catch (e) {}
+				  try { return new ActiveXObject("Microsoft.XMLHTTP"); } catch (e) {}
+				  try { return new XMLHttpRequest(); } catch(e) {}
+				  alert("XMLHttpRequest not supported");
+				  return null;
+				}
+				  
+				httpBU.open("post", URL, true);
+					
+			
+				//var unid = localStorage.getItem("unid");
+				
+				var rawSigData =  localStorage.getItem(unid+'FSO_Signature1');
+			
+			//alert("rawSigData"+ rawSigData);
+			
+			var paramsSignature = "&unid="+localStorage.RealajaxFSO+"&"+params+"&RawSignature="+rawSigData  ;
+			//alert(paramsSignature);
+			httpBU.send(paramsSignature);
+		
+		//Blank out the REALajaxFSO
+		localStorage.RealajaxFSO ='';
+		 //localStorage.setItem(unid+'FSO_Signature1', "");
+		
+					httpBU.onreadystatechange =   function()
+					{ 
+					if(httpBU.readyState  == 2)
+					{
+					//		$('body').append('<div id="progress"><img align="middle" src="img/downloading.gif">&nbsp;&nbsp;&nbsp;&nbsp;Data Sent</div>');
+					
+					}
+					
+					if(httpBU.readyState  == 3)
+					{
+						//	$('body').append('<div id="progress"><img align="middle" src="img/downloading.gif">&nbsp;&nbsp;&nbsp;&nbsp;Data Received - OK</div>');
+							$('#progress').remove();
+					}
+					
+						 if(httpBU.readyState  == 4)
+						 {
+									  if(httpBU.status  == 200) {
+								 //   	  $('body').append('<div id="progress"><img align="middle" src="img/downloading.gif">&nbsp;&nbsp;&nbsp;&nbsp;eReport Successfully Sent</div>');
+
+								 
+								 
+								 //update the MyFSO Status to Sent
+									//Find the Draft Proposal and change the Status to Sent
+										var unidList=new Array();
+										 unidList = localStorage.getItem("MyFSOs").split(',');
+									
+									var unid = localStorage.getItem("ajaxFSO");
+							
+									
+									for (var i=0;i<unidList.length;i++)
+										{ 
+										temp = unidList[i];
+										var search = temp.search(unid);
+										//alert("search " + search);
+													
+													if (search > -1 ){
+													//	alert('Found it at:'+i);
+														//alert(unidList[i]);
+														
+														 Datime = new Date();
+														 Datime = Datime+""; //convert to string
+														var place = Datime.indexOf("G");
+														Datime = Datime.substring(0, place-1)
+														//alert(Datime);
+														
+														//change the Sent Date
+														var place2 = temp.indexOf("-");
+														temp = temp.substring(0, place2-1);
+														
+														//alert("new temp:" +temp);
+														
+														
+															//var updated = temp.replace("DRAFT","SENT :"+Datime);
+															var updated = temp + " - SENT :"+Datime+"</option>";
+															unidList[i] = updated;
+														//alert(unidList[i]);
+														
+													
+													}
+										//	alert("unidList[i]: "+ unidList[i]);
+											localStorage.setItem("MyFSOs", unidList);		//Save the updated MyFSOs options list to LocalStorage
+										}
+													
+								 
+								 
+									localStorage.setItem("ajaxFSO", "");  //Clear out the Key
+									  alert("FSO Document Successfully sent to Chardon " );
+									
+								
+								
+									window.location="index.html"
+							
+								/* var r=confirm("Remove from Device?");
+								if (r==true)
+									 {
+									  //removeReport(CustID, ListType);
+									  }
+									  else
+								  {
+								  alert("You pressed Cancel!");
+								  }
+								*/				
+								  
+								
+								  } 
+							  
+						
+							   //   alert("Received:"  + http.responseText); 
+							  else 
+								 $('#progress').remove();
+							 // alert("success"+ httpBU.status);
+						 
+							  if (httpBU.status == 0){
+							   alert("FSO NOT SENT. Error Communicating with Server.  Please try again when you have a connection." );
+							 
+							
+							  }
+						 
+						 }
+					   
+					}; 
+			
+			} //End Submit Data
+	
+
+			function onCancelClick( event ) {
+				clearForm();
+			}
+
+			function clearForm() {
+				$("#email").val( "" );
+				sigCapture.clear();
+				$("#feedback").html( "" );
+			}
+
+			function requestSuccess( data, textStatus, jqXHR ) {
+				alert(textStatus);
+				console.log(textStatus);
+				//Clear out the FSO Key
+				localStorage.setItem("ajaxFSO", "");
+			//	alert (localStorage.getItem("ajaxFSO")) ;
+				//go to the main
+				window.location="index.html";
+			}
+
+			function requestError( jqXHR, textStatus, errorThrown ) {
+				alert(textStatus);
+			}
+
+		
+			
+
+	
+		 function saveValues() {
+				// ALERT !! -- Put the form name in for the Variable name below
+						var str = $('#FSO').serialize();
+						//save to localStorage
+						//console.log(str);
+							//alert(str);	
+						// ALERT !! -- Put the form name in for the Variable name below
+				var unid = localStorage.getItem("ajaxFSO");
+				//alert('unid '+unid);
+				localStorage.setItem(unid+'FSO', str);
+				
+				
+	
+	  
+    } //end SaveValues
+	
+	
+
+	
+	
+		 function saveMyFSO(showAlert){
+  
+			
+			//alert(showAlert);
+			
+			localMyFSOs = localStorage.getItem("MyFSOs") 
+			 
+			 //alert(localMyFSOs);
+			 
+			  if (localMyFSOs==null){
+			  localStorage.setItem("MyFSOs","<option value='Please Choose'>Please Choose ...</option>");
+			 // alert(localStorage.getItem("MyFSOs"));
+			  }
+			 
+			
+			unid = localStorage.getItem("ajaxFSO");
+			
+			
+			localStorage.setItem(unid+"Status", "DRAFT");
+			var DocStatus = localStorage.getItem(unid+"Status");
+			//alert(DocStatus);
+			//$('#docStatus').html("Field Sales Service Order: " + DocStatus);
+			
+			
+			//alert("unid: "  + unid)
+			var d = new Date();
+			var strDate = (d.getMonth()+1) +"/" + d.getDate() + "/" + d.getFullYear() ;
+			//alert(strDate);
+			
+			
+			
+			//var key = unid +"~"+ strDate + 	$('#SHIPNAME').val();
+			//var key = "<option value='"+unid+"'>"+strDate+" " + $('#SHIPNAME').val()+"</option>";
+			var key = "<option value='"+unid+"'>"+strDate+" " + $('#SHIPNAME').val()+" - "+DocStatus+"</option>";
+			console.log(key);
+		//alert(localStorage.getItem("MyFSOs"));
+			var unidList = localStorage.getItem("MyFSOs").split();
+			
+			
+		
+			
+			//alert("unidList: " +unidList);
+		
+			var txt = new String(unidList);
+			//var search = txt.search(unid);
+			var search = txt.search(unid);
+			
+			//alert(search);
+			
+			if (search <= -1 ){
+				//alert(showAlert);
+				
+					if (showAlert=='true'){
+					alert('Saving New Draft to My FSOs');
+					}
+			
+			//alert("unidList" + unidList);
+			unidList.push(key); //append unid to the list
+			localStorage.setItem("MyFSOs", unidList);
+			console.log('adding to list: ' + key);
+			}
+			else{
+			
+				if (showAlert=='true'){
+			
+				alert('Draft Saved....');
+							
+				}
+			}
+			
+			//alert(unidList);
+			//unidList.push(key); //append unid to the list
+
+
+				
+				
+				//	localStorage.setItem("MyFSOs", unidList);
+				//alert("MyProposal"+unid);
+				//document.getElementById('ref-number').innerHTML = unid;
+				//refreshPage();
+	} //end SaveMyProposal
+	
+	function onLoad(){
+				  //var unid = localStorage.getItem("ajaxFSO");
+					//	var myImage = localStorage.getItem(unid+'FSO_Signature1');
+						
+					
+						var myImage = $('#signatureimage').val();
+						
+						
+						
+						if (myImage != ''){
+							$('#simple').hide();
+							$('#sigImageHolder').show();	
+						}
+						
+						var imageElement = document.getElementById("signatureimage");  // Get the img object.
+						
+						
+						imageElement.src = myImage;   
+	}
+	
+	
+	</script>
+	
+	
+</head>
+
+<body onLoad="onLoad();">
+<form id="FSO">
+	<div data-role="page">
+    
+        <div data-role="header">
+	<a href="index.html" data-ajax="false" data-icon="home" onclick="localStorage.ajaxFSO=''; " >Home</a>
+            <h1 id='docStatus'>Field Sales Service Order</h1>
+			<a href="#" data-icon="check" data-theme="b" onclick="saveMyFSO('false'); ValidateForm();">Submit FSO</a>
+		
+			<input name="genUNID2" type="button" id="genUNID2" onclick="javascript:saveMyFSO('true');" value="Save Draft" />
+			<a href="index.html" data-ajax="false" data-icon="delete" onclick="localStorage.ajaxFSO=''; " >Cancel</a>
+	
+        </div>
+    
+        <div data-role="content">
+		
+		
+					<div  style="width:200px"> 
+					FSO Number <input name="FSONumber" id="FSONumber" value="" readonly  >
+					
+					</div>
+			
+					<input type="checkbox" name="checkboxDummy" id="checkboxDummy" class="custom" checked="on" style="display:none" />
+				
+			<div>
+				<fieldset data-role="controlgroup" data-type="horizontal" data-role="fieldcontain1">
+				
+					<input type="checkbox" name="checkbox_1" id="checkbox_1" value="NewAccount" class="custom" onclick="saveValues();" />
+					<label for="checkbox_1">New Account</label>
+				
+			</fieldset>
+			
+			<fieldset data-role="controlgroup" data-type="horizontal" data-role="fieldcontain1">
+					<input type="radio" name="checkbox_1a" id="checkbox_2a" value="ScheduleService" class="custom" onclick="saveValues();" />
+					<label for="checkbox_2a">Schedule Service / Install</label>
+					
+					
+					<input type="radio" name="checkbox_1a" id="checkbox_3a" value="ProductEquipOnly" class="custom" onclick="saveValues();" />
+					<label for="checkbox_3a">Product / Equipment Only</label>
+			</fieldset>
+			
+			<fieldset data-role="controlgroup" data-type="horizontal" data-role="fieldcontain1">
+					<input type="radio" name="checkbox_1b" id="checkbox_4a" value="BillOnly" class="custom" onclick="saveValues();" />
+					<label for="checkbox_4a">Bill Only</label>
+					
+					<input type="radio" name="checkbox_1b" id="checkbox_5a" value="BillandShip" class="custom" onclick="saveValues();" />
+					<label for="checkbox_5a">Bill and Ship</label>
+					
+					<input type="radio" name="checkbox_1b" id="checkbox_6a" value="ShipOnlyNoCharge" class="custom" onclick="saveValues();" />
+					<label for="checkbox_6a">Ship Only / No Charge</label>
+					
+			    </fieldset>
+			</div>
+			
+		
+           <ul id="BillingAddress" data-role="listview" data-inset="true">
+		   Customers:<select id="custList" name ="custList" onChange="populateInfo(this.value);" ></select>
+		   
+				<h3>Billing Address</h3>
+					
+					<table border="0" cellspacing="0" cellpadding="0">
+							
+							<tr><td><b>Company:</b></td><td ><input name="BILLNAME" id="BILLNAME"  value="" onblur="saveValues();"></td></tr>
+							<tr><td><b>Contact:</b></td><td ><input name="BILLADDR1" id="BILLADDR1" value="" onblur="saveValues();" ></td></tr>
+							<tr><td><b>Address:</b></td><td ><input name="BILLADDR2" id="BILLADDR2" value="" onblur="saveValues();"></td></tr>
+							<tr><td><b>Bill City:</b></td><td ><input name="BILLCITY" id="BILLCITY" onblur="saveValues();"></td></tr>
+							<tr><td><b>Bill State:</b></td><td ><input name="BILLSTATE" id="BILLSTATE" value="" onblur="saveValues();" ></td></tr>
+							<tr><td><b>Bill Zip:</b></td><td ><input name="BILLZIP" id="BILLZIP" value="" onblur="saveValues();" ></td></tr>
+							<tr><td><b>Bill Phone:</b></td><td ><input name="BILLPhone" id="BILLPhone" value="" onblur="saveValues();" ></td></tr>
+							<tr><td><b>Bill Email:</b></td><td ><input name="BILLEmail" id="BILLEmail" value="" onblur="saveValues();" ></td></tr>
+					</table>	
+					
+
+
+
+					
+				</ul>	<!--End Billing -->
+				
+				<ul id="ShippingAddress" data-role="listview" data-inset="true">
+				</br>
+				</br>
+				</br>
+				
+				<h3>Shipping Address</h3>
+					
+					<table border="0" cellspacing="0" cellpadding="0">
+							
+							<tr><td><b>Company:</b></td><td ><input name="SHIPNAME" id="SHIPNAME" value="" onblur="saveValues();"></td></tr>
+							<tr><td><b>Contact:</b></td><td ><input name="SHIPADDR1" id="SHIPADDR1" value="" onblur="saveValues();" ></td></tr>
+							<tr><td><b>Address:</b></td><td ><input name="SHIPADDR2" id="SHIPADDR2" value="" onblur="saveValues();"></td></tr>
+							<tr><td><b>Ship City:</b></td><td ><input name="SHIPCITY" id="SHIPCITY" value="" onblur="saveValues();"></td></tr>
+							<tr><td><b>Ship State:</b></td><td ><input name="SHIPSTATE" id="SHIPSTATE" value="" onblur="saveValues();" ></td></tr>
+							<tr><td><b>Ship Zip:</b></td><td ><input name="SHIPZIP"  id="SHIPZIP" value="" onblur="saveValues();" ></td></tr>
+							<tr><td><b>Ship Phone:</b></td><td ><input name="SHIPPHONE" id="SHIPPHONE"  value="" onblur="saveValues();" ></td></tr>
+							<tr><td><b>Ship Email:</b></td><td ><input name="SHIPEMAIL" id="SHIPEMAIL"  value="" onblur="saveValues();" ></td></tr>
+					</table>		
+				</ul>	<!--End Shipping -->
+				
+				
+				
+	
+			
+				
+				
+		
+				
+				
+				</br>
+				<div  style="width:200px"> 
+						<fieldset data-role="controlgroup">
+					
+							<input type="checkbox" name="BillingOnCompletion" id="BillingOnCompletion" class="custom" />
+							<label for="BillingOnCompletion">Billing upon Completion</label>
+						</fieldset>
+				</div>
+				<table data-role="table"  data-mode="reflow" width="100%" border="1" cellpadding="0" cellspacing="0" class="detail" id="example5" style="border: none;">
+					<thead>
+							<tr>
+					<!-- insert here -->
+					<th width="20%">
+								Inventory ID#
+							</th>
+						
+							<th width="25%" >
+								Description
+							</th>
+							<th width="10%" rowspan="0">
+								Qty
+							</th>
+						
+							<th width="10%" rowspan="0">
+								Price (ea)
+							</th>
+							<th width="10%"  rowspan="0">
+								Subtotal
+							</th>
+							<th width="10%" rowspan="0">
+								To Be Installed
+							</th>
+							<th width="10%" rowspan="0">
+								System Name / ID
+							</th>
+							<th width="10%" rowspan="0">
+								Notes
+							</th>
+						
+					</tr>
+					
+					</thead>
+					<tbody>
+					
+						
+					
+					<!-- <tr id="row123" class="parent" style="cursor: pointer;" title="Click to expand/collapse"><td><input type="checkbox" name="checkbox" class="SelectCheckBox" id="checkbox" /><input type="text" id="EquipmentType" width="30"></td><td><input type="text" id="Quantity" width="10"></td><td><input type="text" id="Manufacturer" width="30"></td><td><input type="text" id="Model" width="30"></td><td><input type="text" id="Size" width="30"></td><td><input type="text" id="Location" width="30"></td></tr>			-->				
+									
+						
+					</tbody>
+				</table>
+					<fieldset class="ui-grid-b">
+						<div class="ui-block-a"><input type="button" id="btnAdd" value="Add row" /></div>
+						<div class="ui-block-b"><input type="button" id="btnDelete" value="Remove Row" /></div>	  
+						<div style="display:none" class="ui-block-c" ><input type="button" id="btnCopy" value="Copy Row" /></div>	   	
+					</fieldset>
+			
+				
+				<table data-role="table"  data-mode="reflow" width="100%" border="0" cellpadding="5" cellspacing="5" class="detail" id="exampleTotals" style="border: none;">
+					<thead>
+					<tr>
+					<!-- insert here -->
+					<th width="5%">
+								
+								
+							</th>
+						
+							<th width="5%" >
+						
+							</th>
+							
+							<th width="10%" colspan="3">
+						Subtotal-Equipment Cost
+							</th>
+							
+							<th width="10%"  rowspan="0">
+							<input type="number" name = "subTotalequip" id="subTotalequip" onblur="saveValues();"></input>	
+							</th>
+						
+							<th width="15%"  rowspan="0">
+								
+							</th>
+							<th width="10%" rowspan="0">
+							
+							
+							
+							</th>
+							
+						
+					</tr>
+					
+					
+					</thead>
+					<tbody>
+					<tr>
+					<td width="20%">
+								
+								
+							</td>
+						
+							<td width="25%" >
+						
+							</td>
+							<th width="10%" colspan="3">
+							Time & Material Estimate
+							</th>
+							
+							<td width="10%"  rowspan="0">
+								<input type="number" name = "TMestimate" id="TMestimate" onblur="saveValues();"></input>	
+							</td>
+						
+					
+							
+						
+					</tr>
+			
+				
+					
+				
+					
+					<tr>
+					<td width="20%">
+								
+								
+							</td>
+						
+							<td width="25%" >
+						
+							</td>
+							<th width="10%" colspan="3">
+							Subtotal
+							</th>
+							
+							<td width="10%"  colspan="0">
+								<input type="number" name = "subTotal" id="subTotal" onblur="saveValues();"></input>	
+							</td>
+						
+					
+						
+					</tr>
+					
+					<tr>
+					<td width="20%">
+								
+								
+							</td>
+						
+							<td width="25%" >
+						
+							</td>
+							<th width="10%" colspan="3">
+							Freight
+							</th>
+							
+							<td width="10%"  rowspan="0">
+								<input type="text" name = "Freight" id="Freight" onblur="saveValues();"></input>	
+							</td>
+						
+					
+						
+					</tr>
+					
+					<tr>
+					<td width="20%">
+								
+								
+							</td>
+						
+							<td width="25%" >
+						
+							</td>
+							<th width="10%" colspan="3">
+							Tax
+							</th>
+							
+							<td width="10%"  rowspan="0">
+								<input type="text" name = "Tax" id="Tax" onblur="saveValues();"></input>	
+							</td>
+						
+					
+						
+					
+						
+					</tr>
+					
+							<tr>
+					<td width="20%">
+								
+								
+							</td>
+						
+							<td width="25%" >
+						
+							</td>
+							<th width="10%" colspan="3">
+							Grand Total
+							</th>
+							
+							<td width="10%"  rowspan="0">
+								<input type="number" name = "GrandTotal" id="GrandTotal" onblur="saveValues();"></input>	
+							</td>
+						
+					
+				
+				
+						
+					</tr>
+					
+				</tbody>
+				</table>
+				
+					<label for="checkbox-SpecialNotations">Special Notations</label>
+					<textarea data-role="none" class="Schedule11-TextArea"  name="SpecialNotations" id="SpecialNotations" onblur="saveValues();"></textarea>
+				
+				
+					<div id="CustSig" data-role="collapsible" data-collapsed="false" ontouchmove="event.preventDefault();">
+						<h3>Customer Acknowledgement</h3>
+						
+			
+
+			<div id="sigImageHolder" width="550" height="250"  style="display:none">
+						<img id="signatureimage"  width="550" height="250"   "/>	
+			 </div>
+							<canvas id="simple" height="250" width="550" style="-webkit-border-radius: 10px; border-width: 2px; border-style: dashed; border-color: grey;"  "></canvas>
+							<br>
+						
+							
+							<input data-role="none" type="button" id="sigReset" value="Done" onClick="onOrientationChange();"/>
+							<input data-role="none" type="button" id="sigReset" value="Reset" onClick="resetCanvas();"/>
+					</div>
+							
+							Customer Name:<input type="text" id="CustomerName" name="CutomerName" onblur="saveValues();"></input>
+							
+							Submitted By: <input type="text" id="SubmittedBy" name="SubmittedBy" onblur="saveValues();" ></input>
+							
+							Date:<input type="date" id="FSODate" name="FSODate" onblur="saveValues();" ></input>
+							
+							
+							
+				<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+					<h2>Tax Exempt ?</h2>
+						<input type="radio" name="TaxExcemptYes" id="TaxExcemptYes" value="Yes" checked=""  class="custom" onclick="saveValues();" />
+						<label for="TaxExcemptYes">Yes</label>
+
+						<input type="radio" name="TaxExcemptYes" id="TaxExcemptNo" value="No" checked=""  class="custom" onclick="saveValues();" />
+						<label for="TaxExcemptNo">No</label>
+						(If Yes, Exemption certificate must be attached)
+						
+						</br>
+					
+				</fieldset>
+		 
+			
+			           	<div>
+							<h3>Purchase Order Number:</h3><input type="text" data-type="none" id="PONumber" name="PONumber" onblur="saveValues();" />
+						</div>
+						
+						</br>
+						</br>
+							
+							
+							
+							<input type="button" data-theme="b" id="SubmitIT" name = "SubmitIT" value="Submit FSO" onClick=" saveMyFSO('false'); ValidateForm();" ></input>
+							
+							<input type="text" id="SignatureData" name="SignatureData" value=""  style="display:none"></input>
+							
+							
+							
+				
+		</div> <!--End Content -->
+				
+			</div>	 <!-- //End the Content -->
+		</form>
+		</div>   <!-- End the Page -->
+</body>
+<script>
+
+		<!-- populate the form from previously saved localStorage using the unid -->
+	
+	
+		
+		  var unid = localStorage.getItem("ajaxFSO");
+		$("#FSO").deserialize(localStorage.getItem(unid+"FSO"));
+		console.log('DeSerialize Unid:'+unid +" " + localStorage.getItem(unid+"FSO"));
+	  
+</script>
+
+<script>
+	
+	  function onOrientationChange()
+		{
+	
+			var canvas  = document.getElementById("simple");
+			var myImage = canvas.toDataURL("image/png");      		 // Get the data as an image.
+			var imageElement = document.getElementById("signatureimage");  // Get the img object.
+			imageElement.src = myImage;    
+			
+			
+			var unid = localStorage.getItem("ajaxFSO");
+			//$('#SignatureData').val(canvas.toDataURL()); 
+			localStorage.setItem(unid+'FSO_Signature1', myImage);
+			
+			//alert(localStorage.getItem(unid+'FSO_Signature1'));
+			
+			saveValues();
+			
+			//var unid = localStorage.getItem("ajaxFSO");
+				
+			//localStorage.setItem(unid+'FSO_Signature1', canvas.toDataURL("image/png"));
+			
+			//Blank out the signature data field
+			$('#SignatureData').val('');
+					
+			
+			$('#sigImageHolder').show();	
+			$('#simple').hide();		
+				
+		}
+		
+	
+	function resetCanvas()
+		{
+		myCanvas = document.getElementById("simple");
+		var width = myCanvas.width;
+		myCanvas.width = width + 1;
+		width = myCanvas.width;
+		myCanvas.width = width - 1;
+		
+			  var imageElement = document.getElementById("signatureimage");  // Get the img object.
+			  imageElement.src =".";
+			  
+			//  $('#SignatureData').val('');  //blankout the field hilding the signature data
+			  
+			 	var unid = localStorage.getItem("ajaxFSO");
+			  localStorage.setItem(unid+'FSO_Signature1', "");
+			  
+			  //alert(imageElement.src); // = '';                           // Set the src to data from the canvas.
+			  
+			  $('#simple').show();
+			  $('#sigImageHolder').hide();	
+			  //Clear the cookie
+			  //  var unid = localStorage.getItem("ajaxFSO");
+			//	var myImage = localStorage.setItem(unid+'FSO_Signature1', '');
+			  
+		
+		}
+</script>
+</html>		

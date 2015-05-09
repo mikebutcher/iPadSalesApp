@@ -1,0 +1,908 @@
+function begin(){
+
+	//init vars
+	var previousRow="";
+	var count =0;
+	  document.getElementById('dspCust').innerHTML = "";
+	  document.getElementById('dspCustHist').innerHTML = "";
+	  document.getElementById('dspCustID').innerHTML = "";
+
+	frm = document.forms[0];
+	frm.EquipList.length=0;
+	frm.parseEquipType.value ="";
+	frm.parseEquipName.value ="";
+	frm.parseEquipTestNames.value ="";
+	frm.parseRange.value ="";
+	
+	//frm.equipDataCollection.value="";
+	///////////////////////////////////////////////////////////////////////////////////////////
+	/// Check to see if there is a Draft in the Reports Table before reading from the Templates
+	///////////////////////////////////////////////////////////////////////////////////////////
+	 var custid = document.getElementById("customer_templates").value;
+	 
+	//alert("custid: "+ custid);
+	var x=document.getElementById("customer_templates");
+	 
+
+
+	 custname =  x.options[x.selectedIndex].text;
+	 name =  x.options[x.selectedIndex].text;
+	 document.getElementById('Client').innerHTML = name; 
+	 //document.getElementById('Client1').innerHTML = name;
+	 document.getElementById('Client2').innerHTML = name;  
+	 document.getElementById('Client3').innerHTML = name;  
+	 //document.getElementById('Client4').innerHTML = name;  
+	 document.getElementById('dspCustID').innerHTML ="Cust ID: "+ custid ; 
+	 document.getElementById('dspCust').innerHTML = custname;
+	 document.getElementById('dspCustHist').innerHTML = custname;
+
+
+	//alert(custname);
+
+
+
+//alert("new code");
+ //Read from Local Storage added on 2-22-12
+	//Mileage
+		frm.mileage.value = localStorage.getItem(custid+'mileage');
+	//Report Date
+	frm.ReportDate.value = localStorage.getItem(custid+'ReportDate');
+	frm.Conductivity.value = localStorage.getItem(custid+'Conductivity');
+	frm.calciumHardness.value = localStorage.getItem(custid+'calciumHardness');
+	frm.alkalinity.value = localStorage.getItem(custid+'alkalinity');
+	frm.chlorides.value = localStorage.getItem(custid+'chlorides');
+	
+	
+	//photodata1 = localStorage.getItem(custid+'test_img1');
+	//prepend the image/jpeg prefix so it shows up when saved on device
+	
+	
+	
+	
+	//Reversed on 3-26-12
+	frm.equipDataCollection.value = row['EquipDataCollection'];
+	//frm.equipDataCollection.value = localStorage.getItem(custid+'EquipDataCollection');
+
+
+
+
+	
+	frm.Comments.value = unescape(localStorage.getItem(custid+'Comments')); // Make it plain characters
+
+	if(frm.Comments.value == 'null') {
+		frm.Comments.value ="";
+	}
+
+//	alert( "done");
+
+
+
+
+
+
+
+
+	CheckExisting (custid);
+
+	function CheckExisting (custid)
+	{
+
+	//alert("check existing " + custid +" is the cust id");
+	localDB.transaction(
+	    function (transaction) {
+	        transaction.executeSql("SELECT * from Reports where custid='"+custid+"';", [], dataHandlerReports, errorHandler);
+	    }  
+	);
+
+function dataHandlerReports(transaction, results)
+	{
+
+	var custid = document.getElementById("customer_templates").value;
+
+	    if (results.rows.length > 0) {
+//	      var row = results.rows.item(i);
+	   var row = results.rows.item(0);
+	alert("Found a Draft on the Device - " + row['ListType']); 
+	
+	//alert("mileage - " + row['mileage']);
+     //	frm.mileage.value = row['mileage'];
+
+   // 	frm.ReportDate.value = row['ReportDate'];
+//	alert("report date - " + row['ReportDate']);
+
+
+	//alert("timestamp-  " + row['timestamp']);
+	//frm.timestamp.value = row['timestamp'];
+
+	//alert(" Conductivity :"+ row['Conductivity']);
+	//frm.Conductivity.value = row['Conductivity'];
+
+	//frm.calciumHardness.value = row['calciumHardness'];
+//alert(" calciumHardness  :"+ row['calciumHardness']);
+
+
+	//frm.alkalinity.value = row['alkalinity'];
+	//frm.chlorides.value = row['chlorides'];
+	
+	//alert("DC "+ row['EquipDataCollection']);
+	frm.equipDataCollection.value = row['EquipDataCollection'];
+
+	frm.Comments.value = unescape(row['Comments']); // Make it plain characters
+	frm.ActionsList.value = row['ActionsList'];
+
+	//Code to populate Actions
+	var ActionIndex = row['ActionNum'];
+
+	//Create an Array to store all the values
+	var checkedArray = new Array();
+	checkedArray  = ActionIndex.split(';');
+	//alert("ActionIndex "+ActionIndex );
+	//alert("checkedArray.length " + checkedArray.length);
+	//alert(checkedArray[0]);
+	
+
+	for (var i=0; i < checkedArray.length-1; i++)
+	   { 
+	 //  alert("in For Loop");
+	//alert('in for loop');
+	    //alert(checkedArray[i]);
+	  //Code fixed on 6.6.11  converted to a number using the *
+	    c = checkedArray[i]*1;
+	   //alert("c "+c);
+	   document.forms[0].ActionsList[c].checked = true;   
+	}
+
+	 //document.forms[0].ActionsList[0].checked = true;   
+	//alert('past actions');
+	//End Actions Population
+
+	//2-18-11  Add Code to handle saved Photos to populate the thumbnails
+	
+	//photo1
+	
+	
+	//alert("photo1: " +  row['Photo1']);  // alert the data from WebStorage 
+	//alert("photo2: " +  row['Photo2']);  // alert the data from WebStorage 
+	//alert("photo3: " +  row['Photo3']);  // alert the data from WebStorage 
+
+	var photo1Temp = row['Photo1'];
+	var photo2Temp = row['Photo2'];
+	var photo3Temp = row['Photo3'];
+	var photo4Temp = row['Photo4'];
+	var photo5Temp = row['Photo5'];
+	var photo6Temp = row['Photo6'];
+	
+	//alert(photo1Temp.length);
+		
+	if (photo1Temp.length >0){
+	    document.getElementById('img1').src =  "data:image/jpeg;base64," + row['Photo1'];
+	 
+	    }
+	if (photo2Temp.length >0){
+	    document.getElementById('img2').src =  "data:image/jpeg;base64,"  + row['Photo2'];
+	}
+	if (photo3Temp.length >0){
+	    document.getElementById('img3').src =  "data:image/jpeg;base64," + row['Photo3'];
+	}
+	if (photo4Temp.length >0){ 
+	    document.getElementById('img4').src = "data:image/jpeg;base64," + row['Photo4'];
+	}
+	if (photo5Temp.length >0){
+	    document.getElementById('img5').src = "data:image/jpeg;base64,"  +  row['Photo5'];
+	}
+	if (photo6Temp.length >0){
+	    document.getElementById('img6').src = "data:image/jpeg;base64," + row['Photo6'];
+	}
+	
+
+	
+	//Regenerate Signature
+	
+	//alert("Sig Data" + row['container']);
+	
+		hide("container");
+		show("signatureimage");
+	
+    document.getElementById("signatureimage").src =  row['container'];
+
+	
+
+
+	//foundDraft(custid);
+//alert("starting new code");
+	var previousRow="";
+	var count =0;
+	frm = document.forms[0];
+	frm.EquipList.length=0;
+	frm.parseEquipType.value ="";
+	frm.parseEquipName.value ="";
+	frm.parseEquipTestNames.value ="";
+	frm.parseRange.value ="";
+	
+	localDB.transaction(
+	    function (transaction) {
+
+	    	  
+	    	// alert("SELECT * from BookView where custid="+custid);
+	    	 
+	        transaction.executeSql("SELECT * from BookView where custid='"+custid+"';",
+	      
+	            [], // array of values for the ? placeholders
+	            dataHandlerFoundDraft, errorHandler);
+	    }
+	);
+
+	
+	function dataHandlerFoundDraft(transaction, results)
+	{
+	 // Handle the results
+	  //alert( "In the Found Draft  Data Handler");
+	    
+	var orgMyString ="start";
+//alert("number of rows"+ results.rows.length);
+	    for (var i=0; i<results.rows.length; i++) {
+	        // Each row is a standard JavaScript array indexed by     
+	        var row = results.rows.item(i);
+	        
+	        //row['id'], row['custid'], row['timestamp'], row['Conductivity'], row['calciumHardness'], row['alk'], row['chlorides'], row['storage'], row['eRange'], row['eReadings']);      
+
+		frm.custid.value = row['custid'];
+	//	alert("billname "+ row['BillName']);
+		frm.BillName.value = row['BillName'];
+//		Save
+		var custid = document.getElementById("customer_templates").value;
+//alert("contact" + frm.Contact.value);
+		frm.Contact.value = row['BillADDR1'];
+	saveReport (custid, "Contact", frm.Contact.value );
+
+
+		frm.notify.value = row['Notify'].replace(/~/gi, "\r\n");
+	saveReport (custid, "notify",frm.notify.value );
+		frm.BillAddr2.value = row['BillADDR2'];
+	saveReport (custid, "BillAddr2",frm.BillAddr2.value);
+		frm.BillCity.value = row['BillCity'];
+	saveReport (custid, "BillCity",frm.BillCity.value);
+		frm.BILLState.value = row['BillState'];
+	saveReport (custid, "BILLState",frm.BILLState.value);
+		frm.BillZip.value = row['BillZip'];
+	saveReport (custid, "BillZip",frm.BillZip.value);
+		frm.ShipPhone.value = row['ShipPhone'];
+	saveReport (custid, "ShipPhone",frm.ShipPhone.value);
+		frm.accessGivenTo.value = row['accessGivenTo'].replace(/~/gi, "\r\n");
+	saveReport (custid, "accessGivenTo",frm.accessGivenTo.value);
+	   	frm.CorporateName.value =  row['CorporateName'].replace(/~/gi, "\r\n");
+	saveReport (custid, "CorporateName",frm.CorporateName.value);
+
+	//Load Last Months Data
+// alert("here: " +row['LastMonthEquipDataCollection'].replace(/~/gi, "\r\n"));
+	// frm.pdaDataCollectionHist.value = row['LastMonthEquipDataCollection'].replace(/~/gi, "\r\n");
+	 frm.LastMonthEquipDataCollection.value = row['LastMonthEquipDataCollection'].replace(/~/gi, "\r\n");
+	
+	 frm.LastMonthEquipDataCollection2.value = row['LastMonthEquipDataCollection2'].replace(/~/gi, "\r\n");
+	 frm.LastMonthEquipDataCollection3.value = row['LastMonthEquipDataCollection3'].replace(/~/gi, "\r\n");
+	 //3.14.11 Added 6 more months history
+	 frm.LastMonthEquipDataCollection4.value = row['LastMonthEquipDataCollection4'].replace(/~/gi, "\r\n");
+	 frm.LastMonthEquipDataCollection5.value = row['LastMonthEquipDataCollection5'].replace(/~/gi, "\r\n");
+	 frm.LastMonthEquipDataCollection6.value = row['LastMonthEquipDataCollection6'].replace(/~/gi, "\r\n");
+	 frm.LastMonthEquipDataCollection7.value = row['LastMonthEquipDataCollection7'].replace(/~/gi, "\r\n");
+	 frm.LastMonthEquipDataCollection8.value = row['LastMonthEquipDataCollection8'].replace(/~/gi, "\r\n");
+	 frm.LastMonthEquipDataCollection9.value = row['LastMonthEquipDataCollection9'].replace(/~/gi, "\r\n");
+			
+	 
+
+	
+	/* 
+	 saveReport (custid, "LastMonthEquipDataCollection2",frm.LastMonthEquipDataCollection2.value);
+	
+	 	 frm.LastMonthEquipDataCollection2.value = row['LastMonthEquipDataCollection2'].replace(/~/gi, "\r\n");
+	saveReport (custid, "LastMonthEquipDataCollection2",frm.LastMonthEquipDataCollection2.value);
+	 	 frm.LastMonthEquipDataCollection3.value = row['LastMonthEquipDataCollection3'].replace(/~/gi, "\r\n");
+	saveReport (custid, "LastMonthEquipDataCollection3",frm.LastMonthEquipDataCollection3.value);
+	*/
+	
+	      frm.parseEquipType.value = row['parseEquipType'].replace(/~/gi, "\r\n");
+	saveReport (custid, "parseEquipType",frm.parseEquipType.value);
+	      frm.parseEquipName.value = row['parseEquipname'].replace(/~/gi, "\r\n");
+	saveReport (custid, "parseEquipName",frm.parseEquipName.value);   
+	       frm.parseEquipTestNames.value = row['parseEquipTestNames'].replace(/~/gi, "\r\n");
+	saveReport (custid, "parseEquipTestNames",frm.parseEquipTestNames.value);        
+	       frm.parseRange.value = row['parseRange'].replace(/~/gi, "\r\n");
+	saveReport (custid, "parseRange",frm.parseRange.value);        
+
+//	       frm.equipDataCollection.value = row['equipDataCollection'].replace(/~/gi, "\r\n");
+	       
+	       var cyclesLow = row['cyclesLow'];
+	       var cyclesHigh= row['cyclesHigh'];
+	       frm.cycles.value  = cyclesLow +", "+ cyclesHigh;
+
+	//Set the Cust Name
+	// var custName = row['BillName'];
+	 //document.getElementById('status').innerHTML = row['BillName'];
+	 document.getElementById('BillAddress').innerHTML = row['BillADDR2']; 
+	  document.getElementById('CSZ').innerHTML = row['BillCity'] +", " + row['BillState'] + " " + row['BillZip']; 
+	//  alert(row['parseEquipType']);
+
+	var EquipArray = new Array();
+
+	EquipArray = row['parseEquipname'].split('~');
+	 //.replace(/~/gi, "\r\n");
+
+	//alert(row['parseEquipType'].split(','));
+	//EquipArray= row['parseEquipName'].split('~');
+
+	//alert(EquipArray[0]);
+	//alert("Equip array length: "+EquipArray.length);
+	start = EquipArray[0];
+	document.forms[0].breakpoints.value = "0,";
+
+	//init the equip dropdown
+	var oSelect = document.getElementById('EquipList');
+	var oOption = document.createElement('OPTION');
+	//alert(oSelect);
+	// Add the option to the collection first, then set properties
+	equipOption = start;
+	//alert ("equipOption : " + equipOption);
+
+	oSelect.options.add(oOption);
+	oOption.innerHTML = equipOption;
+	//oOption.value = equipOption;
+	oOption.value = i;
+
+	for(i = 0; i < EquipArray.length; i++){
+	if (start !=EquipArray[i]) {
+
+	//alert("loading Equip");
+	start =EquipArray[i];
+	document.forms[0].breakpoints.value =  document.forms[0].breakpoints.value + i + "," ;
+	oOption.value = i;
+	count= count+1; 
+
+	////////////////////
+	   document.getElementById('EquipList').innerHTML += 
+	            '<option value ="'+i+'">'+ EquipArray[i].toString() +'</option>';
+	//alert(   '<option value ="'+i+'">'+ EquipArray[i].toString()+'</option>');
+
+	}
+	}
+	//End of the array
+
+	document.forms[0].breakpoints.value =  document.forms[0].breakpoints.value + i;
+	    }
+
+	}
+	 
+	
+	//document.forms[0].mileage.focus();
+	document.getElementById("mileage").focus();
+
+
+	   }
+	   else 
+	   {
+		   //Added List Type Code
+		   var ListType = localStorage.getItem("listType");
+	alert("No Draft Found - " + ListType);
+		   
+		   localStorage.setItem('photocount',1);  //initialize photocount
+	  //Added a field for photo1-6, lat, long
+	  
+	 //  rs1 = transaction.executeSql('INSERT INTO Reports VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [null, custid, name, "", "", "", "", "",  "", "", "", "", "", "", "", "", "",  "", "", "", "", "", "", "", "", "", "","","","",""], dataHandler, errorHandler);
+     //added pic 2-6
+		 //  rs1 = transaction.executeSql('INSERT INTO Reports VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [null, custid, name, "", "", "", "", "",  "", "", "", "", "", "", "", "", "",  "", "", "", "", "", "", "", "", "", "","","","","","","","","",""], dataHandler, errorHandler);
+//added Latitude Longitude
+//added StartTime and EndTime		   
+	//added ListType		   
+  // rs1 = transaction.executeSql('INSERT INTO Reports VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [null, custid, name, "", "", "", "", "",  "", "", "", "", "", "", "", "", "",  "", "", "", "", "", "", "", "", "", "","","","","","","","","","","","",ListType], dataHandler, errorHandler);
+//added 9 history fields
+    rs1 = transaction.executeSql('INSERT INTO Reports VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [null, custid, name, "", "", "", "", "",  "", "", "", "", "", "", "", "", "",  "", "", "", "", "", "", "", "", "", "","","","","","","","","","","","",ListType,"","","","","","","","",""], dataHandler, errorHandler);
+
+		     
+		     
+	   var custid = document.getElementById("customer_templates").value;
+	   
+	       
+       //call Set StartTime  Time.js
+      //Start time is set on fresh reports only!
+       SetStartTime(custid);
+	   
+	   localDB.transaction(
+	    function (transaction) {
+	    	
+	    	 //alert("Bv or SL?  " +ListType);
+	    	 if (ListType == "bookView"){
+	    		 var Table = "BookView";
+	    	 } else {
+	    		 var Table = "Templates";
+	    	 }
+	    		 
+	    	//alert("Selecting from the  " + Table + " Table" ); 
+	    	  
+	    	 
+	        transaction.executeSql("SELECT * from "+Table+" where custid='"+custid+"';", [], dataHandlerFoundNoDraft, errorHandler);}
+		); 
+		
+		}
+
+	
+	    
+	    
+	    
+	    function dataHandlerFoundNoDraft(transaction, results)
+	    {
+
+	     // Handle the results
+	        var string = "In the Data Handler";
+	        
+	    var orgMyString ="start";
+	  //  alert("number of rows"+ results.rows.length);
+	        for (var i=0; i<results.rows.length; i++) {
+	            // Each row is a standard JavaScript array indexed by     
+	            var row = results.rows.item(i);
+	            
+	            //row['id'], row['custid'], row['timestamp'], row['Conductivity'], row['calciumHardness'], row['alk'], row['chlorides'], row['storage'], row['eRange'], row['eReadings']);      
+
+
+	    	frm.custid.value = row['custid'];
+	    	frm.BillName.value = row['BillName'];
+//	    	Save
+	    	var custid = document.getElementById("customer_templates").value;
+
+	    //Tech
+	    var daTech =localStorage.getItem("tech"); 
+	    //alert(daTech);
+	    saveReport (custid, "tech", daTech);
+	    saveReport (custid, "ReportDate",frm.ReportDate.value);
+
+
+
+
+	    	frm.Contact.value = row['BillADDR1'];
+//	    	alert(row['BillADDR1']);
+	    saveReport (custid, "Contact", frm.Contact.value );
+	    	frm.notify.value = row['Notify'].replace(/~/gi, "\r\n");
+	    saveReport (custid, "notify",frm.notify.value );
+	    	frm.BillAddr2.value = row['BillADDR2'];
+	    saveReport (custid, "BillAddr2",frm.BillAddr2.value);
+	    	frm.BillCity.value = row['BillCity'];
+	    saveReport (custid, "BillCity",frm.BillCity.value);
+	    	frm.BILLState.value = row['BillState'];
+	    saveReport (custid, "BILLState",frm.BILLState.value);
+	    	frm.BillZip.value = row['BillZip'];
+	    saveReport (custid, "BillZip",frm.BillZip.value);
+	    	frm.ShipPhone.value = row['ShipPhone'];
+	    saveReport (custid, "ShipPhone",frm.ShipPhone.value);
+	    	frm.accessGivenTo.value = row['accessGivenTo'].replace(/~/gi, "\r\n");
+	    saveReport (custid, "accessGivenTo",frm.accessGivenTo.value);
+	       	frm.CorporateName.value =  row['CorporateName'].replace(/~/gi, "\r\n");
+	    saveReport (custid, "CorporateName",frm.CorporateName.value);
+	     	 frm.LastMonthEquipDataCollection2 = row['LastMonthEquipDataCollection2'].replace(/~/gi, "\r\n");
+	    saveReport (custid, "LastMonthEquipDataCollection2",frm.LastMonthEquipDataCollection2.value);
+	     	 frm.LastMonthEquipDataCollection3 = row['LastMonthEquipDataCollection3'].replace(/~/gi, "\r\n");
+	    saveReport (custid, "LastMonthEquipDataCollection3",frm.LastMonthEquipDataCollection3.value);
+    	 frm.LastMonthEquipDataCollection4 = row['LastMonthEquipDataCollection4'].replace(/~/gi, "\r\n");   
+	    saveReport (custid, "LastMonthEquipDataCollection4",frm.LastMonthEquipDataCollection4.value);
+    	 frm.LastMonthEquipDataCollection5 = row['LastMonthEquipDataCollection5'].replace(/~/gi, "\r\n");
+	    saveReport (custid, "LastMonthEquipDataCollection5",frm.LastMonthEquipDataCollection5.value);
+    	 frm.LastMonthEquipDataCollection6 = row['LastMonthEquipDataCollection6'].replace(/~/gi, "\r\n");
+	    saveReport (custid, "LastMonthEquipDataCollection6",frm.LastMonthEquipDataCollection6.value);
+    	 frm.LastMonthEquipDataCollection7 = row['LastMonthEquipDataCollection7'].replace(/~/gi, "\r\n");
+	    saveReport (custid, "LastMonthEquipDataCollection7",frm.LastMonthEquipDataCollection7.value);
+    	 frm.LastMonthEquipDataCollection8 = row['LastMonthEquipDataCollection8'].replace(/~/gi, "\r\n");
+	    saveReport (custid, "LastMonthEquipDataCollection8",frm.LastMonthEquipDataCollection8.value);  
+    	 frm.LastMonthEquipDataCollection9 = row['LastMonthEquipDataCollection9'].replace(/~/gi, "\r\n");
+	    saveReport (custid, "LastMonthEquipDataCollection9",frm.LastMonthEquipDataCollection9.value);
+		
+	    
+	    
+	    //alert("parseEquipType before " + row['parseEquipType']);
+	          frm.parseEquipType.value = row['parseEquipType'].replace(/~/gi, "\r\n");
+	          
+	    //alert("parseEquipType after  " + row['parseEquipType'].replace(/~/gi, "\r\n"));  
+	    saveReport (custid, "EquipType",frm.parseEquipType.value);
+	    
+	          frm.parseEquipName.value = row['parseEquipname'].replace(/~/gi, "\r\n");
+	   //alert("parseEquipName "+ row['parseEquipname'].replace(/~/gi, "\r\n"));
+	   
+	   
+	   
+	    saveReport (custid, "EquipName",frm.parseEquipName.value);   
+	           frm.parseEquipTestNames.value = row['parseEquipTestNames'].replace(/~/gi, "\r\n");
+	    saveReport (custid, "EquipTest",frm.parseEquipTestNames.value);        
+	           frm.parseRange.value = row['parseRange'].replace(/~/gi, "\r\n");
+	    saveReport (custid, "EquipRange",frm.parseRange.value);        
+	         frm.equipDataCollection.value = row['equipDataCollection'].replace(/~/gi, "\r\n");
+	    saveReport (custid, "equipDataCollection",frm.equipDataCollection.value);  
+	           
+	           var cyclesLow = row['cyclesLow'];
+	           var cyclesHigh= row['cyclesHigh'];
+	           frm.cycles.value  = cyclesLow +", "+ cyclesHigh;
+
+	    //Set the Cust Name
+	    // var custName = row['BillName'];
+	     //document.getElementById('status').innerHTML = row['BillName'];
+	     document.getElementById('BillAddress').innerHTML = row['BillADDR2']; 
+	      document.getElementById('CSZ').innerHTML = row['BillCity'] +", " + row['BillState'] + " " + row['BillZip']; 
+	    //  alert(row['parseEquipType']);
+
+	    var EquipArray = new Array();
+
+	    EquipArray = row['parseEquipname'].split('~');
+	     //.replace(/~/gi, "\r\n");
+
+	    //alert(row['parseEquipType'].split(','));
+	    //EquipArray= row['parseEquipName'].split('~');
+
+	    //alert(EquipArray[0]);
+	    //alert("Equip array length: "+EquipArray.length);
+	    start = EquipArray[0];
+	    document.forms[0].breakpoints.value = "0,";
+
+	    //init the equip dropdown
+	    var oSelect = document.getElementById('EquipList');
+	    var oOption = document.createElement('OPTION');
+	    //alert(oSelect);
+	    // Add the option to the collection first, then set properties
+	    equipOption = start;
+	    //alert ("equipOption : " + equipOption);
+
+	    oSelect.options.add(oOption);
+	    oOption.innerHTML = equipOption;
+	    //oOption.value = equipOption;
+	    oOption.value = i;
+
+	    for(i = 0; i < EquipArray.length; i++){
+	    if (start !=EquipArray[i]) {
+
+	    //alert("loading Equip");
+	    start =EquipArray[i];
+	    document.forms[0].breakpoints.value =  document.forms[0].breakpoints.value + i + "," ;
+	    oOption.value = i;
+	    count= count+1; 
+
+	    ////////////////////
+	       document.getElementById('EquipList').innerHTML += 
+	                '<option value ="'+i+'">'+ EquipArray[i].toString() +'</option>';
+	  //  alert(   '<option value ="'+i+'">'+ EquipArray[i].toString()+'</option>');
+
+	    }
+	    }
+	    //End of the array
+
+	    document.forms[0].breakpoints.value =  document.forms[0].breakpoints.value + i;
+	        }
+
+	    }	    
+////////////////////////////////////////////////////////////////////////////////////////////
+function dataHandlerFoundNoDraftOrig(transaction, results)
+	{
+//alert("No Draft Datahandler");
+	 // Handle the results
+	
+	var orgMyString ="start";
+	//alert("number of rows"+ results.rows.length);
+	    for (var i=0; i<results.rows.length; i++) {
+	        // Each row is a standard JavaScript array indexed by     
+	        var row = results.rows.item(i);
+	        
+	        //row['id'], row['custid'], row['timestamp'], row['Conductivity'], row['calciumHardness'], row['alk'], row['chlorides'], row['storage'], row['eRange'], row['eReadings']);      
+
+
+		frm.custid.value = row['custid'];
+		frm.BillName.value = row['BillName'];
+	//alert("BillName" +frm.BillName.value  );
+		saveReport (custid, "name", frm.BillName.value);
+		
+	//No Draft so Set the Start Time	
+	var currentTime = new Date();
+	var month = currentTime.getMonth() + 1;
+	var day = currentTime.getDate();
+	var year = currentTime.getFullYear();
+
+	var hours = currentTime.getHours();
+	var minutes = currentTime.getMinutes();
+	var seconds = currentTime.getSeconds();
+
+
+	var daTime= (month + "/" + day + "/" + year +  " " + hours +":"+minutes+":"+seconds);
+	document.forms[0].timestamp.value = daTime;
+	//Save the Time to the local db
+	var custid = document.getElementById("customer_templates").value;
+	saveReport (custid, "timestamp", daTime);
+	//added StartTime
+	saveReport (custid, "StartTime", daTime);
+	
+		//alert("daTime :" + daTime);
+		
+//		Save
+		var custid = document.getElementById("customer_templates").value;
+
+	//Tech
+	var daTech =localStorage.getItem("tech"); 
+	//alert(daTech);
+	saveReport (custid, "tech", daTech);
+	
+
+	saveReport (custid, "ReportDate",frm.ReportDate.value);
+
+
+
+
+		frm.Contact.value = row['BillADDR1'];
+		//alert("BillADDR1"+ row['BillADDR1']);
+	saveReport (custid, "Contact", frm.Contact.value );
+	
+		
+	
+		
+		
+		
+	
+		
+	saveReport (custid, "notify",frm.notify.value );
+		frm.BillAddr2.value = row['BillADDR2'];
+	saveReport (custid, "BillAddr2",frm.BillAddr2.value);
+		frm.BillCity.value = row['BillCity'];
+	saveReport (custid, "BillCity",frm.BillCity.value);
+		frm.BILLState.value = row['BillState'];
+	saveReport (custid, "BILLState",frm.BILLState.value);
+		frm.BillZip.value = row['BillZip'];
+	saveReport (custid, "BillZip",frm.BillZip.value);
+		frm.ShipPhone.value = row['ShipPhone'];
+	saveReport (custid, "ShipPhone",frm.ShipPhone.value);
+		frm.accessGivenTo.value = row['accessGivenTo'].replace(/~/gi, "\r\n");
+	saveReport (custid, "accessGivenTo",frm.accessGivenTo.value);
+	   	frm.CorporateName.value =  row['CorporateName'].replace(/~/gi, "\r\n");
+	saveReport (custid, "CorporateName",frm.CorporateName.value);
+	 	 frm.LastMonthEquipDataCollection2 = row['LastMonthEquipDataCollection2'].replace(/~/gi, "\r\n");
+	saveReport (custid, "LastMonthEquipDataCollection2",frm.LastMonthEquipDataCollection2.value);
+	 	 frm.LastMonthEquipDataCollection3 = row['LastMonthEquipDataCollection3'].replace(/~/gi, "\r\n");
+	saveReport (custid, "LastMonthEquipDataCollection3",frm.LastMonthEquipDataCollection3.value);
+	//added last 6 fields
+	 frm.LastMonthEquipDataCollection4 = row['LastMonthEquipDataCollection4'].replace(/~/gi, "\r\n");
+		saveReport (custid, "LastMonthEquipDataCollection4",frm.LastMonthEquipDataCollection4.value);
+	frm.LastMonthEquipDataCollection5 = row['LastMonthEquipDataCollection5'].replace(/~/gi, "\r\n");
+		saveReport (custid, "LastMonthEquipDataCollection5",frm.LastMonthEquipDataCollection5.value);
+	frm.LastMonthEquipDataCollection6 = row['LastMonthEquipDataCollection6'].replace(/~/gi, "\r\n");
+		saveReport (custid, "LastMonthEquipDataCollection6",frm.LastMonthEquipDataCollection6.value);
+	frm.LastMonthEquipDataCollection7 = row['LastMonthEquipDataCollection7'].replace(/~/gi, "\r\n");
+		saveReport (custid, "LastMonthEquipDataCollection7",frm.LastMonthEquipDataCollection7.value);
+	frm.LastMonthEquipDataCollection8 = row['LastMonthEquipDataCollection8'].replace(/~/gi, "\r\n");
+		saveReport (custid, "LastMonthEquipDataCollection8",frm.LastMonthEquipDataCollection8.value);
+	frm.LastMonthEquipDataCollection9 = row['LastMonthEquipDataCollection9'].replace(/~/gi, "\r\n");
+		saveReport (custid, "LastMonthEquipDataCollection9",frm.LastMonthEquipDataCollection9.value);
+
+
+
+	
+	
+	
+	
+	
+	
+	frm.parseEquipType.value = row['parseEquipType'].replace(/~/gi, "\r\n");
+	      
+	    //  alert("Equip Type "+ frm.parseEquipType.value)
+	saveReport (custid, "EquipType",frm.parseEquipType.value);
+	      frm.parseEquipName.value = row['parseEquipname'].replace(/~/gi, "\r\n");
+	saveReport (custid, "EquipName",frm.parseEquipName.value);   
+	       frm.parseEquipTestNames.value = row['parseEquipTestNames'].replace(/~/gi, "\r\n");
+	saveReport (custid, "EquipTest",frm.parseEquipTestNames.value);        
+	       frm.parseRange.value = row['parseRange'].replace(/~/gi, "\r\n");
+	saveReport (custid, "EquipRange",frm.parseRange.value);        
+	     frm.equipDataCollection.value = row['equipDataCollection'].replace(/~/gi, "\r\n");
+
+		
+		
+		saveReport (custid, "equipDataCollection",frm.equipDataCollection.value);  
+	       
+	       var cyclesLow = row['cyclesLow'];
+	       var cyclesHigh= row['cyclesHigh'];
+	       frm.cycles.value  = cyclesLow +", "+ cyclesHigh;
+		
+	//Set the Cust Name
+	// var custName = row['BillName'];
+	 //document.getElementById('status').innerHTML = row['BillName'];
+	 document.getElementById('BillAddress').innerHTML = row['BillADDR2']; 
+	  document.getElementById('CSZ').innerHTML = row['BillCity'] +", " + row['BillState'] + " " + row['BillZip']; 
+	//  alert(row['parseEquipType']);
+
+	var EquipArray = new Array();
+
+	EquipArray = row['parseEquipname'].split('~');
+	 //.replace(/~/gi, "\r\n");
+
+	//alert(row['parseEquipType'].split(','));
+	//EquipArray= row['parseEquipName'].split('~');
+
+	//alert(EquipArray[0]);
+	//alert("Equip array length: "+EquipArray.length);
+	start = EquipArray[0];
+	document.forms[0].breakpoints.value = "0,";
+
+	//init the equip dropdown
+	var oSelect = document.getElementById('EquipList');
+	var oOption = document.createElement('OPTION');
+	//alert(oSelect);
+	// Add the option to the collection first, then set properties
+	equipOption = start;
+	//alert ("equipOption : " + equipOption);
+
+	oSelect.options.add(oOption);
+	oOption.innerHTML = equipOption;
+	//oOption.value = equipOption;
+	oOption.value = i;
+
+	for(i = 0; i < EquipArray.length; i++){
+	if (start !=EquipArray[i]) {
+
+	//alert("loading Equip");
+	start =EquipArray[i];
+	document.forms[0].breakpoints.value =  document.forms[0].breakpoints.value + i + "," ;
+	oOption.value = i;
+	count= count+1; 
+
+	////////////////////
+	   document.getElementById('EquipList').innerHTML += 
+	            '<option value ="'+i+'">'+ EquipArray[i].toString() +'</option>';
+	//alert(   '<option value ="'+i+'">'+ EquipArray[i].toString()+'</option>');
+
+	}
+	}
+	//End of the array
+
+	document.forms[0].breakpoints.value =  document.forms[0].breakpoints.value + i;
+	    }
+
+	}
+	}
+	}	
+
+
+
+
+	//Found a Draft,  get Static Data from Templates Database, get Readings from Reports Database  WTH
+function foundDraft(custid) {
+	alert("Found Draft -  Loading Values from local db.");
+	var previousRow="";
+	var count =0;
+	frm = document.forms[0];
+	frm.EquipList.length=0;
+	frm.parseEquipType.value ="";
+	frm.parseEquipName.value ="";
+	frm.parseEquipTestNames.value ="";
+	frm.parseRange.value ="";
+	//frm.equipDataCollection.value="";
+//alert("ListType in Found Draft  "+ ListType );
+
+
+	localDB.transaction(
+	    function (transaction) {
+//	    alert("custid  " + custid);
+	    	
+	   	 //alert("Bv or SL?  " +ListType);
+	    	
+	
+	    	if (ListType == "shrinkingList"){
+	    		 var Table = "Templates";
+	    	 } else {
+	    		 //OnDevice and BookView Types
+	    		 var Table = "BookView";
+	    	 }
+	    	
+	    	 //alert("Selecting from the  " + Table + " Table" ); 
+	    	  
+	    	 alert("SELECT * from BookView where custid="+custid);
+	    	 
+	        transaction.executeSql("SELECT * from BookView where custid='"+custid+"';",
+	      
+	            [], // array of values for the ? placeholders
+	            dataHandlerFoundDraft, errorHandler);
+	    }
+	);
+
+	//document.forms[0].mileage.focus();
+	document.getElementById("mileage").focus();
+
+	
+	
+
+	}
+	document.getElementById("mileage").select();
+
+
+	//alert("End begin.js");
+
+}
+
+//Call from the Begin button
+function dataHandler(transaction, results)
+{
+var count =0;
+ // Handle the results
+   var string = "In the Data Handler";
+
+var orgMyString ="start";
+//alert("number of rows"+ results.rows.length);
+    for (var i=0; i<results.rows.length; i++) {
+        // Each row is a standard JavaScript array indexed by     
+        var row = results.rows.item(i);
+        
+        //row['id'], row['custid'], row['timestamp'], row['Conductivity'], row['calciumHardness'], row['alk'], row['chlorides'], row['storage'], row['eRange'], row['eReadings']);      
+
+	frm.custid.value = row['custid'];
+	frm.BillName.value = row['BillName'];
+	frm.Contact.value = row['BillADDR1'];
+	frm.notify.value = row['Notify'].replace(/~/gi, "\r\n");
+	frm.BillAddr2.value = row['BillADDR2'];
+	frm.BillCity.value = row['BillCity'];
+	frm.BILLState.value = row['BillState'];
+	frm.BillZip.value = row['BillZip'];
+	frm.ShipPhone.value = row['ShipPhone'];
+	frm.accessGivenTo.value = row['accessGivenTo'].replace(/~/gi, "\r\n");
+   	frm.CorporateName.value =  row['CorporateName'].replace(/~/gi, "\r\n");
+ 	 frm.LastMonthEquipDataCollection2 = row['LastMonthEquipDataCollection2'].replace(/~/gi, "\r\n");
+ 	 frm.LastMonthEquipDataCollection3 = row['LastMonthEquipDataCollection3'].replace(/~/gi, "\r\n");
+      frm.parseEquipType.value = row['parseEquipType'].replace(/~/gi, "\r\n");
+       frm.parseEquipName.value = row['parseEquipname'].replace(/~/gi, "\r\n");
+       frm.parseEquipTestNames.value = row['parseEquipTestNames'].replace(/~/gi, "\r\n");
+       frm.parseRange.value = row['parseRange'].replace(/~/gi, "\r\n");
+       frm.equipDataCollection.value = row['equipDataCollection'].replace(/~/gi, "\r\n");
+       var cyclesLow = row['cyclesLow'];
+       var cyclesHigh= row['cyclesHigh'];
+       frm.cycles.value  = cyclesLow +", "+ cyclesHigh
+
+//Set the Cust Name
+// var custName = row['BillName'];
+ //document.getElementById('status').innerHTML = row['BillName'];
+ document.getElementById('BillAddress').innerHTML = row['BillADDR2']; 
+  document.getElementById('CSZ').innerHTML = row['BillCity'] +", " + row['BillState'] + " " + row['BillZip']; 
+//  alert(row['parseEquipType']);
+
+var EquipArray = new Array();
+
+EquipArray = row['parseEquipname'].split('~');
+ //.replace(/~/gi, "\r\n");
+
+//alert(row['parseEquipType'].split(','));
+//EquipArray= row['parseEquipName'].split('~');
+
+//alert(EquipArray[0]);
+alert("Equip array length: "+EquipArray.length);
+start = EquipArray[0];
+document.forms[0].breakpoints.value = "0,";
+
+//init the equip dropdown
+var oSelect = document.getElementById('EquipList');
+var oOption = document.createElement('OPTION');
+//alert(oSelect);
+// Add the option to the collection first, then set properties
+equipOption = start;
+alert ("equipOption : " + equipOption);
+
+oSelect.options.add(oOption);
+oOption.innerHTML = equipOption;
+//oOption.value = equipOption;
+oOption.value = i;
+
+for(i = 0; i < EquipArray.length; i++){
+if (start !=EquipArray[i]) {
+start =EquipArray[i];
+document.forms[0].breakpoints.value =  document.forms[0].breakpoints.value + i + "," ;
+oOption.value = i;
+count= count+1; 
+
+////////////////////
+
+   document.getElementById('EquipList').innerHTML += 
+            '<option value ="'+i+'">'+ EquipArray[i].toString() +'</option>'
+//alert(   '<option value ="'+i+'">'+ EquipArray[i].toString()+'</option>');
+
+}
+}
+//End of the array
+
+document.forms[0].breakpoints.value =  document.forms[0].breakpoints.value + i;
+    }
+
+}
+

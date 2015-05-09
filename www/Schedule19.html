@@ -1,0 +1,222 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Schedule No. 19: Guarantee Policy</title>
+  <link rel="stylesheet" href="jq/jquery.mobile-1.0.min.css" /> 
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <script src="jq/jquery-1.7.js"></script>
+    <script src="jq/jquery.mobile-1.1.js"></script>
+	<script src="js/jquery.deserialize.js"></script>
+	
+	<!-- <script src="js/modernizr.custom.34982.js"></script> -->
+	<!--<script src="js/signatureCapture.js"></script> -->
+	
+	<script>
+	
+	$(document).ready(function(e) {
+	
+			//alert('ready');
+			var unid = localStorage.getItem("unid");
+			//alert(unid);
+			
+				var unid = localStorage.getItem("unid");
+					//Save the unid to a field
+					$('#unid').val(unid);
+			$('#Salesman').val(localStorage.getItem("Salesman"));	
+	
+	})
+	
+	
+	// JavaScript Document
+		var sigCapture = null;
+		
+		
+			$(document).ready(function(e) {
+			//sigCapture = new SignatureCapture( "signature1" );
+			//sigCapture2 = new SignatureCapture( "signature2" );
+			
+			//$("#submit").click( onSubmitClick );
+			//$("#cancel").click( onCancelClick );
+		});
+			
+	
+	</script>
+	
+	<script>
+	
+	
+		 function saveValues() {
+		// ALERT !! -- Put the form name in for the Variable name below
+			var str = $('#form19').serialize();
+			//save to localStorage
+			
+		// ALERT !! -- Put the form name in for the Variable name below
+			var unid = localStorage.getItem("unid");
+			localStorage.setItem(unid+'form19', str);
+			
+			//alert(localStorage.getItem(unid+'ContractCalc'));
+			
+	  		//alert(str);
+	
+	  
+    }
+	
+	
+				function SubmitData() {
+				
+				
+						
+					var unid = localStorage.getItem("unid");
+					var data = localStorage.getItem(unid+"form19");
+					
+					var url = "http://www.chardonlabs.com/iPadSales.nsf/Form19?createDocument&"+data;
+					//alert(url);
+					$.ajax({
+					  type: 'POST',
+					  url: url,
+					  data:data,
+					  success: requestSuccess,
+					  error: requestError
+					});
+				
+			
+			}
+
+			function onCancelClick( event ) {
+				clearForm();
+			}
+
+			function clearForm() {
+				$("#email").val( "" );
+				sigCapture.clear();
+				$("#feedback").html( "" );
+			}
+
+			function requestSuccess( data, textStatus, jqXHR ) {
+				//clearForm();
+				alert(textStatus);
+			}
+
+			function requestError( jqXHR, textStatus, errorThrown ) {
+				alert(textStatus);
+			}
+
+			function verifyEmail() {
+				var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+				return re.test( $("#email").val() );
+			}
+			
+			
+		
+	</script>
+	
+</head>
+
+<body>
+<form id="form19">
+<input id="Salesman" name="Salesman" style="display:none">
+	<div data-role="page">
+    
+        <div data-role="header">
+	<a href="index.html" data-ajax="false" data-icon="home">Home</a>
+            <h1>Schedule No. 19: Guarantee Policy</h1>
+			<a href="#" data-icon="check" data-theme="b" onClick="saveValues();alert('Draft Saved...');">Save Draft</a>
+        </div>
+		
+    <input name="unid" id="unid" type="Text" style="display:none"></input>	
+        <div data-role="content">
+		<h1>Guaranteed Scale-Free System</h1>
+		
+		Chardon warrants its research developed chemicals and services to be above industry norms and, when used as directed, to be able to produce the desired results, scale-free tubes in cooling, heating and process systems. Provided that Chardon is permitted to control the application of chemicals with proper equipment and controls, to use its service force to monitor applications of its products, and to inspect the applicable system(s) in order to certify that the system(s) are in a clean condition before service begins; and provided that all equipment is allowed to operate as intended, Chardon will unconditionally warrant that our products and services will yield a scale-free system. In the unlikely event any warranted system is scaled after inspection. Chardon will, at its own expense, chemically and/or mechanically clean the system, and provide a report to the system manager regarding the probable reason or reasons why the system was scaled.
+<h2>Disclaimer:</h2>
+Chardon's industry-accepted, research-developed water management program will decidedly prolong the efficiency and useful life of any equipment serviced under this agreement (please see Schedule No. 17). Though reputable and achievable claims are offered for the extension of useful life of the equipment contained under Schedule No. 17 of this agreement, no such claims are intended to guarantee, nor should they be construed in any such way as guaranteeing, to extend the useful life of this equipment for any indefinite period. The equipment under this agreement and its related components do have an unknown, predetermined useful life that will extend to a certain point in time with proper care and proper preventative maintenance. This point in time may vary depending on other factors such as different levels of manufacturing quality, equipment load, hours of maximum load conditions, quality of preventative mechanical and water management maintenance, downtime, design engineering factors, etc. Other types of fouling are covered only when proper Chardon-approved equipment is present.
+	</p>
+	
+		
+	
+		
+		<div data-role="fieldcontain">
+			<fieldset data-role="controlgroup">
+					<input type="radio" onclick="saveValues();" name="radiochoice1" id="radiochoice1" class="custom" value ="Guarantee is in effect because automated water treatment equipment requirements are currently in place or will be installed. This guarantee assumes water treatment equipment will be maintained at these levels." />
+					<label for="radiochoice1">Guarantee is in effect because automated water treatment equipment requirements are currently in place or will be installed. This guarantee assumes water treatment equipment will be maintained at these levels. </label>
+					
+					<input type="radio" onclick="saveValues();" name="radiochoice1" id="radiochoice2" class="custom" value="Guarantee is NOT in place. Please reference Schedule 17, page 2 for equipment options that will provide this guarantee." />
+					<label for="radiochoice2">Guarantee is NOT in place. Please reference Schedule 17, page 2 for equipment options that will provide this guarantee.  </label>
+			</fieldset>
+				
+		</div>
+		
+		
+		</p>
+		
+		
+	
+		</p>
+		<div class="ui-grid-a">
+			
+				<div class="ui-block-a">Please initial to acknowledge that you have read and fully understand the information above:   
+				</div>
+					<div class="ui-block-b" >
+				<input type="text" id="initials3_text" name="initials3_text" onblur="saveValues();"></input>
+				</div>
+				
+			</div>
+		
+		</p>
+		
+		<h2>Transportation of Chemicals:</h2>
+			It is understood that Chardon may, as a routine part of its service, require that chemicals be shipped and received by clients for eventual transportation by a Chardon representative only to the exact service location(s) in the building(s). Once chemicals are placed at a service location, they are not to be moved or relocated by anyone other than a Chardon representative.
+			<h2>Chemical Spills:</h2>
+			Chardon is not responsible for chemical spills, leaks or sprays not directly caused by Chardon, its personnel, or its equipment when used as intended anad operated by Chardon personnel. This includes, but is not limited to any spills, sprays or leaks caused by the actions of client personnel, outside contractors, inspectors or any other person or persons not in direct employment with Chardon. Chardon is also not responsible for any chemicals not purchased through Chardon or one of its sales representatives. Chardon is not responsible for any consequential damages that may occur due to one or more of the above stated conditions.
+			<h2>Chartainment:</h2>
+			In order to significantly reduce the chances of a chemical spill, spray or leak occurring at client locations, and to prevent any tampering from unauthorized individuals, Chardon engineers have introduced a new chemical containment system unique to the industry, Chartainment. This system offers maximum protection, and as such, would greatly reduce or eliminate all probability of any such incidents. A brochure on the system is included for the client’s inspection. Chardon retains ownership of the Chartainment, its inner chemical tanks and the chemicals they contain. Chardon's customer has no liability for the Chartainment or the chemicals contained therein. The Chartainment may be purchased if desired by the customer. Chardon retains ownership of the chemicals contained in the Chartainment.
+
+		
+		
+		</p>
+		I have read the information on Chartainment and (please initial):
+		
+		
+		</p>
+		
+			<div data-role="fieldcontain">
+			<fieldset data-role="controlgroup">
+					<input type="radio" onclick="saveValues();" name="radiochoice21" id="radiochoice21" class="custom" value="I accept the responsibility involved with water treatment chemicals."/>
+					<label for="radiochoice21">I accept the responsibility involved with water treatment chemicals.</label>
+					
+					<input type="radio" onclick="saveValues();" name="radiochoice21" id="radiochoice22" class="custom" value="I wish to maximize safety by utilizing Chartainment. " />
+					<label for="radiochoice22">I wish to maximize safety by utilizing Chartainment.   </label>
+			</fieldset>
+				
+		</div>
+		
+		
+	
+		
+				
+				<!--Really the footer but i like the header spacing -->
+				<div data-role="header">
+				<a href="Schedule18.html" rel="external" data-role="button" onclick="" data-inline="true"  data-icon="arrow-l" >Previous</a>
+			   <h4>Schedule 19</h4>
+			 	<a href= "Survey.html" rel="external" data-role="button" onclick="" data-inline="true"  data-icon="arrow-r" >Next</a>
+			 </div>
+				
+				
+		</div> <!--//End Content Div> -->
+		
+		
+		
+</form>
+</body>
+
+<script>
+	<!-- populate the form from previously saved localStorage cookie called form18 -->
+	  var unid = localStorage.getItem("unid");
+	  $("#form19").deserialize(localStorage.getItem(unid+"form19"));
+
+	  
+</script>
+</html>				
+				

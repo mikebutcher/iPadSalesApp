@@ -1,0 +1,206 @@
+<!DOCTYPE html> 
+<html> 
+    <head> 
+    <title>CHASE - TRANSFER FUNDS</title> 
+
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0a2/jquery.mobile-1.0a2.min.css" />
+    <link rel="stylesheet" href="css/colors.css">
+  <script src="http://code.jquery.com/jquery-1.4.4.min.js"></script>
+  <script src="http://code.jquery.com/mobile/1.0a2/jquery.mobile-1.0a2.min.js"></script>
+  
+    <script>     
+     // Global declarations - assignments made in $(document).ready() below
+    var hdrMainvar = null;
+    var contentMainVar = null;
+    var ftrMainVar = null;
+    var contentTransitionVar = null;
+    var stateLabelVar = null;
+    var whatLabelVar = null;
+    var stateVar = null;
+    var whatVar = null;
+    var form1var = null;
+    var confirmationVar = null;
+    var contentDialogVar = null;
+    var hdrConfirmationVar = null; 
+    var contentConfirmationVar = null;
+    var ftrConfirmationVar = null;
+    var inputMapVar = null;
+    
+    // Constants
+    var MISSING = "missing";
+    var EMPTY = "";
+    var NO_STATE = "ZZ";
+    </script>
+
+</head> 
+<body> 
+
+<!-- Page starts here -->
+<div data-role="page" data-theme="b" id="page1">
+
+    <div data-role="header" id="hdrMain" name="hdrMain" data-nobackbtn="true">
+        <h1>CHASE - TRANSFER FUNDS</h1>
+    </div>
+
+    <div data-role="content" id="contentMain" name="contentMain">    
+    
+    <form id="form1">
+    
+    <div id="payDiv" data-role="fieldcontain">
+        <label for="payment">Payment Amount*</label>        
+        <input id="payment" name="payment_r" type="text" />
+        
+        <label for="date">Payment Date</label>        
+        <input id="date" name="date_r" type="date" />
+        
+         <label id="fromLabel" for="from">From Account*</label>        
+      <select id="from" name="from_r" tabindex="2">
+                  <option value="ZZ">Please select an account</option>
+                                <option value="123Checking">123 Checking</option>
+                                 <option value="123Savings">123 Savings</option>
+        </select>
+        
+      <label id="toLabel" for="to">To Account*</label>        
+      
+            <select id="to" name="to_r" tabindex="3">
+                  <option value="ZZ">Please select an account</option>
+                                <option value="123Checking">123 Checking</option>
+                                 <option value="123Savings">123 Savings</option>
+                
+            </select>
+    </div>
+        </div>       
+
+   
+    
+
+      <div id="submitDiv" data-role="fieldcontain">    
+       <input type="submit" value="Submit" data-inline="true"/>
+    </div>
+    </form>
+    </div><!-- contentMain -->
+  
+
+    
+    
+    <script>
+     
+    $(document).ready(function() {
+    // Assign global variables
+
+      contentMainVar = $('#contentMain');
+   
+ 
+      stateLabelVar = $('#stateLabel');
+      whatLabelVar = $('#whatLabel');
+      stateVar = $('#state');
+      whatVar = $('#what');
+      form1Var = $('#form1');
+      confirmationVar = $('#confirmation');
+      contentDialogVar = $('#contentDialog');
+      hdrConfirmationVar = $('#hdrConfirmation');
+      contentConfirmationVar = $('#contentConfirmation');
+      ftrConfirmationVar = $('#ftrConfirmation'); 
+      inputMapVar = $('input[name*="_r"]');
+      
+    
+    }); 
+    
+;
+   
+    
+    $('#form1').submit(function() {
+        var err = false;
+        alert('test1');
+        // Hide the Main content
+        //hideMain();
+        
+        // Reset the previously highlighted form elements
+        stateLabelVar.removeClass(MISSING); 
+        whatLabelVar.removeClass(MISSING);              
+        inputMapVar.each(function(index){              
+          $(this).prev().removeClass(MISSING); 
+        });
+        
+        // Perform form validation
+        inputMapVar.each(function(index){  
+        if($(this).val()==null || $(this).val()==EMPTY){  
+            $(this).prev().addClass(MISSING);            
+            err = true;
+          }          
+        });   
+        if(stateVar.val()==NO_STATE){           
+          stateLabelVar.addClass(MISSING);                     
+          err = true;
+        }            
+        if(whatVar.val()==null||whatVar.val()==EMPTY){   
+          whatLabelVar.addClass(MISSING);   
+          err = true;
+        }
+        
+        // If validation fails, show Dialog content
+        if(err == true){            
+          showContentDialog();
+          return false;
+        }        
+        
+        // If validation passes, show Transition content
+        showContentTransition();
+        
+        // Submit the form
+        
+        alert(form1Var.serialize());
+        $.post("/forms/requestProcessor.php", form1Var.serialize(), function(data){
+    
+        });        
+        return false;      
+    });    
+    
+  function hideMain(){
+    hdrMainVar.hide();
+    contentMainVar.hide();
+    ftrMainVar.hide();   
+   }
+   
+  function showMain(){
+    hdrMainVar.show();
+    contentMainVar.show();
+    ftrMainVar.show();
+   }
+   
+   function hideContentTransition(){
+    contentTransitionVar.hide();
+   }      
+   
+   function showContentTransition(){
+    contentTransitionVar.show();
+   }  
+   
+  function hideContentDialog(){
+    contentDialogVar.hide();
+   }   
+   
+   function showContentDialog(){
+    contentDialogVar.show();
+   }
+   
+   function hideConfirmation(){
+    hdrConfirmationVar.hide();
+    contentConfirmationVar.hide();
+    ftrConfirmationVar.hide();
+   }  
+   
+   function showConfirmation(){
+    hdrConfirmationVar.show();
+    contentConfirmationVar.show();
+    ftrConfirmationVar.show();
+   } 
+
+    
+  </script>
+</div> <!-- page1 -->
+
+
+<!-- Page ends here -->
+</body>
+</html>?

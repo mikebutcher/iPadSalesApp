@@ -1,0 +1,733 @@
+<!DOCTYPE html> 
+<html> 
+	<head> 
+		<title>Master Contract</title> 
+	
+		<meta name="viewport" content="width=device-width, initial-scale=1"> 
+		<link rel="stylesheet" href="css/stylemaster.css" type="text/css" media="screen" title="no title" charset="utf-8">
+		<link rel="stylesheet" href="jq/jquery.mobile-1.0.css" />
+		
+		
+		<style>
+ 
+				#Container {
+				position:relative;
+				border: 2px solid #888888;
+				background-color: #FFF8C6;
+				border-radius: 35px;
+				width:100%;	
+				height: 200px;
+				}
+
+		</style>
+
+
+		<script src="jq/jquery.js"></script>
+	
+		<script src="jq/jquery.mobile-1.0.js"></script>
+		
+		<!-- AJAX / Signature Capture files -->
+		<script type="text/javascript" src="js/signature.js"></script>
+		
+	
+		
+		
+		<script type="text/javascript" charset="utf-8" src="js/iReport.js"></script>
+		<script src="js/setup.js"></script>
+		
+		
+		
+	</head> 
+	<body> 
+
+		
+			
+			<div data-role="page" data-theme="d">
+	
+						<div data-role="header" data-theme="c" data-position="fixed" >
+								<a href="index.html" data-ajax="false" data-icon="home" data-theme="d">Home</a>
+									<center><img src="img/logo.png" alt="Chardon Logo" height="35px" width="30px" ></br><h2>Chardon Labs - Master Contract</h2></img></center>
+								<span data-theme="c" id="TechNameOptions" ></span>
+																														
+						</div><!-- /header -->
+
+		
+		
+			<div data-role="collapsible-set">
+
+				<div id="CustomerInfo" data-role="collapsible" data-collapsed="false">
+				<h3>Customer Information</h3>
+					
+					<table width="700" border="0" cellpadding="0" cellspacing="0">
+							<tr valign="top">
+							  <td colspan="2"><div align="left"><strong class="ui-bar-b">Billing Information</strong></div></td>
+							  <td colspan="2"><div align="left"><strong class="ui-bar-b">Service Information</strong></div></td>
+					  </tr>
+							<tr valign="top">
+							  <td width="117"><div align="right">Customer Name:</div></td>
+							  <td width="184"><b>							    <input name="BILLNAME" value=""></td>
+							  <td width="100"><div align="right"> Name:</div></td>
+							  <td width="299"><input name="SHIPNAME" value="" ></td></tr>
+							 
+							<tr valign="top">
+							  <td width="117"><div align="right">Contact:</div></td>
+							  <td width="184"><b>							    <input name="BILLADDR1" value="" ></td>
+							  <td width="100"><div align="right"> Contact:</div></td>
+							  <td width="299"><input name="SHIPADDR" value="" ></td></tr>
+							 
+							<tr valign="top">
+							  <td width="117"><div align="right"> Address:</div></td>
+							  <td width="184"><b>							    <input name="BILLADDR2" value="" ></td>
+							  <td width="100"><div align="right"> Address:</div></td>
+							  <td width="299"><input name="SHIPADDR2" value="" ></td></tr>
+							 
+							<tr valign="top">
+							  <td width="117"><div align="right">City:</div></td>
+							  <td width="184"><b>							    <input name="BILLCITY" value="" ></td>
+							  <td width="100"><div align="right"> City:</div></td>
+							  <td width="299"><input name="BILLCITY" value="" ></td></tr>
+							 
+							<tr valign="top">
+							  <td width="117"><div align="right"> State: </div></td>
+							  <td width="184"><b>
+						      <input name="BILLSTATE" value=""></td>
+							  <td width="100"><div align="right"> State: </div></td>
+							  <td width="299"><input name="SHIPSTATE" value=""></td></tr>
+							
+							<tr valign="top">
+							  <td width="117"><div align="right">Zip: </div></td>
+							  <td width="184"><b>
+						      <input name="BILLZIP" value=""></td>
+							  <td width="100"><div align="right">Zip: </div></td>
+							  <td width="299"><input name="SHIPZIP" value=""></td></tr>
+
+
+							<tr valign="top">
+							  <td width="117"><div align="right"> Phone:</div></td>
+							  <td width="184"><b>
+						      <input name="PHONE" value=""></td>
+							  <td width="100"><div align="right">Phone:</div></td>
+							  <td width="299"><input name="SHIPPHONE" value=""></td></tr>
+
+							<tr valign="top">
+							  <td width="117"><div align="right">Cell: </div></td>
+							  <td width="184"><b>
+							<input name="BILLCELL" value=""></td>
+							  <td width="100"><div align="right">Cell: </div></td>
+							  <td width="299"><input name="SHIPCELL" value=""></td></tr>
+							
+							
+						
+							 
+							<tr valign="top">
+							  <td width="117"><div align="right"> Fax: </div></td>
+							  <td width="184"><b>
+						      <input name="BILLFAX" value=""></td>
+							  <td width="100"><div align="right"> Fax: </div></td>
+							  <td width="299"><input name="SHIPFAX" value=""></td></tr>
+							 
+							<tr valign="top">
+							  <td width="117"><div align="right">County: </div></td>
+							  <td width="184"><b>
+							<input name="BILLCOUNTY" value=""></td>
+							  <td width="100"><div align="right"> County: </div></td>
+							  <td width="299"><input name="SHIPCOUNTY" value=""></td></tr>
+							 
+							<tr valign="top">
+							  <td width="117"><div align="right">Email: <b></div></td>
+							  <td width="184"><b>
+						      <input name="BILLEMAIL" value="" ></td>
+							  <td width="100"><div align="right"> Email: <b></div></td>
+							  <td width="299"><input name="SHIPEMAIL" value="" ></td></tr>
+						</table>
+					
+			  </div>
+					
+				</div>
+				
+                
+                
+                <div id="ServiceSchedule" data-role="collapsible">
+                <h3>Service Schedule</h3>
+                
+                <fieldset data-role="controlgroup" data-type="vertical">
+							<legend>Please Choose a Schedule(s):</legend>
+							<input type="checkbox" name="sched12" id="sched12" class="custom" />
+							<label for="sched12" value="Yes">Cooling Tower Comfort Process - Schedule 12</label>
+							
+							<input type="checkbox" name="sched13" id="sched13" class="custom" />
+							<label for="sched13" value="Yes">Boiler, Return Line, Process & Comfort - Schedule 13</label>
+							
+							<input type="checkbox" name="sched14" id="sched14" class="custom" />
+							<label for="sched14" value="Yes">Closed Systems and Hot Water Boilers -  Schedule 14</label>
+							
+							<input type="checkbox" name="ChemContain" id="ChemContain" class="custom" />
+							<label for="ChemContain" value="Yes">Chemical Containment Option</label>
+							
+							
+											
+							</fieldset>
+                
+                </div>
+                
+                 <div id="PaymentOptions" data-role="collapsible">
+                <h3>Payment Options</h3>
+                
+                
+                        
+                
+                <fieldset data-role="controlgroup" data-type="vertical">
+							<legend>Choose a Payment Option:</legend>
+							<input type="radio" name="payment" id="payment1" class="custom" />
+							<label for="payment1" value="Yes">Seasonal Plan (Billed service months only)</label>
+							
+							<input type="radio" name="payment" id="payment2" class="custom" />
+							<label for="payment2" value="Yes">Budget Plan (12 monthly payments)</label>
+							
+							<input type="radio" name="payment" id="payment3" class="custom" />
+							<label for="payment3" value="Yes">Quarterly</label>
+							
+							<input type="radio" name="payment" id="payment4" class="custom" />
+							<label for="payment4" value="Yes">Cash Discount Plan (2.5% discount on payment up front. Upfront price reflects discount.)</label>
+							
+							
+											
+							</fieldset>
+                
+                </div>
+                
+                <div id="BillingSummary" data-role="collapsible">
+						<h3>Billing Summary</h3>
+						
+							
+						
+							<b>P.O. Number:	</b>
+							<input name="PONumber" value="">  <b>Billing Mths:</b>  
+							<input name="%%Surrogate_BillMths" type="hidden" value="1"><label>
+							
+							<fieldset data-role="controlgroup" data-type="horizontal">
+							<legend>Billing Months</legend>
+							<input type="checkbox" name="BillMths1" id="BillMths1" class="custom" />
+							<label for="BillMths1" value="January">Jan</label>
+							
+							<input type="checkbox" name="BillMths2" id="BillMths2" class="custom" />
+							<label for="BillMths2" value="February">Feb</label>
+							
+							<input type="checkbox" name="BillMths3" id="BillMths3" class="custom" />
+							<label for="BillMths3" value="March">Mar</label>
+							
+							<input type="checkbox" name="BillMths4" id="BillMths4" class="custom" />
+							<label for="BillMths4" value="April">Apr</label>
+							
+							<input type="checkbox" name="BillMths5" id="BillMths5" class="custom" />
+							<label for="BillMths5" value="May">May</label>
+							
+							<input type="checkbox" name="BillMths6" id="BillMths6" class="custom" />
+							<label for="BillMths6" value="June">Jun</label>
+											
+							</fieldset>
+							<fieldset data-role="controlgroup" data-type="horizontal">
+						
+							<input type="checkbox" name="BillMths7" id="BillMths7" class="custom" />
+							<label for="BillMths7" value="July">Jul</label>
+							
+							<input type="checkbox" name="BillMths8" id="BillMths8" class="custom" />
+							<label for="BillMths8" value="August">Aug</label>
+							
+							<input type="checkbox" name="BillMths9" id="BillMths9" class="custom" />
+							<label for="BillMths9" value="September">Sep</label>
+							
+							<input type="checkbox" name="BillMths10" id="BillMths10" class="custom" />
+							<label for="BillMths10" value="October">Oct</label>
+							
+							<input type="checkbox" name="BillMths11" id="BillMths11" class="custom" />
+							<label for="BillMths11" value="November">Nov</label>
+							
+							<input type="checkbox" name="BillMths12" id="BillMths12" class="custom" />
+							<label for="BillMths12" value="December">Dec</label>
+											
+							</fieldset>
+							
+							
+						
+							<br>
+							
+			
+							Total Bill Months: 0<br>
+							Tax Exempt:  	<a name="_RefreshKW_TaxExempt"></a>
+							
+						
+							<select data-role="none" name="TaxExempt" onchange="">
+							<option>Yes
+							<option selected>No
+							
+							<option>Special Rate</select>
+							<b>		</b>Tax Exempt Certiticate:<b> </b>
+							<textarea name="TaxExemptCertificate" rows="7" cols="50"></textarea>
+							<br>
+							
+							<u>Contract Information	Equipment Information</u>
+							<table border="0">
+							<tr valign="top"><td width="126"> Service :  
+							<input name="ServiceBill" value="$0.00"></td><td width="228">
+							<ul>  Equipment Amortization: 
+							<input name="equipment" value="$0.00"><br>
+							  FSO#:   
+							<input name="fso" value=""></ul>
+							</td><td width="186">
+							<label for="dateequipment">Date to Begin:</label>
+							<input type="date" name="dateequipment" id="dateequipment" value="" />
+							
+							<br>
+							   
+							<label for="dateendequip">Date to End:  </label>
+							<input type="date" name="dateendequip" id="dateendequip" value="" />
+							
+							
+							<br>
+							No. of Mths. to Amortize:<br>
+							
+							<input name="NoMths" value=""></td></tr>
+							 
+							<tr valign="top"><td width="126"> Subtotal: $0.00</td><td width="228">
+							<ul> </ul>
+							</td><td width="186"></td></tr>
+							 
+							<tr valign="top"><td width="126"> Taxes:	$0.00</td><td width="228">
+							<ul>  Annual Sales (No Equipment):<br>
+							  $0.00 </ul>
+							</td><td width="186"></td></tr>
+							 
+							<tr valign="top"><td width="126"> Total:	$0.00</td><td width="228">
+							<ul>  Annual Sales:<br>
+							 
+							<input name="SubtotalRenewal" value=""></ul>
+							</td><td width="186">></td></tr>
+							</table>
+							<br>
+							<b>Special Billing Instructions</b><br>
+							<b>
+							
+							<textarea name="SpecialBillingInstructions" rows="7" cols="150"></textarea>
+							</b><br>
+						
+							
+							 <fieldset data-role="controlgroup" data-type="horizontal">
+								<legend>Schedule 14- Closed Loop Treatment Included? </legend>
+									<input type="radio" name="CLInc" id="radio-choice-21" value="choice-1"  />
+									<label for="radio-choice-21">Yes</label>
+
+									<input type="radio" name="CLInc" id="radio-choice-22" value="choice-2"  />
+									<label for="radio-choice-22">No</label>
+									
+							</fieldset>
+							<b>
+							 <fieldset data-role="controlgroup" data-type="horizontal">
+								<legend>Reagents Included? </legend>
+									<input type="radio" name="ReagentIncluded" id="RI1" value="choice-1"  />
+									<label for="RI1">Yes</label>
+
+									<input type="radio" name="ReagentIncluded" id="RI2" value="choice-2"  />
+									<label for="RI2">No</label>
+									
+							</fieldset>
+							
+											
+						
+						
+					</div>
+                
+                
+                
+                
+                
+                
+                
+				<div id="GeneralInfo" data-role="collapsible">
+				<h3>General Options</h3>
+				
+				
+							
+				<table border="0" cellspacing="0" cellpadding="0">
+					<tr valign="top"><td width="240"><b>Sales Rep:</b>	<a name="_RefreshKW_salesman"></a>
+					<input name="%%Surrogate_salesman" type="hidden" value="1">
+					<select name="salesman" onchange="_doClick('$Refresh', this, '_self', '#_RefreshKW_salesman')">
+					<option>Office Staff 
+					<option>1 Unit 
+					<option>2 Unit 
+					<option>4 Unit 
+					<option>5 Unit 
+					<option>6 Unit 
+					<option>7 Unit 
+					<option>8 Unit 
+					<option>Clay Tracy 
+					<option>Corey Wittenkeller 
+					<option>Mike Chaffee 
+					<option>Gene Leppert 
+					<option>Mark Heirbrandt 
+					<option>Jodie Kishmarton 
+					<option>Rob Butt 
+					<option>Gary Handschke 
+					<option>Ryan Busman 
+					<option>Jim Davis 
+					<option>David Schofield 
+					<option>Faith Weller 
+					<option>Eric Youts 
+					<option>Mike Heirbrandt 
+					<option>Chuck Dankanics 
+					<option>Jim Hendricks
+					</select> 
+					</td><td width="240"><b>Service Tech: </b><b>
+					<input name="%%Surrogate_ServiceName" type="hidden" value="1">
+					<select name="ServiceName">
+						<option>Please Select...
+						<option>Vince Resor 
+						<option>Neil Countryman 
+						<option>Brian Morris 
+						<option>Matt Needham 
+						<option>Richard Winter 
+						<option>Scott Weihe 
+						<option>Nels Cutchall 
+						<option>No Service Tech Assigned 
+						<option>James Charles 
+						<option>Chad Yeater 
+						<option>Chris Mace 
+						<option>Scott Lipps 
+						<option>Brad Gibson 
+						<option>Brent Rust 
+						<option>Neil Sosebee 
+						<option>David Bumiller 
+						<option>Jon Mansell 
+						<option>Derrick Adams 
+						<option>Kurt Zimmerman 
+						<option>Steve Mort 
+						<option>Phillip Maiden 
+						<option>Jeff Lane 
+						<option>Tim Brown 
+						<option>Billy Wade 
+						<option>Mike D'Alessandro 
+						<option>Rick Brown
+					</select> 
+					
+					
+					
+					</b></td><td width="269">
+					
+					<label for="date"><b>Date Assigned:</b></label>
+					<input type="date" name="DateTechAssigned" id="DateTechAssigned" value="" />
+					
+					</td></tr>
+					 
+					<tr valign="top"><td width="240"><b>Unit Manager: </b><b>
+					<input name="UnitManagerDisplay" value="">
+					
+					
+					</b></td><td width="240"><b>
+				
+				
+					<input type="checkbox" name="BeganAsNewConstruction" id="BeganAsNewConstruction" class="custom" />
+					<label for="BeganAsNewConstruction">Began As New Construction</label>
+
+					
+					
+					</b></td><td width="269"><b>Where Lead Generated:  </b>
+					<input name="LeadGenerated" value=""></td></tr>
+					 
+					<tr valign="top"><td width="240"><b>Account Type:</b>	
+					<input name="%%Surrogate_AccountType" type="hidden" value="1">
+					<select name="AccountType">
+					<option>Please Select ...
+					<option>New
+					<option>Existing
+					</select>
+					</td><td width="240"><b>Send Newsletter:</b> <a name="_RefreshKW_Newsletter"></a>
+					<input name="%%Surrogate_Newsletter" type="hidden" value="1">
+					<select name="Newsletter" onchange="">
+					<option>Yes
+					<option>No</select>
+					</td><td width="269">
+					<input name="%%Surrogate_NPDES" type="hidden" value="1">
+					
+					
+					<input type="checkbox" name="NPDES" id="NPDES" class="custom" />
+					<label for="NPDES">NPDES</label>
+					
+					
+					
+					
+					
+					</td></tr>
+					 
+					<tr valign="top"><td width="240"><b>Competition:	</b>
+					<input name="%%Surrogate_NewCompet" type="hidden" value="1">
+					<select name="NewCompet"> 
+						<option>Unknown 
+						<option>Anderson / Anco 
+						<option>Aqua Science 
+						<option>Betz Dearborn 
+						<option>Bluegrass / Kesco 
+						<option>Bond 
+						<option>Calgon 
+						<option>Chem Aqua 
+						<option>Chem Treat 
+						<option>Condor 
+						<option>Drew 
+						<option>Eco Labs 
+						<option>GLA 
+						<option>HOH 
+						<option>HVC 
+						<option>IWC 
+						<option>Lombardi 
+						<option>Marathon 
+						<option>Metropolitan 
+						<option>Mitco 
+						<option>Nalco 
+						<option>Southern 
+						<option>Southwest 
+						<option>Venture 6 
+						<option>WET
+					</select> 
+					
+					
+					</td><td width="240">
+					
+					
+					
+					
+					<b>Send Info via Internet/Email:  </b><a name="_RefreshKW_InternetOption"></a>
+					<input name="%%Surrogate_InternetOption" type="hidden" value="1">
+					<select name="InternetOption" onchange="">
+					<option>Yes
+					<option>No</select>
+					</td><td width="269"><b>Contractor:	</b>
+					<input name="%%Surrogate_Contractor" type="hidden" value="1">
+					<input name="Contractor"></td></tr>
+					</table>
+			
+				</div>
+				
+					<div id="WantsNeeds" data-role="collapsible" data-collapsed="true">
+						<h3>Wants and Needs</h3>
+						<textarea name="WantsNeeds" rows="7" cols="150"></textarea>
+
+					</div>
+					
+					
+									
+					
+					<div id="TechPerfData" data-role="collapsible" data-collapsed="true">
+						<h3>Technical and Performance Data</h3>
+						
+						
+						<textarea name="RemCommNotesText" rows="7" cols="150"></textarea>
+						
+						</br>
+						<select data-role="none" name="RemCommReportType" multiple onchange="">
+						<option>AvgCondAvgORP
+						<option>AvgCondAvgpH
+						<option>AvgCondBlowTime
+						<option>AvgCondInhTime
+						<option>AvgCondMakeVol
+						<option>AvgCondNoFlow
+						<option>AvgORPBromTime
+						<option>BlowTime
+						<option>LoopMake
+						<option>MakeTotal
+						<option>MakeVolBlowTime
+						<option>MakeVolBlowVol
+						<option>NoFlow
+						<option>None
+						<option>TotDayMake</select>
+						
+						
+						<br>
+						
+						<table>
+						<tr><td><b>RemComm?
+							<input type="checkbox" name="RemCommEnabled" id="RemCommEnabled" class="custom" />
+						<label for="RemCommEnabled">Yes</label>
+						
+						
+						<b></td>
+						<td></td>
+						</tr>
+						</table>
+						
+						
+					
+					</div>
+					
+					
+					
+					
+			
+			 
+					<div id="ServiceSchedule" data-role="collapsible">
+						<h3>Service Schedule</h3>
+						
+				
+						
+						<fieldset data-role="controlgroup" data-type="horizontal">
+								<legend>Guarantee Present?</legend>
+									<input type="radio" name="Guarantee" id="Guarantee1" value="choice-1"  />
+									<label for="Guarantee1">Yes</label>
+
+									<input type="radio" name="Guarantee" id="Guarantee2" value="choice-2"  />
+									<label for="Guarantee2">No</label>
+									
+							</fieldset>
+							
+							
+							
+							<fieldset data-role="controlgroup" data-type="horizontal">
+								<legend>Power Pure System? </legend>
+									<input type="radio" name="PowerPure" id="PowerPure1" value="choice-1"  />
+									<label for="PowerPure1">Yes</label>
+
+									<input type="radio" name="PowerPure" id="PowerPure2" value="choice-2"  />
+									<label for="PowerPure2">No</label>
+									
+							</fieldset>
+							
+							
+							
+							
+												
+							
+							
+						
+							<b>Power Pure System? </b><b>
+							<input name="%%Surrogate_PowerPure" type="hidden" value="1">
+						
+							</b><br>
+							 
+							<input data-role="none" type="button" value="All Sch 12" onclick="">
+							<input data-role="none" type="button" value="All Sch 13" onclick="">
+							<input data-role="none" type="button" value="All Sch 14" onclick="">
+							<input data-role="none" type="button" value="Sch 12 &amp; 13" onclick="">
+							<input data-role="none" type="button" value="Sch 12 &amp; 14" onclick=""">
+							<input data-role="none" type="button" value="Sch 13 &amp; 14" onclick="">
+							<input data-role="none" type="button" value="All Schedules" onclick="">
+							<table border="1">
+							<tr valign="top"><td width="144"><b>Schedule Type</b></td><td width="72"><b># Calls</b></td><td width="144"><b>Schedule Type</b></td><td width="66"><b># Calls</b></td><td width="150"><b>Schedule Type</b></td><td width="72"><b># Calls</b></td></tr>
+							 
+							<tr valign="top"><td width="144"><b>Jan</b>.  
+							<input name="%%Surrogate_JanSched" type="hidden" value="1"><label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;"  name="JanSched" value="S11">S11</label><label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;"  name="JanSched" value="S13">S13</label><br>
+							<label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;"  name="JanSched" value="S12">S12</label><label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;"  name="JanSched" value="S14">S14</label></td><td width="72">
+							<input name="JanCount" value="0"></td><td width="144"><b>Feb.   </b>
+							<input name="%%Surrogate_FebSched" type="hidden" value="1"><label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="FebSched" value="S11">S11</label><label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="FebSched" value="S13">S13</label><br>
+							<label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;"  name="FebSched" value="S12">S12</label><label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="FebSched" value="S14">S14</label></td><td width="66">
+							<input name="FebCount" value="0"></td><td width="150"><b>Mar.  </b>
+							<input name="%%Surrogate_MarSched" type="hidden" value="1"><label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="MarSched" value="S11">S11</label><label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="MarSched" value="S13">S13</label><br>
+							<label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="MarSched" value="S12">S12</label><label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="MarSched" value="S14">S14</label></td><td width="72">
+							<input name="MarCount" value="0"></td></tr>
+							 
+							<tr valign="top"><td width="144"><b>Apr.  </b>
+							<input name="%%Surrogate_AprSched" type="hidden" value="1"><label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="AprSched" value="S11">S11</label><label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="AprSched" value="S13">S13</label><br>
+							<label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="AprSched" value="S12">S12</label><label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="AprSched" value="S14">S14</label></td><td width="72">
+							<input name="AprCount" value="0"></td><td width="144"><b>May  </b>
+							<input name="%%Surrogate_MaySched" type="hidden" value="1"><label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="MaySched" value="S11">S11</label><label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="MaySched" value="S13">S13</label><br>
+							<label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="MaySched" value="S12">S12</label><label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="MaySched" value="S14">S14</label></td><td width="66">
+							<input name="MayCount" value="0"></td><td width="150"><b>June</b>
+							<input name="%%Surrogate_JunSched" type="hidden" value="1"><label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="JunSched" value="S11">S11</label><label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;"  name="JunSched" value="S13">S13</label><br>
+							<label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="JunSched" value="S12">S12</label><label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="JunSched" value="S14">S14</label></td><td width="72">
+							<input name="JunCount" value="0"></td></tr>
+							 
+							<tr valign="top"><td width="144"><b>July </b>
+							<input name="%%Surrogate_JulSched" type="hidden" value="1"><label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="JulSched" value="S11">S11</label><label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="JulSched" value="S13">S13</label><br>
+							<label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="JulSched" value="S12">S12</label><label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="JulSched" value="S14">S14</label></td><td width="72">
+							<input name="JulCount" value="0"></td><td width="144"><b>Aug. </b>
+							<input name="%%Surrogate_AugSched" type="hidden" value="1"><label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="AugSched" value="S11">S11</label><label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="AugSched" value="S13">S13</label><br>
+							<label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="AugSched" value="S12">S12</label><label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="AugSched" value="S14">S14</label></td><td width="66">
+							<input name="AugCount" value="0"></td><td width="150"><b>Sept </b>
+							<input name="%%Surrogate_SepSched" type="hidden" value="1"><label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="SepSched" value="S11">S11</label><label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="SepSched" value="S13">S13</label><br>
+							<label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="SepSched" value="S12">S12</label><label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="SepSched" value="S14">S14</label></td><td width="72">
+							<input name="SepCount" value="0"></td></tr>
+							 
+							<tr valign="top"><td width="144"><b>Oct. </b>
+							<input name="%%Surrogate_OctSched" type="hidden" value="1"><label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="OctSched" value="S11">S11</label><label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="OctSched" value="S13">S13</label><br>
+							<label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="OctSched" value="S12">S12</label><label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="OctSched" value="S14">S14</label></td><td width="72">
+							<input name="OctCount" value="0"></td><td width="144"><b>Nov. </b>
+							<input name="%%Surrogate_NovSched" type="hidden" value="1"><label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="NovSched" value="S11">S11</label><label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="NovSched" value="S13">S13</label><br>
+							<label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="NovSched" value="S12">S12</label><label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="NovSched" value="S14">S14</label></td><td width="66">
+							<input name="NovCount" value="0"></td><td width="150"><b>Dec. </b>
+							<input name="%%Surrogate_DecSched" type="hidden" value="1"><label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="DecSched" value="S11">S11</label><label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="DecSched" value="S13">S13</label><br>
+							<label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="DecSched" value="S12">S12</label><label>
+							<input type="checkbox" style="margin-top: 5; padding: 10px;" name="DecSched" value="S14">S14</label></td><td width="72">
+							<input name="DecCount" value="0"></td></tr>
+							</table>
+							<b>Total Service Months:  </b><b>0</b>	
+					</div>
+					
+					
+						<div id="CustSig" data-role="collapsible" data-collapsed="true" ontouchmove="event.preventDefault();">
+						<h3>Get Signature</h3>
+								<div id="Container" width="100%" height="200px" ontouchmove="event.preventDefault();//Keeps screen from moving while signing" >
+									<canvas id="simple" />
+								</div>
+											
+						<a href="SignatureTest.html" data-role="button" data-ajax="false"  onclick="">Get Signature</a>
+			
+							
+						
+						</div>
+					
+					
+
+	</div>
+
+	
+	
+	
+	</body>
+	
+</html>
+
+

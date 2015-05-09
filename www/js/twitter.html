@@ -1,0 +1,37 @@
+<html>
+    <head>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+			//var poststring = "RedirectTo=Customer2.nsf/AjaxCustomerBySalesman?ReadViewEntries&count=1&RestrictToCategory=" + RB + "&outputformat=json&Username=ereport&password=pingisgood";  
+				//alert(poststring);
+				
+				
+				var poststring = "http://www.chardonlabs.com/names.nsf?Login&RedirectTo=Customer2.nsf/AjaxCustomerBySalesman?ReadViewEntries&count=1&outputformat=json&Username=ereport&password=pingisgood";  
+			
+
+				//logReq.open("POST", "http://www.chardonlabs.com/names.nsf?Login" , false);	
+				//logReq.send(poststring);
+			
+                $.ajax({
+                    url: poststring,
+                    dataType: 'jsonp',
+                    success: function(dataWeGotViaJsonp){
+                        var text = '';
+                        var len = dataWeGotViaJsonp.length;
+						//alert(len);
+                       /* for(var i=0;i<len;i++){
+                            twitterEntry = dataWeGotViaJsonp[i];
+                            text += '<p><img src = "' + twitterEntry.user.profile_image_url_https +'"/>' + twitterEntry['text'] + '</p>'
+                        }
+						*/
+                        $('#twitterFeed').html(dataWeGotViaJsonp);
+                    }
+                });
+            })
+        </script>
+    </head>
+    <body>
+        <div id = 'twitterFeed'></div>
+    </body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta name="viewport" content="width=320 user-scalable=no" />
+<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+<title>iReport</title>
+<link rel="stylesheet" href="css/stylemaster.css1" type="text/css" media="screen" title="no title" charset="utf-8">
+
+<script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/iReport.js"></script>
+
+	<!--<script src="js/jquery.deserialize.js"></script> -->
+	
+<link rel="stylesheet" href="jq/jquery.mobile-1.0.css" />
+<script src="jq/jquery.js"></script>
+
+<!-- jQuery Mobile Includes -->
+<link rel="stylesheet" href="jq/jquery.mobile-1.0.css" />
+
+    <script src="jq/jquery-1.7.js"></script>
+    <script src="jq/jquery.mobile-1.1.js"></script>
+
+<script type="text/javascript" charset="utf-8">
+    // Wait for PhoneGap to load
+    //
+    function onLoad() {
+
+        document.addEventListener("deviceready", onDeviceReady, false);
+        
+          var tech =	 localStorage.getItem("tech");
+          //alert(tech);
+
+           var pw =	 localStorage.getItem("password");
+          //alert(pw);
+
+          
+    //alert("Found stored credentials "+tech + " " + pw);
+    
+    
+         var TheTech = localStorage.getItem("tech");
+         //alert(TheTech);
+		document.getElementById('TechNameOptions').innerHTML = TheTech;
+    
+        
+    }
+    // PhoneGap is ready
+    //
+    function onDeviceReady() {
+        // Empty
+    	 initWEBDB();
+    	 //setupUser();
+  	  	     	 
+    }
+   
+
+    </script>
+
+
+
+<script type="text/javascript" charset="utf-8">
+
+   function saveUser(){
+   
+   		alert(document.forms[0].techList.selectedIndex.value);
+   		
+   		
+   		
+		localStorage.setItem("tech", document.forms[0].username.value);
+		//alert(document.forms[0].password.value);
+		localStorage.setItem("password", document.forms[0].password.value);
+		
+		}
+		
+  function setTech(daTech){
+		localStorage.setItem("tech", daTech);
+		//alert(daTech);
+   }
+		
+		function clearTech(){
+		localStorage.setItem("tech", '');
+		
+   }
+		
+	function getAdminPW(){
+		
+		password=prompt('Enter password:',' ');
+
+			if (password=="mike" || password=="pingisgood" || password=="r2d2")
+ 				{
+  				document.getElementById('actAs').style.display = "";
+  				document.getElementById('adminButton').style.display = "none";
+  				}
+			else
+   				{
+   				alert('Password Incorrect!');
+  				return
+    }
+		
+		}
+		
+		
+
+		
+		function doLogin(){	
+	
+			//Set the tech name based on who is logged in
+			name = localStorage.getItem("username");
+			pw = localStorage.getItem("password");
+		 daLogin = doDominoLogin(name, pw); // ajaxLogin.js
+		 
+		// $("#progress").remove();
+		 
+		}
+		
+		function removeAllItems(){  
+		
+		var x=document.getElementById("FSOList");
+		var y=document.getElementById("FSOList2");
+		
+		var unid = y.value;
+		
+			for (i=0; i<=localStorage.length-1; i++)  
+			{  
+				key = localStorage.key(i);  
+				//alert('key '+ key);
+			//	alert(localStorage.getItem(key));
+				//alert('unid '+unid);
+				
+			var search = key.search(unid);
+			
+			//alert(search);
+			
+					if (search > -1 ){
+						//alert('unid' + unid);
+						//alert('removing: ' + key);
+						
+						
+						var r=confirm("Remove "+key+"?");
+						if (r==true)
+						  {
+						
+						//Clear all docs with the Key
+						delete window.localStorage[key];
+						  
+						  //Manipulate the pick lists
+							 x.remove(y.selectedIndex);
+							//$('#ProposalList').find('option').clone().appendTo('#ProposalList2');
+							y.innerHTML =  "";
+							$('#FSOList option').clone().appendTo('#FSOList2');
+							localStorage.MyFSOs = x.innerHTML;
+						    window.location.href=window.location.href; // reload
+						  }
+						else
+						  {
+						  x="You pressed Cancel!";
+						  }
+								
+					}
+				
+				
+				
+				
+			}  
+		} //end removeAllItems
+		
+		
+		
+      </script>
+
+
+</head>
+<body> 
+
+<!-- Start of first page: #one -->
+<div data-role="page" id="one">
+
+	<div data-role="header">
+				<a href="index.html" data-role="button" data-ajax="false" onclick="" data-inline="true"  data-icon="arrow-l" >Home</a>
+		<h1>My FSOs</h1>
+	</div><!-- /header -->
+
+	<div data-role="content" >	
+		<h2>My FSOs</h2>
+		
+		     <div class="control-group">
+            <label class="control-label" for="type"></label>
+            <div class="controls">
+              <select name="type" id="FSOList" onchange= "localStorage.setItem('ajaxFSO', this.value); //alert(this.value);">
+               
+              </select>
+            </div>
+          </div>
+		<a href="FSO.html" data-ajax="false" data-role="button" >Done</a>
+	
+	
+	
+		
+</div>
+	
+	
+	</div><!-- /content -->
+	
+	     <div data-role="header">
+		
+<a href="index.html" data-ajax="false" data-icon="home">Home</a>
+            <h1>My FSOs</h1>
+		
+		
+        </div>
+</div><!-- /page one -->
+
+
+	
+	
+	<div data-role="header">
+				<a href="index.html" data-role="button" data-ajax="false" onclick="" data-inline="true"  data-icon="arrow-l" >Home</a>
+				
+			   <h4>My FSOs</h4>
+			 	<a href= "index.html" rel="external" data-role="button" data-ajax="false" onclick="" data-inline="true"  data-icon="arrow-r" >Next</a>
+			 </div>
+</div><!-- /page popup -->
+
+<script>
+
+
+var newOptions = localStorage.getItem('MyFSOs');
+//alert (newOptions);
+
+//$('#ProposalList').innerhtml = newOptions;
+document.getElementById('FSOList').innerHTML = localStorage.getItem('MyFSOs');
+document.getElementById('FSOList2').innerHTML = localStorage.getItem('MyFSOs');
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Schedule 14</title>
+     <link rel="stylesheet" href="jq/jquery.mobile-1.0.min.css" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <script src="jq/jquery-1.7.js"></script>
+    <script src="jq/jquery.mobile-1.1.js"></script>
+	
+	<script src="js/modernizr.custom.34982.js"></script>
+	<script src="js/signatureCapture.js"></script>
+		<!--De-Serialize the data -->
+	<script src="js/jquery.deserialize.js"></script>
+	<script>
+	
+	$(document).ready(function(e) {
+	
+	//alert('ready');
+	var unid = localStorage.getItem("unid");
+	//alert(unid);
+	
+		var unid = localStorage.getItem("unid");
+					//Save the unid to a field
+					$('#unid').val(unid);
+					$('#Salesman').val(localStorage.getItem("Salesman"));	
+	
+	})
+	
+	
+	
+	
+	
+
+	
+	</script>
+	
+	<script>
+	
+	
+		 function saveValues() {
+		// ALERT !! -- Put the form name in for the Variable name below
+			var str = $('#form14').serialize();
+			//save to localStorage
+			
+		// ALERT !! -- Put the form name in for the Variable name below
+			var unid = localStorage.getItem("unid");
+			localStorage.setItem(unid+'form14', str);
+			
+			//alert(localStorage.getItem(unid+'ContractCalc'));
+			
+	  		//alert(str);
+	
+	  
+		} //end saveValue
+		
+			function SubmitData() {
+				
+				
+						
+					var unid = localStorage.getItem("unid");
+					var data = localStorage.getItem(unid+"form14");
+					
+					var url = "http://www.chardonlabs.com/iPadSales.nsf/Form14?createDocument&"+data;
+					//alert(url);
+					$.ajax({
+					  type: 'POST',
+					  url: url,
+					  data:data,
+					  success: requestSuccess,
+					  error: requestError
+					});
+				
+			
+			}
+	
+				function onSubmitClick( event ) {
+				if ( verifyEmail() )
+				{
+					$("#feedback").html( "Sending..." );
+					var email = $("#email").val();
+					var sig = sigCapture.toString();
+					
+					var data = { "method":"submitSignature",
+								 "email":email,
+								 "signature":sig,
+								 "returnformat":"json" };
+					
+					var url = "http://myserver.com/path/to/cfc/Services.cfc";
+					$.ajax({
+					  type: 'POST',
+					  url: url,
+					  data:data,
+					  success: requestSuccess,
+					  error: requestError
+					});
+				}	
+				else {	
+					$("#feedback").html( "Please enter a valid email address." );
+				}
+				
+			}
+
+		
+
+			function requestSuccess( data, textStatus, jqXHR ) {
+				//clearForm();
+					alert(textStatus);
+			}
+
+			function requestError( jqXHR, textStatus, errorThrown ) {
+				$("#feedback").html( "Error: " + errorThrown );
+					alert(textStatus);
+			}
+
+			function verifyEmail() {
+				var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+				return re.test( $("#email").val() );
+			}
+	</script>
+	
+</head>
+
+<body>
+<form id="form14">
+
+
+<input id="Salesman" name="Salesman" style="display:none">
+	<div data-role="page">
+    
+     	
+		<div data-role="header">
+		<a href="index.html" data-ajax="false" data-icon="home" >Home</a>
+		   <h1>Schedule No. 14: Closed Systems and Geothermal Systems</h1>
+			<a href="#" data-icon="check" data-theme="b" onClick="saveValues();alert('Draft Saved...');">Save Draft</a>
+	
+        </div>
+    
+        <div data-role="content">
+				
+					
+				<ol id="ServiceA" data-role="listview" data-inset="true">
+						<h2>Closed Loop Standard Service</h2>
+						<input type="checkbox" name="checkboxA" id="checkboxA" class="custom" onClick="saveValues();" />
+						<input name="unid" id="unid" type="Text" style="display:none"></input>	
+						<label for="checkboxA">Plan A </label>
+					
+					  <li data-role="list-divider">Your Standard Service Includes</li>
+					  <li>Application of Chemical (Measuring & Feeding)</li>
+					  <li>Change Filter Bag</li>
+					  <li>Remove all Chardon Shipping Containers</li>
+					  <li>Special Training of Customer</li>
+					  
+					  <li>Laboratory Water & Deposit Sample Analysis (as necessary)</li>
+					  
+					  <li>Testing (as necessary)</li>
+						<table cellpadding="10px">
+						<tr><td>Inhibitor</td><td>Specific Conductance</td><td>pH</td></tr>
+																	
+						<tr><td>Copper</td><td>Iron</td><td></td></tr>
+						
+						
+						</table>	
+					   
+					
+					
+				</ol>	<!--End ServiceA -->
+				
+						
+				<ul id="MaintenanceServices" data-role="listview" data-inset="true">
+				
+				<input type="checkbox" name="checkboxB" id="checkboxB" class="custom" onClick="saveValues();" />
+						<label for="checkboxB">Optional Services</label>
+				
+				<h4>Your standard service includes everything in Plan A, except that chemicals are purchased separately.</h4>
+				
+				<fieldset data-role="controlgroup">
+				
+				<input type="checkbox" name="checkboxChemTreat" id="checkboxChemTreat" class="custom" onClick="saveValues();"/>
+						<label for="checkboxChemTreat">Chemical Treatments</label>
+						
+				<input type="checkbox" name="checkboxTestKits" id="checkboxTestKits" class="custom" onClick="saveValues();" />
+						<label for="checkboxTestKits">Test Kits</label>
+						
+				<input type="checkbox" name="checkboxReagents" id="checkboxReagents" class="custom" onClick="saveValues();"/>
+						<label for="checkboxReagents">Reagents</label>
+				<input type="checkbox" name="checkboxBioTest" id="checkboxBioTest" class="custom"onClick="saveValues();" />
+					<label for="checkboxBioTest">Biological Testing (Field) or (Lab)</label>		
+
+				
+					
+				<input type="checkbox" name="checkboxInstCorMonRack" id="checkboxInstCorMonRack" class="custom" onClick="saveValues();"/>
+					<label for="checkboxInstCorMonRack">Installation of Corrosion Monitoring Rack</label>						
+						
+				<input type="checkbox" name="checkboxSuppTestCorCoup" id="checkboxSuppTestCorCoup" class="custom" onClick="saveValues();"/>
+					<label for="checkboxSuppTestCorCoup">Supply and Test Corrosion Coupons</label>	
+						
+				<input type="checkbox" name="checkboxSuppTestCorElect" id="checkboxSuppTestCorElect" class="custom" onClick="saveValues();" />
+					<label for="checkboxSuppTestCorElect">Supply & Test Corrater Electrodes</label>	
+				
+				<input type="checkbox" name="checkboxTestGlylev" id="checkboxTestGlylev" class="custom" onClick="saveValues();" />
+					<label for="checkboxTestGlylev">Test Glycol level & Freeze Point</label>	
+			
+				<input type="checkbox" name="checkboxRepBagFil" id="checkboxRepBagFil" class="custom" onClick="saveValues();"/>
+					<label for="checkboxRepBagFil">Replace Bag Filter (As Necessary)</label>	
+		
+				<input type="checkbox" name="checkboxOther" id="checkboxOther" class="custom" onClick="saveValues();" />
+					<label for="checkboxOther">Other</label>	
+				
+				<textarea data-role="none" class="Schedule11-TextArea"  name="textarea_Other" id="textarea_Other" onblur="saveValues();"></textarea>
+		
+				</fieldset>
+				
+				</br>
+				
+						<fieldset data-role="controlgroup" data-inset="true">
+							
+							<input type="radio" name="checkboxBOpt_Serv_Inc" id="checkboxBOpt_Serv_Inc" class="custom"  onclick="saveValues();" value="Optional Services Included" />
+							<label for="checkboxBOpt_Serv_Inc">Optional Services Included</label>
+							   
+							<input type="radio" name="checkboxBOpt_Serv_Inc" id="checkboxBOpt_Serv_Inc2" class="custom"  onclick="saveValues();" value ="Optional Services Purchased Separately"/>
+							<label for="checkboxBOpt_Serv_Inc2">Optional Services Purchased Separately</label>   
+							   
+						</fieldset>
+				
+				
+				
+		</div> <!--End Content -->
+					
+					
+		  
+            
+     
+    
+        
+		
+			<div data-role="header">
+				<a href="Schedule13.html" data-role="button" onclick="" data-inline="true" data-ajax="false" data-icon="arrow-l" >Previous</a>
+				<h4>Schedule 14 - 01-SAFM-03-016</h4>
+			 	<a href="Schedule17.html" data-role="button" onclick="" data-inline="true" data-ajax="false" data-icon="arrow-r" >Next</a>
+			 </div>
+		
+    </div> <!-- End Page -->
+</form>
+</body>
+
+<script>
+		<!-- populate the form from previously saved localStorage cookie called form14 -->
+		  var unid = localStorage.getItem("unid");
+	  $("#form14").deserialize(localStorage.getItem(unid+"form14"));
+
+	  
+</script>
+</html>
